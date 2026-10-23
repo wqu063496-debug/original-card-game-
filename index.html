@@ -170,7 +170,7 @@ function updateFieldVisual(){
  const effects=[];
  if(p.skip||p.permaBlock)effects.push('全ドロー封じ '+(p.permaBlock?'永続':p.skip+'回'));
  if(p.edoTurns||p.permaEdo)effects.push('江戸姫による制限');
- if(p.chain)effects.push('ハートのチェーン');
+ if(p.chain)effects.push('ハートのチェーン');if(p.bloodActive)effects.push('這音嘗血 '+(p.bloodCount||0)+'枚');
  if(p.fairy)effects.push('USED移動防止');
  if(p.kaii)effects.push('怪異：全カード名変更');
  if(p.tomato)effects.push('トマト倍々発生');
@@ -213,13 +213,58 @@ function damage(target,n,source=1-target){
   }
  }
 }
+// 手札からUSEDへの移動を追跡（這音嘗血・オル虐）
+function afterHandToUsed(who,id,byOpponent=false){
+ if(!game||game.over)return;
+ const opponent=1-who, watcher=game.players[opponent];
+ if(byOpponent && id===55){log('オル虐：相手の効果で移動したため1ダメージと1ドロー');damage(opponent,1,who);if(!game.over)draw(who,1);}
+ if(watcher.bloodActive){
+  watcher.bloodCount=(watcher.bloodCount||0)+1;
+  if(watcher.bloodCount%3===0){
+   if(opponent===0){
+    pending={type:'bloodReward',owner:opponent};
+    showOptions('這音嘗血：相手の手札が3枚USEDへ移動しました',[
+     {label:'相手に1ダメージ',fn:()=>finishBloodReward(opponent,'damage')},
+     {label:'相手の手札1枚をUSEDへ',fn:()=>finishBloodReward(opponent,'discard')},
+     {label:'自分が1枚ドロー',fn:()=>finishBloodReward(opponent,'draw')}
+    ]);
+   }else finishBloodReward(opponent,'damage');
+  }
+ }
+}
+function finishBloodReward(owner,action){
+ if(!game||game.over)return;
+ pending=null;
+ const victim=1-owner;
+ if(action==='damage')damage(victim,1,owner);
+ if(action==='draw'&&!game.over)draw(owner,1);
+ if(action==='discard'&&!game.over){
+  const hand=game.players[victim].hand;
+  if(hand.length){
+   if(owner===0){pending={type:'bloodDiscard'};showOptions('這音嘗血：相手に捨てさせるカードを選択（カード名は非公開）',hand.map((_,i)=>({label:'相手の手札 '+(i+1)+'枚目',fn:()=>{pending=null;moveHandUsed(victim,i,true);render()}})));return;}
+   moveHandUsed(victim,Math.floor(Math.random()*hand.length),true);
+  }
+ }
+ render();
+}
 function putUsed(who,id){let p=game.players[who];if(id===25&&game.turn!==who){p.hand.push(id);log((who===0?"あなた":"BOT")+"のガチナイスが手札に戻った");return}p.used.push(id)}
-function moveHandUsed(who,i){let p=game.players[who],id=p.hand.splice(i,1)[0];if(id===undefined)return;putUsed(who,id);if(id===24&&game.turn!==who&&!game.over){draw(who,2)}}
-function draw(who,n){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii)damage(who,1,who);check()}}
+function moveHandUsed(who,i,byOpponent=false){let p=game.players[who],id=p.hand.splice(i,1)[0];if(id===undefined)return;putUsed(who,id);afterHandToUsed(who,id,byOpponent);if(id===24&&game.turn!==who&&!game.over){draw(who,2)}}
+function draw(who,n){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='fe'){log('ﾌｪｯ!?：カード効果で引いたときに発動');if(game.acted){damage(1-who,1,who);if(!game.over&&p.deck.length){let extra=p.deck.pop();p.hand.push(extra);log('ﾌｪｯ!?で追加1ドロー')}}}if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii)damage(who,1,who);check()}}
 function beginTurn(first=false){if(game.over)return;game.acted=false;game.lastActionWasCard=false;pending=null;let who=game.turn,p=game.players[who];game.round++;log((who===0?'あなた':'BOT')+'のターン');if(!first){if(p.skip||p.permaBlock){log('ドロー封じで通常ドローなし')}else draw(who,1)}render();if(who===1&&!game.over)setTimeout(botAct,650);else if(who===0)queueAutoEnd()}
 function valid(who,index){let p=game.players[who],type=CARDS[index][2];return !(type==='special3'&&p.hand.length!==1||type==='special5'&&p.hand.length<7||type==='search'&&p.hand.length>2||type==='select'&&p.hand.length<2||type==='heal'&&p.used.length<5||type==='chitose'&&p.hand.length<4||type==='god'||type==='counter'||type==='fe'||type==='oru'||type==='assassin'||type==='cancel'||type==='udon'&&!(game.round===1&&game.turn===who)||type==='nice'&&!(game.players[1-who].life>p.life||game.players[1-who].life<=1))}
 function playCard(who,handIndex){if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who],id=p.hand[handIndex];if(id===undefined||!valid(who,id))return;let type=CARDS[id][2];p.hand.splice(handIndex,1);putUsed(who,id);game.acted=true;game.lastActionWasCard=true;game.chancePending=who;log((who===0?'あなた':'BOT')+'が「'+effectiveCardName(id)+'」を使用');let other=1-who;
 if(!['god','counter'].includes(type)){
+ // 企画破壊：相手のカード発動に対して割り込み、効果を無効化
+ const cancelIndex=game.players[other].hand.findIndex(x=>CARDS[x][2]==='cancel');
+ if(cancelIndex>=0 && game.players[other].life>2){
+  if(other===0){
+   pending={type:'cancel',who,other,id};
+   showOptions('企画破壊：ライフ2を失って相手の効果を無効にしますか？',[
+    {label:'企画破壊を発動',fn:()=>{pending=null;moveHandUsed(other,game.players[other].hand.indexOf(53));damage(other,2,other);log('企画破壊：カード効果を無効化');render()}},
+    {label:'発動しない',fn:()=>{pending=null;resolveEffect(who,id)}}]);return;
+  }else if(Math.random()<0.65){moveHandUsed(other,cancelIndex);damage(other,2,other);log('BOTが企画破壊でカード効果を無効化');render();return;}
+ }
+
  let opponent=game.players[other], counterIndex=opponent.hand.indexOf(22);
  let eligible=opponent.hand.map((x,i)=>({x,i})).filter(o=>o.i!==counterIndex&&[22,16,24,25].includes(o.x)&&effectiveCardName(o.x)!=='ﾌﾞﾝﾁｮｳ');
  if(counterIndex>=0&&effectiveCardName(22)!=='ﾌﾞﾝﾁｮｳ'&&eligible.length>=2){
@@ -262,8 +307,8 @@ else if(type==='kaii'){p.kaii=2;log('怪異：次の自分のカード効果終�
 else if(type==='tomato'){p.tomato=1;log('次のﾌﾞﾝﾁｮｳ名カードの効果を2回')}
 else if(type==='window'){let hits=0;for(let k=0;k<3&&p.deck.length&&!game.over;k++){let x=p.deck.pop();putUsed(who,x);if(effectiveCardName(x).includes('ﾌﾞﾝﾁｮｳ'))hits++;check()}if(hits&&!game.over)damage(other,hits,who)}
 else if(type==='udon'){draw(who,2);p.extraTurns++}
-else if(type==='needle'){for(const q of game.players){q.skip=0;q.permaBlock=false;q.edoTurns=0;q.permaEdo=false;q.chain=false;q.fairy=0;q.kaii=0;q.tomato=0;q.star=0;q.shieldNext=0;q.protect=0;q.chances={funfun:[],love:[],pikainu:[]};q.chanceBonus=0;q.napTurns=[]}game.damageCap=false;log('継続効果を解除')}
-else if(type==='edo'){let q=game.players[other];q.edoTurns=1;if(p.used.filter(x=>CARDS[x][2]==='sbff').length>=3)q.permaEdo=true}
+else if(type==='needle'){for(const q of game.players){q.skip=0;q.permaBlock=false;q.edoTurns=0;q.permaEdo=false;q.chain=false;q.fairy=0;q.kaii=0;q.tomato=0;q.star=0;q.shieldNext=0;q.protect=0;q.chances={funfun:[],love:[],pikainu:[]};q.chanceBonus=0;q.napTurns=[];q.bloodActive=false;q.bloodCount=0}game.damageCap=false;log('継続効果を解除')}
+else if(type==='edo'){let q=game.players[other];q.edoTurns=1;if(p.used.filter(x=>effectiveCardName(x)==='SBFF').length>=3)q.permaEdo=true}
 else if(type==='chain'){p.chain=true}
 else if(type==='star'){draw(who,3);p.star=1}
 else if(type==='insert'){game.players[other].deck.push(CARDS.findIndex(c=>c[2]==='assassin'),CARDS.findIndex(c=>c[2]==='assassin'));game.players[other].deck=shuffle(game.players[other].deck)}
@@ -291,13 +336,13 @@ else if(type==='culture'){
 }
 else if(type==='voice'){
  const q=game.players[other];
- if(q.hand.length){const at=Math.floor(Math.random()*q.hand.length);const removed=q.hand.splice(at,1)[0];log('声殺夜奪：相手の手札「'+CARDS[removed][0]+'」をゲームから除外')}
+ if(q.hand.length){const at=q.hand.findIndex(x=>x===55)>=0?q.hand.findIndex(x=>x===55):Math.floor(Math.random()*q.hand.length);const removed=q.hand.splice(at,1)[0];log('声殺夜奪：相手の手札「'+effectiveCardName(removed)+'」をゲームから除外');if(removed===55){log('オル虐：相手の効果で手札から除外された');damage(other,1,other);if(!game.over)draw(other,1)}}
  const assassin=CARDS.findIndex(c=>c[2]==='assassin');
  q.deck.push(assassin);shuffle(q.deck);
  log('声殺夜奪：相手の山札に刺客1枚を加えた');
  draw(other,1);
 }
-else if(type==='blood'){log('這音嘗血の累計3枚ごとの選択効果は未実装です')}
+else if(type==='blood'){p.bloodActive=true;p.bloodCount=p.bloodCount||0;log('這音嘗血：相手の手札→USEDを累計3枚ごとに監視開始')}
 
 else if(type==='nice'){damage(other,1);let pos=p.used.lastIndexOf(id);if(pos!==-1){p.used.splice(pos,1);p.hand.push(id);log((who===0?'あなた':'BOT')+'のガチナイスが効果①で手札に戻った')}}
 else if(type==='buncho'){damage(other,1);if(!game.over){let indexes=p.hand.map((x,i)=>effectiveCardName(x)===effectiveCardName(id)?i:-1).filter(i=>i>=0);if(indexes.length){if(who===0){pending={type:'buncho'};showOptions('追加のﾌﾞﾝﾁｮｳｱﾀｯｸをUSEDへ送りますか？',[...indexes.map(i=>({label:'送る（追加1ダメージ）',fn:()=>{putUsed(who,p.hand.splice(i,1)[0]);pending=null;damage(other,1);render()}})),{label:'送らない',fn:()=>{pending=null;render()}}]);return}else{putUsed(who,p.hand.splice(indexes[0],1)[0]);damage(other,1)}}}}
@@ -330,7 +375,7 @@ else if(type==='hideout'){let max=Math.min(2,p.used.filter((_,i)=>i!==p.used.las
 else if(type==='guess'){let q=game.players[other];if(q.hand.length){let real=q.hand[Math.floor(Math.random()*q.hand.length)];let absent=shuffle(CARDS.map((_,i)=>i).filter(i=>!q.hand.includes(i))).slice(0,2);let options=shuffle([real,...absent]);if(who===0){pending={type:'guess'};showOptions('相手の手札にあるカード名を当ててください',options.map(id=>({label:effectiveCardName(id),fn:()=>{pending=null;resolveGuess(who,id,real);render()}})));return}else resolveGuess(who,real,real)}}
 else if(type==='heal'){p.life=Math.min(7,p.life+1);log('ライフを1回復した')}
 else if(type==='draw')draw(who,1);
-else if(type==='block'){game.players[other].skip++;if(p.used.filter(x=>CARDS[x][2]==='sbff').length>=3)game.players[other].permaBlock=true;}
+else if(type==='block'){game.players[other].skip++;if(p.used.filter(x=>effectiveCardName(x)==='SBFF').length>=3)game.players[other].permaBlock=true;}
 else if(type==='special3')damage(other,3);
 else if(type==='special5')damage(other,5);
 else if(type==='mill'){for(let k=0;k<2&&!game.over;k++){let q=game.players[other];if(q.deck.length&&!q.protect){putUsed(other,q.deck.pop());log('相手の山札を1枚USEDへ');check()}}}
