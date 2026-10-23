@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>オリジナルカードバトル</title><style>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>オリジナルカードバトル｜新フィールド</title><style>
 :root{font-family:system-ui,sans-serif;color:#edf2ff;background:#101726}*{box-sizing:border-box}body{margin:0}header{padding:18px;background:#19243a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}h1{font-size:22px;margin:0}button{border:0;border-radius:9px;padding:10px 14px;cursor:pointer;background:#637df5;color:white;font-weight:700}button:disabled{opacity:.35;cursor:not-allowed}.secondary{background:#34445f}.danger{background:#b74462}.wrap{max-width:1100px;margin:auto;padding:18px}.panel{background:#1b2940;border:1px solid #334661;border-radius:15px;padding:16px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}.card{background:#f1ead7;color:#182237;border:3px solid #c5ad70;border-radius:12px;padding:12px;min-height:140px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}.card strong{font-size:15px}.card small{line-height:1.5}.card button{font-size:12px}.muted{color:#a8b7ce}.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:18px}.controls{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.hidden{display:none!important}#log{max-height:180px;overflow:auto;font-size:13px;line-height:1.7}select{padding:10px;border-radius:8px}#choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.badge{padding:4px 9px;border-radius:30px;background:#354969}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.counter{display:flex;gap:8px;align-items:center}.counter button{padding:6px 11px}#status{font-weight:700;color:#ffe39b}footer{padding:18px;text-align:center;color:#8ea1c2}</style><style>
 #tutorialOverlay{position:fixed;inset:0;background:#060c18e8;z-index:1000;display:flex;align-items:center;justify-content:center;padding:14px}
 #tutorialOverlay.hidden{display:none!important}
@@ -23,7 +23,31 @@
 @keyframes confettiFall{to{top:110%;transform:translateX(90px) rotate(800deg)}}
 @keyframes resultRise{from{opacity:0;transform:scale(.75) translateY(35px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @media(prefers-reduced-motion:reduce){.resultPanel,.resultSpark span{animation:none}}
-</style></head><body><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="location.href='bot_field.html'">🤖 新フィールドでBOT対戦</button><button class="secondary" onclick="startGame('normal')">旧画面でBOT対戦</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button></div><a href="online.html" style="display:inline-block;padding:12px;color:#ffdf85">🌐 オンライン対戦ロビー</a><a href="field.html" style="display:inline-block;padding:12px;color:#ffdf85">⚔ 新フィールド（オンライン・入室画面）</a></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">① KTワンショット</option><option value="RKロック">② RKロック</option><option value="PMループ">③ PMループ</option><option value="TNコントロール">④ TNコントロール</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden"><div class="panel"><h2>🤖 BOT</h2><div id="enemyStats" class="stats"></div><p class="muted">相手の手札は非公開です。</p></div><div class="panel"><div class="row"><h2>バトル</h2><span id="status"></span></div><div id="choices"></div><div class="controls"><button id="endBtn" onclick="endTurn()">ターンエンド</button><button class="secondary" onclick="showUsed()">USEDゾーンを見る</button><button class="secondary" onclick="showBuilder()">デッキ編集へ</button></div><div id="log"></div></div><div class="panel"><h2>あなた</h2><div id="myStats" class="stats"></div><h3>手札</h3><div id="hand" class="grid"></div></div></section></main><div id="resultOverlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+</style><style>
+/* ボード型BOT対戦：元の32種の対戦ロジックを保持 */
+body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#40301d 0%,transparent 65%)}
+.wrap{max-width:1280px}.bot-field{position:relative}.arena-board{position:relative;overflow:hidden;border:5px ridge #9a7442;border-radius:18px;background:radial-gradient(ellipse at center,#534737 0%,#251e1d 52%,#100e13 100%);box-shadow:inset 0 0 0 3px #1d1714,inset 0 0 70px #000,0 22px 55px #0009;padding:15px;isolation:isolate}
+.arena-board:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;opacity:.16;background:repeating-linear-gradient(45deg,transparent 0 35px,#d6b784 36px 37px,transparent 38px 74px)}
+.fighter{display:grid;grid-template-columns:minmax(110px,175px) 1fr minmax(95px,150px);align-items:stretch;gap:12px;min-height:175px}.fighter-profile,.battle-zone,.deck-zone{border:3px ridge #a88b65;border-radius:9px;background:linear-gradient(145deg,#22242e,#131721);padding:12px;box-shadow:inset 0 0 25px #0009;min-width:0}.fighter-profile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}.avatar{font-size:32px}.heart-meter{font-size:clamp(24px,4vw,36px);font-weight:900;color:#ff777b;text-shadow:0 0 12px #ec4b69}.battle-zones{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}.battle-zone{display:flex;flex-direction:column;gap:9px;justify-content:center;text-align:center}.battle-zone>b,.deck-zone>b{color:#f6d698;font-size:13px}.used-zone{cursor:pointer}.used-zone strong{font-size:34px}.effect-zone div{font-size:12px;line-height:1.6;overflow-wrap:anywhere}.deck-zone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}.deck-back{width:68px;height:92px;border:4px double #efc877;border-radius:6px;display:grid;place-items:center;font-size:36px;background:linear-gradient(135deg,#452a14,#a36e2d,#322017);box-shadow:5px 5px 0 #0a0b10,7px 7px 0 #b28b4d}.board-center{position:relative;margin:14px 0;padding:13px 18px;border-top:3px solid #b59667;border-bottom:3px solid #b59667;background:linear-gradient(90deg,#141620,#49331e,#141620);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}.center-emblem{font-size:25px;color:#f5c767}.board-center #status{font-size:17px}.board-center #turnBadge{font-weight:900;letter-spacing:.08em;color:#fff0c7}.board-actions{margin:18px 0 10px;padding:8px 12px;border:2px solid #856c4c;border-radius:10px;background:#0d121fce}.board-actions #choices{padding:4px}.board-actions .controls{justify-content:center}.board-hand{padding:16px;border:2px solid #aa8654;border-radius:10px;background:linear-gradient(180deg,#1e2432,#101621);margin-top:10px}.board-hand h3{margin:0 0 14px;color:#f5dba5}.board-hand .grid{display:flex;gap:12px;overflow-x:auto;align-items:stretch;padding:8px 4px 16px}.board-hand .card{flex:0 0 175px;min-height:235px;border-radius:8px;border:3px ridge #ba8c42;box-shadow:0 8px 15px #0008;transition:transform .16s}.board-hand .card:hover{transform:translateY(-7px);box-shadow:0 0 16px #e8bc6b88}.board-hand .card strong{font-size:15px}.board-hand .card small{font-size:12px}.board-hand .card button{padding:8px 4px;font-size:11px}.field-info{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}.field-info .stats{font-size:13px;margin:8px 0}.field-info #log{max-height:245px}.fighter.hit-shake{animation:boardShake .42s ease-in-out}.fighter.hit-shake .heart-meter{animation:lifeFlash .55s ease}.hit-fx{position:fixed;inset:0;z-index:1100;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;text-shadow:0 5px 18px #000}.hit-fx.show{visibility:visible;animation:hitAppear 2.1s ease-out both}.hit-burst{font-size:clamp(80px,18vw,180px);color:#ffb448;filter:drop-shadow(0 0 35px #ff5e15)}.hit-label{font-weight:1000;font-size:clamp(34px,8vw,75px);color:#fff0bb;letter-spacing:.05em}.hit-sub{font-size:clamp(17px,3vw,27px);font-weight:900;color:white}.hit-fx.received .hit-burst{color:#ff455c;filter:drop-shadow(0 0 35px #ff1d44)}.hit-fx.received .hit-label{color:#ff9ca7}.hit-fx.dealt .hit-burst{color:#ffd166}.arena-board.dealt-flash{animation:arenaFlash .5s ease}.arena-board.received-flash{animation:arenaRed .55s ease}@keyframes boardShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}@keyframes lifeFlash{0%,100%{filter:none}50%{filter:brightness(3)}}@keyframes hitAppear{0%{opacity:0;transform:scale(.35)}12%{opacity:1;transform:scale(1.12)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}@keyframes arenaFlash{0%,100%{filter:none}35%{filter:brightness(1.55)}}@keyframes arenaRed{0%,100%{filter:none}35%{filter:sepia(.65) saturate(2) hue-rotate(305deg)}}
+@media(max-width:650px){.arena-board{padding:8px}.fighter{grid-template-columns:75px 1fr 80px;gap:5px;min-height:150px}.fighter-profile,.battle-zone,.deck-zone{padding:5px;border-width:2px}.fighter-profile strong,.deck-zone b{font-size:10px}.avatar{font-size:22px}.heart-meter{font-size:23px}.fighter-profile small,.deck-zone span,.battle-zone small{font-size:10px}.battle-zones{gap:5px;grid-template-columns:1fr 1fr}.battle-zone>b{font-size:10px}.used-zone strong{font-size:25px}.effect-zone div{font-size:10px}.deck-back{width:38px;height:56px;font-size:22px}.board-hand .card{flex-basis:160px}.field-info{grid-template-columns:1fr}.board-center{padding:8px}}
+@media(prefers-reduced-motion:reduce){.hit-fx.show,.fighter.hit-shake,.fighter.hit-shake .heart-meter,.arena-board.dealt-flash,.arena-board.received-flash{animation:none}.hit-fx.show{opacity:1;visibility:visible}}
+</style><style>
+/* カード別カラー（56種類） */
+.card.card-themed{background:var(--card-bg)!important;color:var(--card-fg)!important;border:2px solid rgba(255,255,255,.65)!important;box-shadow:inset 0 0 0 1px #0005,0 6px 15px #0006;text-shadow:0 1px 2px #0007;}
+.card.card-themed strong,.card.card-themed small{color:inherit!important;text-shadow:0 1px 2px #0008;}
+.card.card-themed button{color:#fff;text-shadow:none;}
+#hand button.hand-themed{background:var(--card-bg)!important;color:var(--card-fg)!important;border:2px solid #ffffffa8!important;text-shadow:0 1px 2px #0009;min-height:70px;}
+</style></head><body><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="startGame('normal')">🤖 通常BOT対戦</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button><button class="secondary" onclick="location.href='online.html'">🌐 オンライン対戦ロビー</button><button class="secondary" onclick="location.href='field.html'">⚔ オンライン新フィールド</button></div></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">① KTワンショット</option><option value="RKロック">② RKロック</option><option value="PMループ">③ PMループ</option><option value="TNコントロール">④ TNコントロール</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden bot-field">
+<div class="arena-board" id="arenaBoard">
+ <div class="fighter fighter-enemy" id="fighterEnemy"><div class="fighter-profile"><div class="avatar">🤖</div><strong>BOT</strong><div class="heart-meter">♥ <span id="botLifeVisual">7</span></div><small id="botHandVisual">手札 2枚</small></div><div class="battle-zones"><div class="battle-zone used-zone"><b>USED</b><strong id="botUsedVisual">0</strong><small>クリックで一覧</small></div><div class="battle-zone effect-zone"><b>継続効果</b><div id="botEffectsVisual">なし</div></div></div><div class="deck-zone"><div class="deck-back">✦</div><b>BOT DECK</b><span id="botDeckVisual">18枚</span></div></div>
+ <div class="board-center"><span id="turnBadge">TURN 1</span><span id="status"></span><span class="center-emblem">⚔</span></div>
+ <div class="fighter fighter-self" id="fighterSelf"><div class="fighter-profile"><div class="avatar">🛡️</div><strong>YOU</strong><div class="heart-meter">♥ <span id="myLifeVisual">7</span></div><small id="myHandVisual">手札 2枚</small></div><div class="battle-zones"><div class="battle-zone used-zone"><b>USED</b><strong id="myUsedVisual">0</strong><small>クリックで一覧</small></div><div class="battle-zone effect-zone"><b>継続効果</b><div id="myEffectsVisual">なし</div></div></div><div class="deck-zone"><div class="deck-back">✦</div><b>YOUR DECK</b><span id="myDeckVisual">18枚</span></div></div>
+ <div class="board-actions"><div id="choices"></div><div class="controls"><button id="endBtn" onclick="endTurn()">ターンエンド</button><button class="secondary" onclick="showUsed()">USEDゾーンを見る</button><button class="secondary" onclick="showBuilder()">デッキ編集へ</button></div></div>
+ <div class="board-hand"><h3>✋ 自分の手札</h3><div id="hand" class="grid"></div></div>
+</div>
+<div class="field-info"><div class="panel"><h3>対戦情報</h3><div id="enemyStats" class="stats"></div><div id="myStats" class="stats"></div><p class="muted">相手の手札の内容は非公開です。USEDゾーンの枚数を押すと両者のUSEDを確認できます。</p></div><div class="panel"><h3>📜 対戦ログ</h3><div id="log"></div></div></div>
+<div id="hitFX" class="hit-fx" aria-live="polite" aria-atomic="true"><div class="hit-burst">✦</div><div class="hit-label" id="hitLabel"></div><div class="hit-sub" id="hitSub"></div></div>
+</section></main><div id="resultOverlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
 <div class="resultSpark" id="resultSpark"></div><div class="resultPanel">
 <div class="resultEyebrow" id="resultEyebrow"></div><div style="font-size:60px" id="resultIcon"></div>
 <div class="resultTitle" id="resultTitle"></div><p class="resultReason" id="resultReason"></p>
@@ -38,15 +62,44 @@
 <div class="tutorialLife"><strong id="tutorialMe"></strong><span id="tutorialMyDeck"></span></div><div id="tutorialUsed" class="muted"></div></div>
 <p id="tutorialTip" style="color:#ffe39b"></p>
 <div class="controls"><button class="secondary" id="tutorialPrev" onclick="tutorialStep(-1)">← 戻る</button><button id="tutorialNext" onclick="tutorialStep(1)">次へ →</button></div>
-</div></div><footer>BOT対戦・オンライン対戦の新フィールドへ移動できます。旧BOT画面も利用可能です。</footer><script>
+</div></div><footer>フィールド版BOT対戦｜新カードは段階実装中。文化の勝利・這音嘗血・声殺夜奪・企画破壊・オル虐・ﾌｪｯ!?などは未完成です。</footer><script>
+
+const CARD_THEMES=["linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "#17171d", "#b3b7c0", "#7145ac", "linear-gradient(135deg,#155541 0%,#f1f4e9 100%)", "linear-gradient(135deg,#b5e15e 0%,#f6a4c6 100%)", "linear-gradient(135deg,#12345d 0%,#ead7b4 100%)", "linear-gradient(135deg,#16151b 0%,#f5cb39 100%)", "linear-gradient(135deg,#82dff6 0%,#f7e27d 50%,#ab8bd9 100%)", "#399d62", "linear-gradient(135deg,#45206c 0%,#17131e 50%,#a5253d 100%)", "#f1a2c7", "linear-gradient(135deg,#8e66c7 0%,#f5f3ff 100%)", "linear-gradient(135deg,#b52c49 0%,#f4ce52 100%)", "linear-gradient(135deg,#f9f9f2 0%,#fff0a8 100%)", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#c4b0e6 0%,#1c172a 50%,#f3ce59 100%)", "linear-gradient(135deg,#c4b0e6 0%,#1c172a 50%,#f3ce59 100%)", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "linear-gradient(135deg,#8e66c7 0%,#f5f3ff 100%)", "#b3b7c0", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#f9f9f2 0%,#fff0a8 100%)", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#155541 0%,#f1f4e9 100%)", "linear-gradient(135deg,#155541 0%,#f1f4e9 100%)", "#8dd8f2", "#8dd8f2", "#8dd8f2", "#8dd8f2", "#f1a2c7", "#f1a2c7", "#f1a2c7", "linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "#b3b7c0", "#b3b7c0", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "linear-gradient(135deg,#152d57 0%,#11121c 100%)", "#7145ac", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "#17171d", "#7145ac", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#cdb5f5 0%,#f6a7d2 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "#17171d"];
+const CARD_TEXT_COLORS=["#172035", "#fff", "#fff", "#172035", "#fff", "#172035", "#172035", "#fff", "#172035", "#172035", "#fff", "#fff", "#172035", "#172035", "#fff", "#172035", "#fff", "#fff", "#fff", "#fff", "#172035", "#172035", "#fff", "#172035", "#fff", "#fff", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#fff", "#fff", "#fff", "#172035", "#fff", "#fff", "#fff", "#fff", "#fff", "#172035", "#fff", "#172035", "#fff", "#172035", "#172035", "#fff"];
+function setCardTheme(element,index){if(index<0||index>=CARD_THEMES.length)return;element.classList.add("card-themed");element.style.setProperty("--card-bg",CARD_THEMES[index]);element.style.setProperty("--card-fg",CARD_TEXT_COLORS[index]);}
+
 const CARDS=[
-['ﾌﾞﾝﾁｮｳｱﾀｯｸ','1ダメージ。手札の同名カードを追加でUSEDにするとさらに1ダメージ','buncho'],['観測者の悪ノリ','山札から1枚引く','draw'],['うーんひらめいた！','山札から1枚引く','draw'],['オトモアタック','1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）','otomo'],['そう！高〇健！！','相手の次のターンの通常ドローを封じる','block'],['みなさん、いつまで寝てるの！！','自分のUSEDから最大3枚を山札に戻してシャッフル','recycle'],['必殺ファン●ション','手札がこのカードだけなら3ダメージ','special3'],['深夜の大人の勉強会','山札の上から3枚を確認し、好きな順に並べ替える','peek'],['小森アタック','相手に1ダメージ（デッキに4枚以上入れられる）','hit'],['星色の推し活','山札から1枚引く','draw'],['もち蔵アタック','1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない','mochi'],['人手不足の魔導書','手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ','search'],['お転婆お嬢様！！','相手の山札上2枚をUSEDへ','mill'],['究極拳巫女パンチ','使用前の手札が7枚以上なら5ダメージ','special5'],['ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ','山札から1枚引く','draw'],['冷静竜声','別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ','select'],['まずはありがとう','2枚引いてから手札2枚をUSEDへ','drawdiscard'],['音バケ隊！！','USEDが5枚以上のとき使用可能。自分のライフを1回復','heal'],['しのみーらいぶ','ライフ1回復。その後、自分の山札の一番上をUSEDへ','shino'],['チトセニウム','使用前の手札が4枚以上なら使用可能。山札から2枚引く','chitose'],['全知全能の神、弱そう','ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ','god'],['見透かされるアホネー','相手の手札のカード名を3択で当てる','guess'],['やかましいわ','相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化','counter'],['月民の隠れ家','自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ','hideout'],['人を大切にできないやつは自分も大切にされない【名言】','1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く','quote'],['ガチナイス','相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る','nice'],
+['ﾌﾞﾝﾁｮｳｱﾀｯｸ','1ダメージ。手札の同名カードを追加でUSEDにするとさらに1ダメージ','buncho'],['観測者の悪ノリ','山札から1枚引く','draw'],['うーんひらめいた！','山札から1枚引く','draw'],['オトモアタック','1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）','otomo'],['そう！高〇健！！','次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続','block'],['みなさん、いつまで寝てるの！！','自分のUSEDから最大3枚を山札に戻してシャッフル','recycle'],['必殺ファン●ション','手札がこのカードだけなら3ダメージ','special3'],['深夜の大人の勉強会','山札の上から3枚を確認し、好きな順に並べ替える','peek'],['小森アタック','相手に1ダメージ（デッキに4枚以上入れられる）','hit'],['星色の推し活','山札から1枚引く','draw'],['もち蔵アタック','1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない','mochi'],['人手不足の魔導書','手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ','search'],['お転婆お嬢様！！','相手の山札上2枚をUSEDへ','mill'],['究極拳巫女パンチ','使用前の手札が7枚以上なら5ダメージ','special5'],['ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ','山札から1枚引く','draw'],['冷静竜声','別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ','select'],['まずはありがとう','2枚引いてから手札2枚をUSEDへ','drawdiscard'],['音バケ隊！！','USEDが5枚以上のとき使用可能。自分のライフを1回復','heal'],['しのみーらいぶ','ライフ1回復。その後、自分の山札の一番上をUSEDへ','shino'],['チトセニウム','使用前の手札が4枚以上なら使用可能。山札から2枚引く','chitose'],['全知全能の神、弱そう','ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ','god'],['見透かされるアホネー','相手の手札のカード名を3択で当てる','guess'],['やかましいわ','相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化','counter'],['月民の隠れ家','自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ','hideout'],['人を大切にできないやつは自分も大切にされない【名言】','1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く','quote'],['ガチナイス','相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る','nice'],
 ['腐白蛇','山札の一番上をUSEDへ。その後、このカードを除く自分のUSEDが3枚以下なら次の相手ターン中はダメージを受けない','snake'],
 ['眠気があってちゃんと良かったなぽ','自分のUSEDからランダムに最大2枚を山札に戻してシャッフル。山札の枚数差が10枚以上なら双方ライフ7に回復し、以後ゲーム終了まで1回のダメージは最大1','napo'],
 ['(･ω･三･ω･)ﾌﾝﾌﾝ','このゲーム中、以後自分がカードを使うたび30%で相手に1ダメージ','funfun'],
 ['限界愛','このゲーム中、以後自分がカードを使うたび50%で山札から1枚引く','love'],
 ['なんでもござれの藍白屋','自分に付与された確率発動効果の各確率判定を20ポイント上昇。後から付与する効果にも適用（上限100%）','aiya'],
-['ピカ犬','このゲーム中、以後自分がカードを使うたび1%で追加ターンを得る','pikainu']
+['ピカ犬','このゲーム中、以後自分がカードを使うたび1%で追加ターンを得る','pikainu'],
+['春風と木音','相手USEDが3/5/7枚以上でそれぞれ1/2/3ダメージと同数ドロー。その後、相手USEDをシャッフルして山札の底へ','spring'],
+['かすみ草の妖精','次の自分のカード効果処理終了まで相手USEDからカードが離れない','fairy'],
+['1リットルってなんりっとる','相手手札の枚数−1枚を相手山札の上からUSEDへ','litre'],
+['怪異','次の自分のカード効果終了まで双方の全カード名が「ﾌﾞﾝﾁｮｳ」になる（効果は維持）','kaii'],
+['トマト倍々発生','次に使う自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う','tomato'],
+['窓を破るﾌﾞﾝﾁｮｳ','自分の山札から3枚USEDへ。うち「ﾌﾞﾝﾁｮｳ」を名前に含む枚数分ダメージ','window'],
+['文化の勝利','相手の手札ランダム1枚を5秒間公開し、選んだ方法で相手の手札をUSEDへ','culture'],
+['這音嘗血（はいおんしょうけつ）','相手の手札からUSEDへ3枚移動するごとに選択効果','blood'],
+['うどん。','先攻の最初のターンのみ使用可能。2枚引いて追加ターン','udon'],
+['針治療','両者の継続効果・状態を解除','needle'],
+['江戸姫','相手の次のターン終了まで手札をUSEDへ送る能力と2枚攻撃を封じる。SBFFが自分USEDに3枚なら永続','edo'],
+['ハートのチェーン','自分のカード効果で自分のライフが減るたび相手に1ダメージ','chain'],
+["( 'ω')ﾌｪｯ!?",'通常プレイ不可。カード効果で山札から手札へ加えたとき、1ダメージと1ドローを各1回使用可能','fe'],
+['SBFF','何も起こらない','sbff'],
+['導く北極星','3枚引く。次の自分のカード効果後、手札5枚以下ならすべてUSEDへ','star'],
+['刺客','初期デッキ選択不可。名前が変更されていない状態で手札に入ると自分に1ダメージ','assassin'],
+['お命頂戴します☪︎*｡꙳','相手山札にゲーム外から刺客2枚を加えてシャッフル','insert'],
+['お昼寝(昼夜逆転)','次の次とその次の自分ターンは行動・通常ドロー不可。ライフ3回復','nap'],
+['声殺夜奪','相手ランダム手札1枚を除外し、相手山札に刺客を1枚追加、相手が1枚引く','voice'],
+['正論パンチ','自分に1ダメージ、相手に2ダメージ','punch'],
+['うんコンボ・・・・？','相手USED内の刺客と同数の刺客を加え、相手USED全部を山札に戻してシャッフル','combo'],
+['企画破壊','相手カードの発動時、自分に2ダメージと引き換えに無効化','cancel'],
+['行っちゃうの？…','自分のライフを任意の数減らし、その2倍ドロー','going'],
+['オル虐','通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時に1ダメージ・1ドローを各1回','oru']
 ];
 const SAMPLE_DECKS={
 'KTワンショット':{'チトセニウム':3,'全知全能の神、弱そう':3,'究極拳巫女パンチ':3,'月民の隠れ家':1,'ガチナイス':3,'観測者の悪ノリ':3,'星色の推し活':3,'人を大切にできないやつは自分も大切にされない【名言】':1},
@@ -60,12 +113,12 @@ function loadSampleDeck(name){if(!name)return;try{counts=sampleToCounts(name);re
 let counts=JSON.parse(localStorage.getItem('cardDeck')||'null');if(!Array.isArray(counts)||counts.length>CARDS.length||counts.some(x=>!Number.isInteger(x)||x<0||x>20))counts=Array(CARDS.length).fill(0);else if(counts.length<CARDS.length)counts.push(...Array(CARDS.length-counts.length).fill(0));
 let game=null,pending=null,lock=false;
 const $=id=>document.getElementById(id),sum=()=>counts.reduce((a,b)=>a+b,0),shuffle=a=>{for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-function renderCatalog(){ $('deckCount').textContent=sum()+' / 20';$('catalog').innerHTML='';CARDS.forEach((c,i)=>{let e=document.createElement('div');e.className='card';e.innerHTML='<strong></strong><small></small><div class="counter"><button class="secondary">−</button><b></b><button>＋</button></div>';e.querySelector('strong').textContent=c[0];e.querySelector('small').textContent=c[1];e.querySelector('b').textContent=counts[i];let bs=e.querySelectorAll('button');bs[0].disabled=counts[i]===0;bs[1].disabled=counts[i]===(i===8?20:3)||sum()>=20;bs[0].onclick=()=>{counts[i]--;renderCatalog()};bs[1].onclick=()=>{counts[i]++;renderCatalog()};$('catalog').append(e)})}
+function renderCatalog(){ $('deckCount').textContent=sum()+' / 20';$('catalog').innerHTML='';CARDS.forEach((c,i)=>{if(c[2]==='assassin')return;let e=document.createElement('div');e.className='card';setCardTheme(e,i);e.innerHTML='<strong></strong><small></small><div class="counter"><button class="secondary">−</button><b></b><button>＋</button></div>';e.querySelector('strong').textContent=c[0];e.querySelector('small').textContent=c[1];e.querySelector('b').textContent=counts[i];let bs=e.querySelectorAll('button');bs[0].disabled=counts[i]===0;bs[1].disabled=counts[i]===([8,47].includes(i)?20:3)||sum()>=20;bs[0].onclick=()=>{counts[i]--;renderCatalog()};bs[1].onclick=()=>{counts[i]++;renderCatalog()};$('catalog').append(e)})}
 function saveDeck(){if(sum()!==20){alert('デッキを20枚にしてください');return false}localStorage.setItem('cardDeck',JSON.stringify(counts));alert('保存しました');return true}
-function autoDeck(){counts=Array(CARDS.length).fill(0);let ids=shuffle(Array.from({length:CARDS.length},(_,i)=>i));for(let n=0;n<20;n++)counts[ids[n%ids.length]]++;renderCatalog()}
+function autoDeck(){counts=Array(CARDS.length).fill(0);let ids=shuffle(Array.from({length:CARDS.length},(_,i)=>i).filter(i=>CARDS[i][2]!=='assassin'));for(let n=0;n<20;n++)counts[ids[n%ids.length]]++;renderCatalog()}
 function clearDeck(){counts.fill(0);renderCatalog()}
 function showBuilder(){if(game&&!game.over&&!confirm('対戦を終了してデッキ編集に戻りますか？'))return;game=null;pending=null;lock=false;$('builder').classList.remove('hidden');$('game').classList.add('hidden');renderCatalog()}
-function makePlayer(deck){return{deck:shuffle(deck),hand:[],used:[],life:7,skip:0,protect:0,shieldNext:0,firstDealt:false,chances:{funfun:[],love:[],pikainu:[]},chanceBonus:0,extraTurns:0}}
+function makePlayer(deck){return{deck:shuffle(deck),hand:[],used:[],life:7,skip:0,protect:0,shieldNext:0,firstDealt:false,chances:{funfun:[],love:[],pikainu:[]},chanceBonus:0,extraTurns:0,permaBlock:false,blockTurns:0,edoTurns:0,permaEdo:false,chain:false,fairy:0,kaii:0,tomato:0,star:0,napTurns:[],handUsedCount:0}}
 function initialDraw(p){p.hand.push(p.deck.pop())}
 function startGame(mode='normal'){if(sum()!==20){alert('先にデッキを20枚にしてください');return}localStorage.setItem('cardDeck',JSON.stringify(counts));let deck=counts.flatMap((n,i)=>Array(n).fill(i));let botSample=Object.keys(SAMPLE_DECKS)[Math.floor(Math.random()*Object.keys(SAMPLE_DECKS).length)];if(mode==='beginner')botSample='初心者デッキ';let botCounts=mode==='beginner'?(()=>{const c=Array(CARDS.length).fill(0);for(const [name,n] of Object.entries(BEGINNER_DECK)){const i=CARDS.findIndex(card=>card[0]===name);if(i<0)throw Error('カードがありません: '+name);c[i]=n}if(c.reduce((a,b)=>a+b,0)!==20)throw Error('初心者デッキが20枚ではありません');return c})():sampleToCounts(botSample);let botDeck=botCounts.flatMap((n,i)=>Array(n).fill(i));game={players:[makePlayer(deck),makePlayer(botDeck)],turn:Math.random()<.5?0:1,round:0,acted:false,over:false,damageCap:false,logs:[],privateLogs:[[],[]],mode};pending=null;lock=false;for(const p of game.players){initialDraw(p);initialDraw(p)}$('builder').classList.add('hidden');$('game').classList.remove('hidden');log('BOTの使用デッキ：'+botSample);log('対戦開始！ '+(game.turn===0?'あなたが先攻':'BOTが先攻'));beginTurn(true)}
 function log(s){game.logs.unshift(s);game.logs=game.logs.slice(0,30)}
@@ -87,12 +140,54 @@ function closeResult(){$('resultOverlay').classList.add('hidden')}
 function replayGame(){const mode=game?.mode||'normal';closeResult();startGame(mode)}
 function resultToBuilder(){closeResult();showBuilder()}
 function check(){for(let i=0;i<2;i++){if(game.players[i].life<=0){finish(1-i,'ライフが0になりました');return true}if(game.players[i].deck.length===0){finish(1-i,'山札が0になりました');return true}}return false}
+let hitFxTimeout;
+function showDamageFX(target,amount,source){
+ const fx=$('hitFX'),arena=$('arenaBoard'),fighter=$(target===0?'fighterSelf':'fighterEnemy');
+ if(!fx||!arena||!fighter)return;
+ const received=target===0;
+ fx.className='hit-fx '+(received?'received':'dealt');
+ $('hitLabel').textContent='−'+amount+' HP';
+ $('hitSub').textContent=received?'ダメージを受けた！':'BOTにダメージ！';
+ fx.classList.remove('show');void fx.offsetWidth;fx.classList.add('show');
+ fighter.classList.remove('hit-shake');void fighter.offsetWidth;fighter.classList.add('hit-shake');
+ arena.classList.remove('received-flash','dealt-flash');void arena.offsetWidth;arena.classList.add(received?'received-flash':'dealt-flash');
+ clearTimeout(hitFxTimeout);
+ hitFxTimeout=setTimeout(()=>{fx.classList.remove('show');fighter.classList.remove('hit-shake');arena.classList.remove('received-flash','dealt-flash')},2100);
+}
+function updateFieldVisual(){
+ if(!game)return;
+ const a=game.players[0],b=game.players[1];
+ for(const [who,p] of [[0,a],[1,b]]){
+ const prefix=who?'bot':'my';
+ $(prefix+'LifeVisual').textContent=p.life;
+ $(prefix+'HandVisual').textContent='手札 '+p.hand.length+'枚';
+ $(prefix+'DeckVisual').textContent=p.deck.length+'枚';
+ $(prefix+'UsedVisual').textContent=p.used.length;
+ const effects=[];
+ if(p.skip||p.permaBlock)effects.push('全ドロー封じ '+(p.permaBlock?'永続':p.skip+'回'));
+ if(p.edoTurns||p.permaEdo)effects.push('江戸姫による制限');
+ if(p.chain)effects.push('ハートのチェーン');
+ if(p.fairy)effects.push('USED移動防止');
+ if(p.kaii)effects.push('怪異：全カード名変更');
+ if(p.tomato)effects.push('トマト倍々発生');
+ if(p.star)effects.push('北極星：次効果後に判定');
+ if(p.shieldNext)effects.push('🛡 ダメージ防御');
+ if(p.protect)effects.push('山札保護');
+ if(p.chanceBonus)effects.push('確率 +'+p.chanceBonus+'%');
+ if(p.extraTurns)effects.push('追加ターン '+p.extraTurns);
+ for(const [name,vals] of Object.entries(p.chances||{}))if(vals.length)effects.push(({funfun:'ﾌﾝﾌﾝ',love:'限界愛',pikainu:'ピカ犬'}[name]||name)+' ×'+vals.length);
+ $(prefix+'EffectsVisual').textContent=effects.join(' / ')||'なし';
+ }
+ $('turnBadge').textContent='TURN '+game.round+(game.turn===0?' · YOU':' · BOT');
+}
 function damage(target,n,source=1-target){
  if(game.over||n<=0)return;
  let p=game.players[target],attacker=game.players[source];
  if(p.shieldNext&&game.turn===source&&source!==target){log((target===0?'あなた':'BOT')+'は腐白蛇の効果でダメージを防いだ');return}
  if(game.damageCap)n=Math.min(n,1);
  p.life-=n;
+ if(source===target&&p.chain&&n>0&&game.chainGuard!==target){game.chainGuard=target;damage(1-target,1,target);game.chainGuard=null}
+ showDamageFX(target,n,source);
  log((target===0?'あなた':'BOT')+'に'+n+'ダメージ');
  const first=source!==target&&!attacker.firstDealt;
  if(source!==target)attacker.firstDealt=true;
@@ -116,9 +211,9 @@ function damage(target,n,source=1-target){
 }
 function putUsed(who,id){let p=game.players[who];if(id===25&&game.turn!==who){p.hand.push(id);log((who===0?"あなた":"BOT")+"のガチナイスが手札に戻った");return}p.used.push(id)}
 function moveHandUsed(who,i){let p=game.players[who],id=p.hand.splice(i,1)[0];if(id===undefined)return;putUsed(who,id);if(id===24&&game.turn!==who&&!game.over){draw(who,2)}}
-function draw(who,n){let p=game.players[who];for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}p.hand.push(p.deck.pop());log((who===0?'あなた':'BOT')+'が1枚引いた');check()}}
-function beginTurn(first=false){if(game.over)return;game.acted=false;pending=null;let who=game.turn,p=game.players[who];game.round++;log((who===0?'あなた':'BOT')+'のターン');if(!first){if(p.skip){p.skip--;log('ドロー封じで通常ドローなし')}else draw(who,1)}render();if(who===1&&!game.over)setTimeout(botAct,650);else if(who===0)queueAutoEnd()}
-function valid(who,index){let p=game.players[who],type=CARDS[index][2];return !(type==='special3'&&p.hand.length!==1||type==='special5'&&p.hand.length<7||type==='search'&&p.hand.length>2||type==='select'&&p.hand.length<2||type==='heal'&&p.used.length<5||type==='chitose'&&p.hand.length<4||type==='god'||type==='counter'||type==='nice'&&!(game.players[1-who].life>p.life||game.players[1-who].life<=1))}
+function draw(who,n){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii)damage(who,1,who);check()}}
+function beginTurn(first=false){if(game.over)return;game.acted=false;pending=null;let who=game.turn,p=game.players[who];game.round++;log((who===0?'あなた':'BOT')+'のターン');if(!first){if(p.skip||p.permaBlock){log('ドロー封じで通常ドローなし')}else draw(who,1)}render();if(who===1&&!game.over)setTimeout(botAct,650);else if(who===0)queueAutoEnd()}
+function valid(who,index){let p=game.players[who],type=CARDS[index][2];return !(type==='special3'&&p.hand.length!==1||type==='special5'&&p.hand.length<7||type==='search'&&p.hand.length>2||type==='select'&&p.hand.length<2||type==='heal'&&p.used.length<5||type==='chitose'&&p.hand.length<4||type==='god'||type==='counter'||type==='fe'||type==='oru'||type==='assassin'||type==='cancel'||type==='udon'&&!(game.round===1&&game.turn===who)||type==='nice'&&!(game.players[1-who].life>p.life||game.players[1-who].life<=1))}
 function playCard(who,handIndex){if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who],id=p.hand[handIndex];if(id===undefined||!valid(who,id))return;let type=CARDS[id][2];p.hand.splice(handIndex,1);putUsed(who,id);game.acted=true;game.chancePending=who;log((who===0?'あなた':'BOT')+'が「'+CARDS[id][0]+'」を使用');let other=1-who;
 if(!['god','counter'].includes(type)){
  let opponent=game.players[other], counterIndex=opponent.hand.indexOf(22);
@@ -151,8 +246,31 @@ function chooseCounterCosts(){
 }
 function resolveEffect(who,id){if(game.over)return;let p=game.players[who],type=CARDS[id][2],other=1-who;
 if(type==='hit')damage(other,1);
+else if(type==='sbff')log('SBFF：何も起こらない');
+else if(type==='spring'){
+ let q=game.players[other],n=q.used.length,level=n>=7?3:n>=5?2:n>=3?1:0;
+ if(level){damage(other,level,who);if(!game.over)draw(who,level)}
+ if(!q.fairy){let old=shuffle(q.used);q.used=[];q.deck.unshift(...old);log('相手のUSEDを山札の一番下へ戻した')}else log('かすみ草の妖精により相手USEDは動かない');
+}
+else if(type==='fairy'){p.fairy=1;log('相手のUSED移動を次の自分のカード効果終了まで禁止')}
+else if(type==='litre'){let q=game.players[other],n=Math.max(0,q.hand.length-1);for(let k=0;k<n&&q.deck.length&&!game.over;k++){if(q.protect)break;putUsed(other,q.deck.pop());check()}}
+else if(type==='kaii'){p.kaii=1;log('怪異：次の自分のカード効果終了まで全カード名がﾌﾞﾝﾁｮｳ')}
+else if(type==='tomato'){p.tomato=1;log('次のﾌﾞﾝﾁｮｳ名カードの効果を2回')}
+else if(type==='window'){let hits=0;for(let k=0;k<3&&p.deck.length&&!game.over;k++){let x=p.deck.pop();putUsed(who,x);if(CARDS[x][0].includes('ﾌﾞﾝﾁｮｳ')||p.kaii||game.players[other].kaii)hits++;check()}if(hits&&!game.over)damage(other,hits,who)}
+else if(type==='udon'){draw(who,2);p.extraTurns++}
+else if(type==='needle'){for(const q of game.players){q.skip=0;q.permaBlock=false;q.edoTurns=0;q.permaEdo=false;q.chain=false;q.fairy=0;q.kaii=0;q.tomato=0;q.star=0;q.shieldNext=0;q.protect=0;q.chances={funfun:[],love:[],pikainu:[]};q.chanceBonus=0;q.napTurns=[]}game.damageCap=false;log('継続効果を解除')}
+else if(type==='edo'){let q=game.players[other];q.edoTurns=1;if(p.used.filter(x=>CARDS[x][2]==='sbff').length>=3)q.permaEdo=true}
+else if(type==='chain'){p.chain=true}
+else if(type==='star'){draw(who,3);p.star=1}
+else if(type==='insert'){game.players[other].deck.push(CARDS.findIndex(c=>c[2]==='assassin'),CARDS.findIndex(c=>c[2]==='assassin'));game.players[other].deck=shuffle(game.players[other].deck)}
+else if(type==='nap'){p.life=Math.min(7,p.life+3);p.napTurns=[game.round+4,game.round+6];log('2回の将来ターンで行動不能（試作）')}
+else if(type==='punch'){damage(who,1,who);if(!game.over)damage(other,2,who)}
+else if(type==='combo'){let q=game.players[other],a=q.used.filter(x=>CARDS[x][2]==='assassin').length;for(let k=0;k<a;k++)q.used.push(CARDS.findIndex(c=>c[2]==='assassin'));q.deck=shuffle([...q.deck,...q.used]);q.used=[]}
+else if(type==='going'){let max=Math.max(0,p.life-1);if(who===0){pending={type:'going'};showOptions('自分のライフを何点減らしますか？',Array.from({length:max+1},(_,n)=>({label:n+'点（'+(2*n)+'枚ドロー）',fn:()=>{pending=null;if(n)damage(who,n,who);if(!game.over)draw(who,2*n);render()}})));return}else{let n=Math.min(1,max);if(n)damage(who,n,who);if(!game.over)draw(who,2*n)}}
+else if(['culture','blood','voice'].includes(type)){log('このカードの特殊な選択・公開処理はまだ未実装です：'+CARDS[id][0])}
+
 else if(type==='nice'){damage(other,1);let pos=p.used.lastIndexOf(id);if(pos!==-1){p.used.splice(pos,1);p.hand.push(id);log((who===0?'あなた':'BOT')+'のガチナイスが効果①で手札に戻った')}}
-else if(type==='buncho'){damage(other,1);if(!game.over){let indexes=p.hand.map((x,i)=>x===0?i:-1).filter(i=>i>=0);if(indexes.length){if(who===0){pending={type:'buncho'};showOptions('追加のﾌﾞﾝﾁｮｳｱﾀｯｸをUSEDへ送りますか？',[...indexes.map(i=>({label:'送る（追加1ダメージ）',fn:()=>{putUsed(who,p.hand.splice(i,1)[0]);pending=null;damage(other,1);render()}})),{label:'送らない',fn:()=>{pending=null;render()}}]);return}else{putUsed(who,p.hand.splice(indexes[0],1)[0]);damage(other,1)}}}}
+else if(type==='buncho'){damage(other,1);if(!game.over){let indexes=p.hand.map((x,i)=>CARDS[x][0]===CARDS[id][0]?i:-1).filter(i=>i>=0);if(indexes.length){if(who===0){pending={type:'buncho'};showOptions('追加のﾌﾞﾝﾁｮｳｱﾀｯｸをUSEDへ送りますか？',[...indexes.map(i=>({label:'送る（追加1ダメージ）',fn:()=>{putUsed(who,p.hand.splice(i,1)[0]);pending=null;damage(other,1);render()}})),{label:'送らない',fn:()=>{pending=null;render()}}]);return}else{putUsed(who,p.hand.splice(indexes[0],1)[0]);damage(other,1)}}}}
 else if(type==='otomo'){damage(other,1);if(!game.over){let top=game.players[other].deck.at(-1);privateLog(who,'オトモアタックで確認：相手の山札の一番上は「'+(top===undefined?'なし':CARDS[top][0])+'」');if(who===1)log('BOTがあなたの山札の一番上を確認')}}
 else if(type==='mochi'){damage(other,1);p.protect=1;}
 else if(type==='shino'){p.life=Math.min(7,p.life+1);if(p.deck.length){putUsed(who,p.deck.pop());check()}}
@@ -182,7 +300,7 @@ else if(type==='hideout'){let max=Math.min(2,p.used.filter((_,i)=>i!==p.used.las
 else if(type==='guess'){let q=game.players[other];if(q.hand.length){let real=q.hand[Math.floor(Math.random()*q.hand.length)];let absent=shuffle(CARDS.map((_,i)=>i).filter(i=>!q.hand.includes(i))).slice(0,2);let options=shuffle([real,...absent]);if(who===0){pending={type:'guess'};showOptions('相手の手札にあるカード名を当ててください',options.map(id=>({label:CARDS[id][0],fn:()=>{pending=null;resolveGuess(who,id,real);render()}})));return}else resolveGuess(who,real,real)}}
 else if(type==='heal'){p.life=Math.min(7,p.life+1);log('ライフを1回復した')}
 else if(type==='draw')draw(who,1);
-else if(type==='block')game.players[other].skip++;
+else if(type==='block'){game.players[other].skip++;if(p.used.filter(x=>CARDS[x][2]==='sbff').length>=3)game.players[other].permaBlock=true;}
 else if(type==='special3')damage(other,3);
 else if(type==='special5')damage(other,5);
 else if(type==='mill'){for(let k=0;k<2&&!game.over;k++){let q=game.players[other];if(q.deck.length&&!q.protect){putUsed(other,q.deck.pop());log('相手の山札を1枚USEDへ');check()}}}
@@ -201,7 +319,7 @@ function completeRecycle(){if(!pending)return;shuffle(game.players[0].deck);pend
 function chooseHand(title,who,done){let p=game.players[who];showOptions(title,p.hand.map((id,i)=>({label:CARDS[id][0],fn:()=>{moveHandUsed(who,i);if(pending.type==='selectDiscard'){pending=null;done()}else if(pending.type==='quoteDiscard'){pending=null;render()}else if(--pending.remaining===0||!p.hand.length){pending=null;render()}else chooseHand(title,who,done)}})))}
 function chooseUsed(title,who,done){let p=game.players[who],excluded=p.used.lastIndexOf(5),opts=p.used.map((id,i)=>i===excluded?null:({label:CARDS[id][0],fn:()=>{p.deck.push(p.used.splice(i,1)[0]);if(--pending.remaining===0)done();else chooseUsed(title,who,done)}})).filter(Boolean);opts.push({label:'これで終了',fn:done});showOptions(title,opts)}
 function showOptions(title,options){$('choices').replaceChildren();let label=document.createElement('strong');label.textContent=title;$('choices').append(label);for(let o of options){let b=document.createElement('button');b.className='secondary';b.textContent=o.label;b.onclick=o.fn;$('choices').append(b)}render(false)}
-function usedAttack(who,i){if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who];if(p.hand.length<2||i<0||i>=p.hand.length)return;if(who===0){pending={type:'usedAttack',who,first:i};showOptions('USEDへ送る2枚目を選択（合計2枚で1ダメージ）',p.hand.map((id,j)=>j===i?null:{label:CARDS[id][0]+'（'+(j+1)+'枚目）',fn:()=>completeUsedAttack(who,i,j)}).filter(Boolean).concat([{label:'キャンセル',fn:()=>{pending=null;render()}}]));return}let j=i===0?1:0;completeUsedAttack(who,i,j)}
+function usedAttack(who,i){if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who];if(p.edoTurns||p.permaEdo||p.hand.length<2||i<0||i>=p.hand.length)return;if(who===0){pending={type:'usedAttack',who,first:i};showOptions('USEDへ送る2枚目を選択（合計2枚で1ダメージ）',p.hand.map((id,j)=>j===i?null:{label:CARDS[id][0]+'（'+(j+1)+'枚目）',fn:()=>completeUsedAttack(who,i,j)}).filter(Boolean).concat([{label:'キャンセル',fn:()=>{pending=null;render()}}]));return}let j=i===0?1:0;completeUsedAttack(who,i,j)}
 function completeUsedAttack(who,i,j){let p=game.players[who];if(game.over||game.turn!==who||game.acted||p.hand.length<2||i===j||i<0||j<0||i>=p.hand.length||j>=p.hand.length)return;for(let index of [i,j].sort((a,b)=>b-a))moveHandUsed(who,index);pending=null;game.acted=true;game.chancePending=who;log((who===0?'あなた':'BOT')+'が手札2枚をUSEDにして攻撃');damage(1-who,1);render()}
 // 行動終了後、選択中の効果がすべて解決されてから次のターンへ進む。
 // roundとgame参照を保持し、古いタイマーによる二重ターン進行を防ぐ。
@@ -243,6 +361,8 @@ function queueAutoEnd(){
 function advanceTurn(){
  if(!game||game.over||pending)return;
  const previous=game.turn;
+ if(game.players[previous].skip>0)game.players[previous].skip--;
+ if(game.players[previous].edoTurns>0)game.players[previous].edoTurns--;
  // 腐白蛇の防御は、発動後最初の相手ターン終了時に解除
  if(game.players[1-previous].shieldNext)game.players[1-previous].shieldNext=0;
  game.players[1-previous].protect=Math.max(0,game.players[1-previous].protect-1);
@@ -260,8 +380,10 @@ function botAct(){
  render();
 }
 function showUsed(){if(!game)return;alert(game.players.map((p,i)=>(i?'BOT':'あなた')+' USED ('+p.used.length+'枚)\n'+(p.used.map(id=>CARDS[id][0]).join('\n')||'なし')).join('\n\n'))}
-function render(clear=true){if(!game)return;let a=game.players[0],b=game.players[1];$('enemyStats').textContent='♥ '+b.life+' / 7　🂠 山札 '+b.deck.length+'　✋ 手札 '+b.hand.length+'　USED '+b.used.length+(b.shieldNext?'　🛡 防御待機':'');$('myStats').textContent='♥ '+a.life+' / 7　🂠 山札 '+a.deck.length+'　USED '+a.used.length+(a.shieldNext?'　🛡 防御待機':'')+(game.damageCap?'　⚔ ダメージ上限1':'')+'　🎲 付与 '+Object.entries(a.chances).filter(([k,v])=>v.length>0).map(([k,v])=>({funfun:'ﾌﾝﾌﾝ',love:'限界愛',pikainu:'ピカ犬'}[k])+v.length+'回×'+Math.min(100,({funfun:30,love:50,pikainu:1}[k])+a.chanceBonus)+'%').join(' / ');$('status').textContent=game.over?'対戦終了':pending?'カード効果を処理中':game.turn===0?'あなたのターン'+(game.acted?'（行動済み）':''):'BOTのターン';$('endBtn').disabled=game.over||game.turn!==0||!!pending;$('hand').replaceChildren();a.hand.forEach((id,i)=>{let c=CARDS[id],e=document.createElement('div');e.className='card';let name=document.createElement('strong');name.textContent=c[0];let desc=document.createElement('small');desc.textContent=c[1];let play=document.createElement('button');play.textContent='カードをプレイ';play.disabled=game.over||game.turn!==0||game.acted||!!pending||!valid(0,id);play.onclick=()=>playCard(0,i);let attack=document.createElement('button');attack.className='danger';attack.textContent='2枚USEDへ送って1ダメージ';attack.disabled=game.over||game.turn!==0||game.acted||!!pending||a.hand.length<2;attack.onclick=()=>usedAttack(0,i);e.append(name,desc,play,attack);$('hand').append(e)});if(clear&&!pending)$('choices').replaceChildren();if(!game.over&&!pending)queueAutoEnd();$('log').replaceChildren(...([...game.privateLogs[0].map(x=>'🔍 【自分だけ】'+x),...game.logs.map(x=>'• '+x)]).map(x=>{let d=document.createElement('div');d.textContent=x;return d}))}
+function render(clear=true){if(!game)return;updateFieldVisual();let a=game.players[0],b=game.players[1];$('enemyStats').textContent='♥ '+b.life+' / 7　🂠 山札 '+b.deck.length+'　✋ 手札 '+b.hand.length+'　USED '+b.used.length+(b.shieldNext?'　🛡 防御待機':'');$('myStats').textContent='♥ '+a.life+' / 7　🂠 山札 '+a.deck.length+'　USED '+a.used.length+(a.shieldNext?'　🛡 防御待機':'')+(game.damageCap?'　⚔ ダメージ上限1':'')+'　🎲 付与 '+Object.entries(a.chances).filter(([k,v])=>v.length>0).map(([k,v])=>({funfun:'ﾌﾝﾌﾝ',love:'限界愛',pikainu:'ピカ犬'}[k])+v.length+'回×'+Math.min(100,({funfun:30,love:50,pikainu:1}[k])+a.chanceBonus)+'%').join(' / ');$('status').textContent=game.over?'対戦終了':pending?'カード効果を処理中':game.turn===0?'あなたのターン'+(game.acted?'（行動済み）':''):'BOTのターン';$('endBtn').disabled=game.over||game.turn!==0||!!pending;$('hand').replaceChildren();a.hand.forEach((id,i)=>{let c=CARDS[id],e=document.createElement('div');e.className='card';setCardTheme(e,id);let name=document.createElement('strong');name.textContent=c[0];let desc=document.createElement('small');desc.textContent=c[1];let play=document.createElement('button');play.textContent='カードをプレイ';play.disabled=game.over||game.turn!==0||game.acted||!!pending||!valid(0,id);play.onclick=()=>playCard(0,i);let attack=document.createElement('button');attack.className='danger';attack.textContent='2枚USEDへ送って1ダメージ';attack.disabled=game.over||game.turn!==0||game.acted||!!pending||a.hand.length<2||a.edoTurns>0||a.permaEdo;attack.onclick=()=>usedAttack(0,i);e.append(name,desc,play,attack);$('hand').append(e)});if(clear&&!pending)$('choices').replaceChildren();if(!game.over&&!pending)queueAutoEnd();$('log').replaceChildren(...([...game.privateLogs[0].map(x=>'🔍 【自分だけ】'+x),...game.logs.map(x=>'• '+x)]).map(x=>{let d=document.createElement('div');d.textContent=x;return d}))}
 renderCatalog();
+$('myUsedVisual').parentElement.onclick=showUsed;
+$('botUsedVisual').parentElement.onclick=showUsed;
 
 const TUTORIAL_STEPS=[
 {title:'ようこそ！カードバトルへ',desc:'これは操作を練習できるルール体験デモです。実際のデッキや対戦結果には影響しません。相手のライフを0にするか、相手の山札を0にすれば勝ちです。',card:'🎯 目標：相手を倒そう',me:7,enemy:7,myDeck:18,enemyDeck:18,used:0,tip:'ライフはお互い7、山札は20枚から始まります。'},
