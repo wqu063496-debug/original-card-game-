@@ -91,7 +91,7 @@ body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#4030
 .streak-progress{color:#f3e2bb;font-weight:800;font-size:15px}
 #nextGauntletBtn{background:linear-gradient(120deg,#b58124,#f2d582);color:#21190b;font-weight:900}
 #shareGauntletBtn{background:#151515;color:white;border:1px solid #aab2c1}
-</style></head><body><div id="botMobileFx" class="bot-fx-layer" aria-live="polite"><div class="bot-fx-card"><div class="fx-kicker" id="botFxKicker"></div><strong id="botFxName"></strong><small id="botFxDescription"></small></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="startGame('normal')">🤖 通常BOT対戦</button><button onclick="startGauntlet()">🏆 全デッキ勝ち抜け</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button><button class="secondary" onclick="location.href='online.html'">🌐 オンライン対戦ロビー</button><button class="secondary" onclick="location.href='field.html'">⚔ オンライン新フィールド</button></div></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">① KTワンショット</option><option value="RKロック">② RKロック</option><option value="PMループ">③ PMループ</option><option value="TNコントロール">④ TNコントロール</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><p id="sharedBotMessage" class="muted">BOT・オンライン共通デッキ（同じサイト・ブラウザで利用）</p><button class="secondary" onclick="botSyncShared()">オンラインで保存したデッキを読み込む</button><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden bot-field">
+</style></head><body><div id="botMobileFx" class="bot-fx-layer" aria-live="polite"><div class="bot-fx-card"><div class="fx-kicker" id="botFxKicker"></div><strong id="botFxName"></strong><small id="botFxDescription"></small></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="startGame('normal')">🤖 通常BOT対戦</button><button onclick="startGauntlet()">🏆 全8デッキ勝ち抜け</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button><button class="secondary" onclick="location.href='online.html'">🌐 オンライン対戦ロビー</button><button class="secondary" onclick="location.href='field.html'">⚔ オンライン新フィールド</button></div></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。ﾌｪｯ!?は投入できますが通常使用できません。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">1 KTワンショット</option><option value="RKロック">2 RKロック</option><option value="PMループ">3 PMループ</option><option value="TNコントロール">4 TNコントロール</option><option value="KB連撃">5 KB連撃</option><option value="RVメタビート">6 RVメタビート</option><option value="NH妨害墓地ソ">7 NH妨害墓地ソ</option><option value="ES暴発">8 ES暴発</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><p id="sharedBotMessage" class="muted">BOT・オンライン共通デッキ（同じサイト・ブラウザで利用）</p><button class="secondary" onclick="botSyncShared()">オンラインで保存したデッキを読み込む</button><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden bot-field">
 <div class="arena-board" id="arenaBoard">
  <div class="fighter fighter-enemy" id="fighterEnemy"><div class="fighter-profile"><div class="avatar">🤖</div><strong>BOT</strong><div class="heart-meter">♥ <span id="botLifeVisual">7</span></div><small id="botHandVisual">手札 2枚</small></div><div class="battle-zones"><div class="battle-zone used-zone"><b>USED</b><strong id="botUsedVisual">0</strong><small>クリックで一覧</small></div><div class="battle-zone effect-zone"><b>継続効果</b><div id="botEffectsVisual">なし</div></div></div><div class="deck-zone"><div class="deck-back">✦</div><b>BOT DECK</b><span id="botDeckVisual">18枚</span></div></div>
  <div class="board-center"><span id="turnBadge">TURN 1</span><span id="status"></span><span class="center-emblem">⚔</span></div>
@@ -167,16 +167,90 @@ function sharedDeckWrite(names){localStorage.setItem(SHARED_DECK_KEY,JSON.string
 function sharedDeckValid(names,defs){if(!names||typeof names!=='object'||Array.isArray(names))return false;let total=0;for(const [name,n] of Object.entries(names)){const def=defs.find(x=>x.name===name);if(!def||!Number.isInteger(n)||n<0||n>def.limit||def.forbidden&&n>0)return false;total+=n;}return total===20;}
 
 const SAMPLE_DECKS={
-'KTワンショット':{'チトセニウム':3,'全知全能の神、弱そう':3,'究極拳巫女パンチ':3,'月民の隠れ家':1,'ガチナイス':3,'観測者の悪ノリ':3,'星色の推し活':3,'人を大切にできないやつは自分も大切にされない【名言】':1},
-'RKロック':{'ガチナイス':3,'人を大切にできないやつは自分も大切にされない【名言】':3,'やかましいわ':3,'まずはありがとう':3,'月民の隠れ家':2,'冷静竜声':2,'そう！高〇健！！':2,'もち蔵アタック':2},
-'PMループ':{'(･ω･三･ω･)ﾌﾝﾌﾝ':3,'限界愛':3,'なんでもござれの藍白屋':3,'ピカ犬':3,'みなさん、いつまで寝てるの！！':3,'観測者の悪ノリ':2,'そう！高〇健！！':2,'しのみーらいぶ':1},
-'TNコントロール':{'腐白蛇':3,'眠気があってちゃんと良かったなぽ':3,'みなさん、いつまで寝てるの！！':3,'しのみーらいぶ':3,'見透かされるアホネー':3,'(･ω･三･ω･)ﾌﾝﾌﾝ':2,'お転婆お嬢様！！':3}
+ "KTワンショット": {
+  "チトセニウム": 3,
+  "全知全能の神、弱そう": 3,
+  "究極拳巫女パンチ": 3,
+  "月民の隠れ家": 1,
+  "導く北極星": 3,
+  "行っちゃうの？…": 2,
+  "うどん。": 2,
+  "観測者の悪ノリ": 2,
+  "人を大切にできないやつは自分も大切にされない【名言】": 1
+ },
+ "RKロック": {
+  "ガチナイス": 3,
+  "人を大切にできないやつは自分も大切にされない【名言】": 3,
+  "やかましいわ": 3,
+  "まずはありがとう": 3,
+  "月民の隠れ家": 2,
+  "冷静竜声": 2,
+  "そう！高〇健！！": 2,
+  "もち蔵アタック": 2
+ },
+ "PMループ": {
+  "(･ω･三･ω･)ﾌﾝﾌﾝ": 3,
+  "限界愛": 3,
+  "なんでもござれの藍白屋": 3,
+  "ピカ犬": 3,
+  "みなさん、いつまで寝てるの！！": 3,
+  "観測者の悪ノリ": 2,
+  "そう！高〇健！！": 2,
+  "しのみーらいぶ": 1
+ },
+ "TNコントロール": {
+  "腐白蛇": 3,
+  "眠気があってちゃんと良かったなぽ": 3,
+  "みなさん、いつまで寝てるの！！": 3,
+  "見透かされるアホネー": 3,
+  "うんコンボ・・・・？": 2,
+  "お命頂戴します☪︎*｡꙳": 3,
+  "声殺夜奪": 3
+ },
+ "KB連撃": {
+  "怪異": 3,
+  "トマト倍々発生": 3,
+  "窓を破るﾌﾞﾝﾁｮｳ": 3,
+  "ﾌﾞﾝﾁｮｳｱﾀｯｸ": 3,
+  "月民の隠れ家": 2,
+  "人手不足の魔導書": 1,
+  "正論パンチ": 3,
+  "全知全能の神、弱そう": 2
+ },
+ "RVメタビート": {
+  "江戸姫": 3,
+  "SBFF": 3,
+  "そう！高〇健！！": 3,
+  "(･ω･三･ω･)ﾌﾝﾌﾝ": 2,
+  "もち蔵アタック": 2,
+  "正論パンチ": 3,
+  "( 'ω')ﾌｪｯ!?": 3,
+  "針治療": 1
+ },
+ "NH妨害墓地ソ": {
+  "春風と木音": 3,
+  "かすみ草の妖精": 3,
+  "1リットルってなんりっとる": 3,
+  "文化の勝利": 3,
+  "這音嘗血": 3,
+  "見透かされるアホネー": 3,
+  "オトモアタック": 2
+ },
+ "ES暴発": {
+  "正論パンチ": 3,
+  "企画破壊": 3,
+  "行っちゃうの？…": 3,
+  "ハートのチェーン": 3,
+  "腐白蛇": 3,
+  "江戸姫": 2,
+  "( 'ω')ﾌｪｯ!?": 3
+ }
 };
 const BEGINNER_DECK={'ﾌﾞﾝﾁｮｳｱﾀｯｸ':3,'観測者の悪ノリ':3,'必殺ファン●ション':1,'小森アタック':5,'まずはありがとう':3,'チトセニウム':3,'人手不足の魔導書':2};
 function sampleToCounts(name){const result=Array(CARDS.length).fill(0);for(const [card,n] of Object.entries(SAMPLE_DECKS[name])){const i=CARDS.findIndex(c=>c[0]===card);if(i<0)throw Error('未登録カード: '+card);result[i]=n}if(result.reduce((a,b)=>a+b,0)!==20)throw Error('20枚になっていません: '+name);return result}
 function loadSampleDeck(name){if(!name)return;try{counts=sampleToCounts(name);renderCatalog();botSaveShared();$('sharedBotMessage').textContent='サンプル「'+name+'」を共通デッキに設定しました'}catch(e){alert(e.message)}}
 let counts;try{counts=JSON.parse(localStorage.getItem('cardDeck')||'null')}catch(e){counts=null;console.warn('保存デッキを初期化',e)}if(!Array.isArray(counts)||counts.length>CARDS.length||counts.some(x=>!Number.isInteger(x)||x<0||x>20))counts=Array(CARDS.length).fill(0);else if(counts.length<CARDS.length)counts.push(...Array(CARDS.length-counts.length).fill(0));
-function botDeckDefs(){return CARDS.map(c=>({name:c[0],limit:c[2]==='hit'&&c[0]==='小森アタック'?20:3,forbidden:['assassin','oru','fe'].includes(c[2])}));}
+function botDeckDefs(){return CARDS.map(c=>({name:c[0],limit:c[2]==='hit'&&c[0]==='小森アタック'?20:3,forbidden:['assassin','oru'].includes(c[2])}));}
 function botNamesFromCounts(arr){return Object.fromEntries(CARDS.map((c,i)=>[c[0],arr[i]]).filter(x=>x[1]>0));}
 function botCountsFromNames(names){if(!sharedDeckValid(names,botDeckDefs()))return null;return CARDS.map(c=>names[c[0]]||0);}
 function botSyncShared(){const v=sharedDeckRead();const next=botCountsFromNames(v?.cards);if(next){counts=next;localStorage.setItem('cardDeck',JSON.stringify(counts));renderCatalog();return true;}return false;}
