@@ -175,7 +175,7 @@ const SAMPLE_DECKS={
 const BEGINNER_DECK={'ﾌﾞﾝﾁｮｳｱﾀｯｸ':3,'観測者の悪ノリ':3,'必殺ファン●ション':1,'小森アタック':5,'まずはありがとう':3,'チトセニウム':3,'人手不足の魔導書':2};
 function sampleToCounts(name){const result=Array(CARDS.length).fill(0);for(const [card,n] of Object.entries(SAMPLE_DECKS[name])){const i=CARDS.findIndex(c=>c[0]===card);if(i<0)throw Error('未登録カード: '+card);result[i]=n}if(result.reduce((a,b)=>a+b,0)!==20)throw Error('20枚になっていません: '+name);return result}
 function loadSampleDeck(name){if(!name)return;try{counts=sampleToCounts(name);renderCatalog();botSaveShared();$('sharedBotMessage').textContent='サンプル「'+name+'」を共通デッキに設定しました'}catch(e){alert(e.message)}}
-let counts=JSON.parse(localStorage.getItem('cardDeck')||'null');if(!Array.isArray(counts)||counts.length>CARDS.length||counts.some(x=>!Number.isInteger(x)||x<0||x>20))counts=Array(CARDS.length).fill(0);else if(counts.length<CARDS.length)counts.push(...Array(CARDS.length-counts.length).fill(0));
+let counts;try{counts=JSON.parse(localStorage.getItem('cardDeck')||'null')}catch(e){counts=null;console.warn('保存デッキを初期化',e)}if(!Array.isArray(counts)||counts.length>CARDS.length||counts.some(x=>!Number.isInteger(x)||x<0||x>20))counts=Array(CARDS.length).fill(0);else if(counts.length<CARDS.length)counts.push(...Array(CARDS.length-counts.length).fill(0));
 function botDeckDefs(){return CARDS.map(c=>({name:c[0],limit:c[2]==='hit'&&c[0]==='小森アタック'?20:3,forbidden:['assassin','oru','fe'].includes(c[2])}));}
 function botNamesFromCounts(arr){return Object.fromEntries(CARDS.map((c,i)=>[c[0],arr[i]]).filter(x=>x[1]>0));}
 function botCountsFromNames(names){if(!sharedDeckValid(names,botDeckDefs()))return null;return CARDS.map(c=>names[c[0]]||0);}
@@ -183,7 +183,6 @@ function botSyncShared(){const v=sharedDeckRead();const next=botCountsFromNames(
 function botSaveShared(){if(sum()!==20)return false;const names=botNamesFromCounts(counts);if(!sharedDeckValid(names,botDeckDefs())){alert('このデッキには登録できないカードがあります');return false;}sharedDeckWrite(names);localStorage.setItem('cardDeck',JSON.stringify(counts));return true;}
 function botChooseSample(name){if(!name)return;try{counts=sampleToCounts(name);renderCatalog();botSaveShared();document.getElementById('sharedBotMessage').textContent='「'+name+'」を両モードの共通デッキに設定しました';}catch(e){alert(e.message)}}
 
-botSyncShared();
 let game=null,pending=null,lock=false;
 // 登録済みサンプルデッキ4種を登録順に撃破するモード。プレイヤーデッキは固定。
 let gauntlet=null;
@@ -624,6 +623,7 @@ function botAct(){
 }
 function showUsed(){if(!game)return;alert(game.players.map((p,i)=>(i?'BOT':'あなた')+' USED ('+p.used.length+'枚)\n'+(p.used.map(id=>effectiveCardName(id)).join('\n')||'なし')).join('\n\n'))}
 function render(clear=true){if(!game)return;updateFieldVisual();let a=game.players[0],b=game.players[1];$('enemyStats').textContent='♥ '+b.life+' / 7　🂠 山札 '+b.deck.length+'　✋ 手札 '+b.hand.length+'　USED '+b.used.length+(b.shieldNext?'　🛡 防御待機':'');$('myStats').textContent='♥ '+a.life+' / 7　🂠 山札 '+a.deck.length+'　USED '+a.used.length+(a.shieldNext?'　🛡 防御待機':'')+(game.damageCap?'　⚔ ダメージ上限1':'')+'　🎲 付与 '+Object.entries(a.chances).filter(([k,v])=>v.length>0).map(([k,v])=>({funfun:'ﾌﾝﾌﾝ',love:'限界愛',pikainu:'ピカ犬'}[k])+v.length+'回×'+Math.min(100,({funfun:30,love:50,pikainu:1}[k])+a.chanceBonus)+'%').join(' / ');$('status').textContent=game.over?'対戦終了':pending?'カード効果を処理中':game.turn===0?'あなたのターン'+(game.acted?'（行動済み）':''):'BOTのターン';$('endBtn').disabled=game.over||game.turn!==0||!!pending;$('hand').replaceChildren();a.hand.forEach((id,i)=>{let c=CARDS[id],e=document.createElement('div');e.className='card';setCardTheme(e,id);let name=document.createElement('strong');name.textContent=effectiveCardName(id);let desc=document.createElement('small');desc.textContent=c[1];let play=document.createElement('button');play.textContent='カードをプレイ';play.disabled=game.over||game.turn!==0||game.acted||!!pending||!valid(0,id);play.onclick=()=>playCard(0,i);let attack=document.createElement('button');attack.className='danger';attack.textContent='2枚USEDへ送って1ダメージ';attack.disabled=game.over||game.turn!==0||game.acted||!!pending||a.hand.length<2||a.edoTurns>0||a.permaEdo;attack.onclick=()=>usedAttack(0,i);e.append(name,desc,play,attack);$('hand').append(e)});if(clear&&!pending)$('choices').replaceChildren();if(!game.over&&!pending)queueAutoEnd();$('log').replaceChildren(...([...game.privateLogs[0].map(x=>'🔍 【自分だけ】'+x),...game.logs.map(x=>'• '+x)]).map(x=>{let d=document.createElement('div');d.textContent=x;return d}))}
+try{botSyncShared();}catch(e){console.warn("共通デッキの読込をスキップ",e)}
 renderCatalog();
 $('myUsedVisual').parentElement.onclick=showUsed;
 $('botUsedVisual').parentElement.onclick=showUsed;
