@@ -312,13 +312,15 @@ function showBuilder(){if(game&&!game.over&&!confirm('対戦を終了してデ�
 function makePlayer(deck){return{deck:shuffle(deck),hand:[],used:[],life:7,skip:0,protect:0,shieldNext:0,firstDealt:false,chances:{funfun:[],love:[],pikainu:[]},chanceBonus:0,extraTurns:0,permaBlock:false,blockTurns:0,edoTurns:0,permaEdo:false,chain:false,fairy:0,kaii:0,tomato:0,star:0,napTurns:[],handUsedCount:0,specialOnce:{fe:{draw:false,damage:false},oru:{draw:false,damage:false}}}}
 function initialDraw(p){p.hand.push(p.deck.pop())}
 function startGame(mode='normal'){if(mode!=='gauntlet')gauntlet=null;botFxQueue=[];botFxBusy=false;clearTimeout(botFxTimer);document.getElementById('botMobileFx')?.classList.remove('visible');if(mode==='gauntlet'&&!gauntlet)return;if(mode!=='gauntlet'&&sum()!==20){alert('先にデッキを20枚にしてください');return}if(mode!=='gauntlet'&&!botSaveShared())return;let playerCounts=mode==='gauntlet'?gauntlet.playerCounts:counts;let deck=playerCounts.flatMap((n,i)=>Array(n).fill(i));let botSample=mode==='gauntlet'?gauntlet.names[gauntlet.index]:Object.keys(SAMPLE_DECKS)[Math.floor(Math.random()*Object.keys(SAMPLE_DECKS).length)];if(mode==='beginner')botSample='初心者デッキ';let botCounts=mode==='beginner'?(()=>{const c=Array(CARDS.length).fill(0);for(const [name,n] of Object.entries(BEGINNER_DECK)){const i=CARDS.findIndex(card=>card[0]===name);if(i<0)throw Error('カードがありません: '+name);c[i]=n}if(c.reduce((a,b)=>a+b,0)!==20)throw Error('初心者デッキが20枚ではありません');return c})():sampleToCounts(botSample);let botDeck=botCounts.flatMap((n,i)=>Array(n).fill(i));game={winner:null,players:[makePlayer(deck),makePlayer(botDeck)],turn:Math.random()<.5?0:1,round:0,acted:false,over:false,damageCap:false,logs:[],privateLogs:[[],[]],mode};pending=null;lock=false;for(const p of game.players){initialDraw(p);initialDraw(p)}$('builder').classList.add('hidden');$('game').classList.remove('hidden');log((mode==='gauntlet'?'🏆 勝ち抜け '+(gauntlet.index+1)+' / '+gauntlet.names.length+'戦目　':'')+'BOTの使用デッキ：'+botSample);log('対戦開始！ '+(game.turn===0?'あなたが先攻':'BOTが先攻'));beginTurn(true)}
-let assassinFxTimer;function showAssassinFx(label){const el=document.getElementById('assassinFx');if(!el)return;document.getElementById('assassinFxText').textContent=label||'刺客の襲撃！ −1 HP';el.classList.remove('active');void el.offsetWidth;el.classList.add('active');clearTimeout(assassinFxTimer);assassinFxTimer=setTimeout(()=>el.classList.remove('active'),1700)}
+let assassinFxTimer;function showAssassinFx(label){if(game?.over)return;const el=document.getElementById('assassinFx');if(!el)return;document.getElementById('assassinFxText').textContent=label||'刺客の襲撃！ −1 HP';el.classList.remove('active');void el.offsetWidth;el.classList.add('active');clearTimeout(assassinFxTimer);assassinFxTimer=setTimeout(()=>el.classList.remove('active'),1700)}
 let botFxQueue=[],botFxBusy=false,botFxTimer=null;
 function enqueueBotFx(kind,title,detail,kicker,cardId=null,who=null){
+ if(game?.over)return;
  botFxQueue.push({kind,title,detail,kicker,who,cardId:cardId??(kind==='card'?CARDS.findIndex(c=>c[0]===title):-1)});
  if(!botFxBusy)nextBotFx();
 }
 function nextBotFx(){
+ if(game?.over){botFxQueue=[];botFxBusy=false;return}
  if(!botFxQueue.length){botFxBusy=false;return}
  botFxBusy=true;
  const fx=botFxQueue.shift(),el=document.getElementById('botMobileFx');
@@ -337,13 +339,25 @@ function nextBotFx(){
  document.getElementById('botFxName').textContent=fx.title;
  document.getElementById('botFxDescription').textContent=fx.detail||'';
  void el.offsetWidth;el.classList.add('visible');
- clearTimeout(botFxTimer);botFxTimer=setTimeout(()=>{el.classList.remove('visible');setTimeout(nextBotFx,90)},duration);
+ clearTimeout(botFxTimer);botFxTimer=setTimeout(()=>{el.classList.remove('visible');if(!game?.over)setTimeout(nextBotFx,90)},duration);
 }
 function log(s){game.logs.unshift(s);game.logs=game.logs.slice(0,30)}
 function privateLog(who,s){game.privateLogs[who].unshift(s);game.privateLogs[who]=game.privateLogs[who].slice(0,30)}
+function stopBattleAnimations(){
+ botFxQueue.length=0;botFxBusy=false;clearTimeout(botFxTimer);clearTimeout(hitFxTimeout);clearTimeout(assassinFxTimer);clearTimeout(botTurnAnnouncementTimer);
+ document.getElementById('botMobileFx')?.classList.remove('visible');
+ document.getElementById('hitFX')?.classList.remove('show');
+ document.getElementById('assassinFx')?.classList.remove('active');
+ document.getElementById('botTurnAnnouncement')?.classList.remove('show');
+ document.getElementById('fighterSelf')?.classList.remove('hit-shake');
+ document.getElementById('fighterEnemy')?.classList.remove('hit-shake');
+ document.getElementById('arenaBoard')?.classList.remove('received-flash','dealt-flash');
+ document.getElementById('detectiveCatFx')?.remove();
+ document.querySelectorAll('.bot-fx-layer.visible,.detective-cat-fx').forEach(el=>{el.classList.remove('visible');if(el.classList.contains('detective-cat-fx'))el.remove()});
+}
 function finish(winner,reason){
  if(game.over)return;
- game.over=true;game.winner=winner;pending=null;lock=false;
+ game.over=true;game.winner=winner;pending=null;lock=false;stopBattleAnimations();
  if(game.mode==='gauntlet'&&gauntlet){
   if(winner===0){gauntlet.wins++;gauntlet.index++;gauntlet.complete=gauntlet.index>=gauntlet.names.length;}
   else gauntlet.complete=false;
@@ -377,7 +391,7 @@ function replayGame(){const mode=game?.mode||'normal';closeResult();if(mode==='g
 function resultToBuilder(){closeResult();gauntlet=null;showBuilder()}
 function check(){for(let i=0;i<2;i++){if(game.players[i].life<=0){finish(1-i,'ライフが0になりました');return true}if(game.players[i].deck.length===0){finish(1-i,'山札が0になりました');return true}}return false}
 let hitFxTimeout;
-function showDamageFX(target,amount,source){
+function showDamageFX(target,amount,source){if(game?.over)return;
  const fx=$('hitFX'),arena=$('arenaBoard'),fighter=$(target===0?'fighterSelf':'fighterEnemy');
  if(!fx||!arena||!fighter)return;
  const received=target===0;
@@ -489,7 +503,7 @@ function showForcedHandExit(who,id,destination){
  log((who===0?'あなた':'BOT')+'の手札「'+name+'」が相手の効果で'+destination+'へ移動');
 }
 function moveHandUsed(who,i,byOpponent=false){let p=game.players[who],id=p.hand.splice(i,1)[0];if(id===undefined)return;putUsed(who,id);if(byOpponent)showForcedHandExit(who,id,p.used.includes(id)?'USED':'手札（戻る）');afterHandToUsed(who,id,byOpponent);if(id===24&&game.turn!==who&&!game.over){draw(who,2)}}
-function specialFx(kind,choice,who){
+function specialFx(kind,choice,who){if(game?.over)return;
  const old=document.getElementById('detectiveCatFx');if(old)old.remove();
  const el=document.createElement('div');el.id='detectiveCatFx';
  el.className='detective-cat-fx '+(kind==='fe'?'detective':'blackcat');
@@ -520,7 +534,7 @@ function specialActivate(who,kind,choice){
 function draw(who,n,fromEffect=!!(game&&game.acted)){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='fe'&&fromEffect){specialChoice(who,'fe')}if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii){log('🗡️ 刺客の襲撃！ '+(who===0?'あなた':'BOT')+'が刺されて1ダメージ！');showAssassinFx((who===0?'あなた':'BOT')+'が刺客に刺された！ −1 HP');damage(who,1,who);}check();if(pending&&pending.type==='specialChoice')break}}
 
 let botTurnAnnouncementTimer=null;
-function announceBotTurn(who,round){
+function announceBotTurn(who,round){if(game?.over)return;
  const el=$('botTurnAnnouncement');
  if(!el)return;
  el.classList.toggle('enemy',who===1);
