@@ -91,6 +91,32 @@ body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#4030
 .streak-progress{color:#f3e2bb;font-weight:800;font-size:15px}
 #nextGauntletBtn{background:linear-gradient(120deg,#b58124,#f2d582);color:#21190b;font-weight:900}
 #shareGauntletBtn{background:#151515;color:white;border:1px solid #aab2c1}
+</style><style>
+.detective-cat-fx{position:fixed;inset:0;z-index:999999;display:grid;place-items:center;background:rgba(3,8,22,.83);pointer-events:none;animation:dcFade 2.2s ease both}.dc-scene{position:relative;text-align:center;width:min(88vw,460px);padding:35px 16px 42px;border:2px solid #b4b9db;border-radius:22px;background:radial-gradient(circle at 50% 25%,#263d6b,#0c1225 70%);box-shadow:0 0 60px #5368c8aa;overflow:hidden}.blackcat .dc-scene{background:radial-gradient(circle at 50% 25%,#4a295e,#0a0917 75%);border-color:#c19bd8}.dc-moon{position:absolute;width:125px;height:125px;left:calc(50% - 62px);top:13px;background:#d8e8f8;border-radius:50%;filter:blur(2px);opacity:.6;animation:dcMoon 2s ease-out}.blackcat .dc-moon{background:#d1a5e9}.dc-character{position:relative;font-size:108px;line-height:1.25;filter:drop-shadow(0 8px 15px #000);animation:dcAppear .7s cubic-bezier(.2,1.5,.3,1) both}.dc-title{position:relative;font-size:clamp(22px,6vw,32px);font-weight:900;color:white;text-shadow:0 2px 12px #000}.dc-effect{position:relative;margin-top:14px;font-size:21px;font-weight:800;color:#ffe69d;animation:dcAppear .5s .35s both}.dc-spark{color:#e7d9ff;font-size:26px;letter-spacing:15px;animation:dcShimmer .7s infinite alternate}@keyframes dcFade{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}@keyframes dcAppear{from{opacity:0;transform:translateY(35px) scale(.5)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes dcMoon{from{transform:scale(.2)}to{transform:scale(1.4)}}@keyframes dcShimmer{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:translateY(-8px)}}
+
+/* Step64: noir detective cut-in */
+.detective-cat-fx.detective{background:radial-gradient(ellipse at 50% 45%,#12243a 0%,#04070f 65%,#010206 100%);animation:dcFade 3.1s ease both}
+.detective .dc-scene{width:min(94vw,600px);min-height:330px;padding:30px 18px 30px;border:1px solid #bfa77a;border-radius:5px;background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,#ffffff05 4px),linear-gradient(135deg,#111c2d,#05080f 75%);box-shadow:0 0 0 3px #111827,0 0 0 4px #9c8355,0 24px 90px #000;isolation:isolate}
+.detective .dc-scene:before{content:'';position:absolute;inset:-70%;background:conic-gradient(from 0deg at 50% 50%,transparent 0 32%,#f9df9a18 37%,#f9df9a40 42%,transparent 48% 100%);animation:dcSearchlight 3.1s linear both;z-index:-1}
+.detective .dc-scene:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,#0005 6px);opacity:.28;pointer-events:none}
+.detective .dc-moon{width:220px;height:220px;left:calc(50% - 110px);top:5px;background:radial-gradient(circle,#fce9b0 0%,#dfc17d 38%,#d5ad6333 65%,transparent 70%);filter:blur(1px);opacity:.65;animation:dcMoon 2.4s ease-out both}
+.detective .dc-character{font-size:0;width:145px;height:170px;margin:0 auto 3px;filter:drop-shadow(0 0 20px #000);animation:dcSilhouette .7s .2s both}
+.detective .dc-character:before{content:'';position:absolute;top:23px;left:44px;width:60px;height:66px;background:#02040a;border-radius:48% 48% 44% 44%;box-shadow:0 65px 0 27px #02040a}
+.detective .dc-character:after{content:'';position:absolute;top:13px;left:20px;width:107px;height:16px;background:#02040a;border-radius:50%;box-shadow:0 -11px 0 -2px #02040a;transform:rotate(-7deg)}
+.detective .dc-glass{position:absolute;top:73px;left:calc(50% + 8px);width:54px;height:54px;border:5px solid #e3c37c;border-radius:50%;box-shadow:inset 0 0 18px #d8c58c66,0 0 14px #f4d79288;transform:rotate(-25deg);animation:dcGlass 1.2s .5s both;z-index:2}
+.detective .dc-glass:after{content:'';position:absolute;width:43px;height:8px;background:linear-gradient(90deg,#d2ac63,#5e4228);top:46px;left:36px;transform:rotate(50deg);border-radius:8px}
+.detective .dc-case{position:relative;z-index:2;color:#e2c68b;font-size:11px;font-weight:900;letter-spacing:.35em;margin:4px 0 10px;animation:dcType .8s steps(14,end) both;white-space:nowrap;overflow:hidden}
+.detective .dc-title{color:#f7e7c0;letter-spacing:.09em;text-shadow:0 2px 0 #40331e,0 0 22px #e0b96566;animation:dcTitle .6s .55s both}
+.detective .dc-effect{display:inline-block;margin-top:16px;padding:8px 18px;border-top:1px solid #d1ac68;border-bottom:1px solid #d1ac68;background:#e1c17a16;color:#ffebad;animation:dcTitle .5s 1s both}
+.detective .dc-spark{margin-top:12px;color:#bba575;letter-spacing:.35em;font-size:13px}
+.detective .dc-stamp{position:absolute;right:15px;top:17px;border:2px solid #f1c47c;color:#f1c47c;padding:4px 7px;font-size:12px;font-weight:900;letter-spacing:.12em;transform:rotate(12deg);opacity:0;animation:dcStamp .4s 1.4s both}
+@keyframes dcSearchlight{from{transform:rotate(-110deg)}to{transform:rotate(160deg)}}
+@keyframes dcSilhouette{from{opacity:0;transform:translateX(-80px) scale(.8)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes dcGlass{from{opacity:0;transform:translate(50px,45px) rotate(50deg) scale(1.8)}to{opacity:1;transform:translate(0,0) rotate(-25deg) scale(1)}}
+@keyframes dcType{from{width:0}to{width:100%}}
+@keyframes dcTitle{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes dcStamp{from{opacity:0;transform:rotate(12deg) scale(2)}to{opacity:.9;transform:rotate(12deg) scale(1)}}
+@media(prefers-reduced-motion:reduce){.detective-cat-fx.detective,.detective .dc-scene:before,.detective .dc-character,.detective .dc-glass,.detective .dc-case,.detective .dc-title,.detective .dc-effect,.detective .dc-stamp{animation:none!important;opacity:1!important}}
 </style></head><body><div id="botMobileFx" class="bot-fx-layer" aria-live="polite"><div class="bot-fx-card"><div class="fx-kicker" id="botFxKicker"></div><strong id="botFxName"></strong><small id="botFxDescription"></small></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="startGame('normal')">🤖 通常BOT対戦</button><button onclick="startGauntlet()">🏆 全8デッキ勝ち抜け</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button><button class="secondary" onclick="location.href='online.html'">🌐 オンライン対戦ロビー</button><button class="secondary" onclick="location.href='field.html'">⚔ オンライン新フィールド</button></div></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。ﾌｪｯ!?は投入できますが通常使用できません。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">1 KTワンショット</option><option value="RKロック">2 RKロック</option><option value="PMループ">3 PMループ</option><option value="TNコントロール">4 TNコントロール</option><option value="KB連撃">5 KB連撃</option><option value="RVメタビート">6 RVメタビート</option><option value="NH妨害墓地ソ">7 NH妨害墓地ソ</option><option value="ES暴発">8 ES暴発</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><p id="sharedBotMessage" class="muted">BOT・オンライン共通デッキ（同じサイト・ブラウザで利用）</p><button class="secondary" onclick="botSyncShared()">オンラインで保存したデッキを読み込む</button><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden bot-field">
 <div class="arena-board" id="arenaBoard">
  <div class="fighter fighter-enemy" id="fighterEnemy"><div class="fighter-profile"><div class="avatar">🤖</div><strong>BOT</strong><div class="heart-meter">♥ <span id="botLifeVisual">7</span></div><small id="botHandVisual">手札 2枚</small></div><div class="battle-zones"><div class="battle-zone used-zone"><b>USED</b><strong id="botUsedVisual">0</strong><small>クリックで一覧</small></div><div class="battle-zone effect-zone"><b>継続効果</b><div id="botEffectsVisual">なし</div></div></div><div class="deck-zone"><div class="deck-back">✦</div><b>BOT DECK</b><span id="botDeckVisual">18枚</span></div></div>
@@ -123,7 +149,7 @@ const CARD_TEXT_COLORS=["#172035", "#fff", "#fff", "#172035", "#fff", "#172035",
 function setCardTheme(element,index){if(index<0||index>=CARD_THEMES.length)return;element.classList.add("card-themed");element.style.setProperty("--card-bg",CARD_THEMES[index]);element.style.setProperty("--card-fg",CARD_TEXT_COLORS[index]);}
 
 const CARDS=[
-['ﾌﾞﾝﾁｮｳｱﾀｯｸ','1ダメージ。手札の同名カードを追加でUSEDにするとさらに1ダメージ','buncho'],['観測者の悪ノリ','山札から1枚引く','draw'],['うーんひらめいた！','山札から1枚引く','draw'],['オトモアタック','1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）','otomo'],['そう！高〇健！！','次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続','block'],['みなさん、いつまで寝てるの！！','自分のUSEDから最大3枚を山札に戻してシャッフル','recycle'],['必殺ファン●ション','手札がこのカードだけなら3ダメージ','special3'],['深夜の大人の勉強会','山札の上から3枚を確認し、好きな順に並べ替える','peek'],['小森アタック','相手に1ダメージ（デッキに4枚以上入れられる）','hit'],['星色の推し活','山札から1枚引く','draw'],['もち蔵アタック','1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない','mochi'],['人手不足の魔導書','手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ','search'],['お転婆お嬢様！！','相手の山札上2枚をUSEDへ','mill'],['究極拳巫女パンチ','使用前の手札が7枚以上なら5ダメージ','special5'],['ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ','山札から1枚引く','draw'],['冷静竜声','別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ','select'],['まずはありがとう','2枚引いてから手札2枚をUSEDへ','drawdiscard'],['音バケ隊！！','USEDが5枚以上のとき使用可能。自分のライフを1回復','heal'],['しのみーらいぶ','ライフ1回復。その後、自分の山札の一番上をUSEDへ','shino'],['チトセニウム','使用前の手札が4枚以上なら使用可能。山札から2枚引く','chitose'],['全知全能の神、弱そう','ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ','god'],['見透かされるアホネー','相手の手札のカード名を3択で当てる','guess'],['やかましいわ','相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化','counter'],['月民の隠れ家','自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ','hideout'],['人を大切にできないやつは自分も大切にされない【名言】','1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く','quote'],['ガチナイス','相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る','nice'],
+['ﾌﾞﾝﾁｮｳｱﾀｯｸ','1ダメージ。手札の名前に「ﾌﾞﾝﾁｮｳ」を含むカードを1枚USEDにするとさらに1ダメージ','buncho'],['観測者の悪ノリ','山札から1枚引く','draw'],['うーんひらめいた！','山札から1枚引く','draw'],['オトモアタック','1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）','otomo'],['そう！高〇健！！','次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続','block'],['みなさん、いつまで寝てるの！！','自分のUSEDから最大3枚を山札に戻してシャッフル','recycle'],['必殺ファン●ション','手札がこのカードだけなら3ダメージ','special3'],['深夜の大人の勉強会','山札の上から3枚を確認し、好きな順に並べ替える','peek'],['小森アタック','相手に1ダメージ（デッキに4枚以上入れられる）','hit'],['星色の推し活','山札から1枚引く','draw'],['もち蔵アタック','1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない','mochi'],['人手不足の魔導書','手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ','search'],['お転婆お嬢様！！','相手の山札上2枚をUSEDへ','mill'],['究極拳巫女パンチ','使用前の手札が7枚以上なら5ダメージ','special5'],['ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ','山札から1枚引く','draw'],['冷静竜声','別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ','select'],['まずはありがとう','2枚引いてから手札2枚をUSEDへ','drawdiscard'],['音バケ隊！！','USEDが5枚以上のとき使用可能。自分のライフを1回復','heal'],['しのみーらいぶ','ライフ1回復。その後、自分の山札の一番上をUSEDへ','shino'],['チトセニウム','使用前の手札が4枚以上なら使用可能。山札から2枚引く','chitose'],['全知全能の神、弱そう','ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ','god'],['見透かされるアホネー','相手の手札のカード名を3択で当てる','guess'],['やかましいわ','相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化','counter'],['月民の隠れ家','自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ','hideout'],['人を大切にできないやつは自分も大切にされない【名言】','1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く','quote'],['ガチナイス','相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る','nice'],
 ['腐白蛇','山札の一番上をUSEDへ。その後、このカードを除く自分のUSEDが3枚以下なら次の相手ターン中はダメージを受けない','snake'],
 ['眠気があってちゃんと良かったなぽ','自分のUSEDからランダムに最大2枚を山札に戻してシャッフル。山札の枚数差が10枚以上なら双方ライフ7に回復し、以後ゲーム終了まで1回のダメージは最大1','napo'],
 ['(･ω･三･ω･)ﾌﾝﾌﾝ','このゲーム中、以後自分がカードを使うたび30%で相手に1ダメージ','funfun'],
@@ -137,7 +163,7 @@ const CARDS=[
 ['トマト倍々発生','次に使う自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う','tomato'],
 ['窓を破るﾌﾞﾝﾁｮｳ','自分の山札から3枚USEDへ。うち「ﾌﾞﾝﾁｮｳ」を名前に含む枚数分ダメージ','window'],
 ['文化の勝利','相手の手札ランダム1枚を5秒間公開し、選んだ方法で相手の手札をUSEDへ','culture'],
-['這音嘗血（はいおんしょうけつ）','相手の手札からUSEDへ3枚移動するごとに選択効果','blood'],
+['這音嘗血','相手の手札からUSEDへ3枚移動するごとに選択効果','blood'],
 ['うどん。','先攻の最初のターンのみ使用可能。2枚引いて追加ターン','udon'],
 ['針治療','両者の継続効果・状態を解除','needle'],
 ['江戸姫','相手の次のターン終了まで手札をUSEDへ送る能力と2枚攻撃を封じる。SBFFが自分USEDに3枚なら永続','edo'],
@@ -153,7 +179,7 @@ const CARDS=[
 ['うんコンボ・・・・？','相手USED内の刺客と同数の刺客を加え、相手USED全部を山札に戻してシャッフル','combo'],
 ['企画破壊','相手カードの発動時、自分に2ダメージと引き換えに無効化','cancel'],
 ['行っちゃうの？…','自分のライフを任意の数減らし、その2倍ドロー','going'],
-['オル虐','通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時に1ダメージ・1ドローを各1回','oru']
+['オル虐','通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時にドローか1ダメージを選択（それぞれゲーム中1回）','oru']
 ];
 // 怪異はカードの内部ID・効果を変えず、名前だけを一時的に変更する。
 function kaiiActive(){return !!game && game.players.some(p=>p.kaii>0)}
@@ -283,7 +309,7 @@ function saveDeck(){if(sum()!==20){alert('デッキを20枚にしてください
 function autoDeck(){counts=Array(CARDS.length).fill(0);let ids=shuffle(Array.from({length:CARDS.length},(_,i)=>i).filter(i=>CARDS[i][2]!=='assassin'));for(let n=0;n<20;n++)counts[ids[n%ids.length]]++;renderCatalog()}
 function clearDeck(){counts.fill(0);renderCatalog()}
 function showBuilder(){if(game&&!game.over&&!confirm('対戦を終了してデッキ編集に戻りますか？'))return;game=null;pending=null;lock=false;$('builder').classList.remove('hidden');$('game').classList.add('hidden');botSyncShared();renderCatalog()}
-function makePlayer(deck){return{deck:shuffle(deck),hand:[],used:[],life:7,skip:0,protect:0,shieldNext:0,firstDealt:false,chances:{funfun:[],love:[],pikainu:[]},chanceBonus:0,extraTurns:0,permaBlock:false,blockTurns:0,edoTurns:0,permaEdo:false,chain:false,fairy:0,kaii:0,tomato:0,star:0,napTurns:[],handUsedCount:0}}
+function makePlayer(deck){return{deck:shuffle(deck),hand:[],used:[],life:7,skip:0,protect:0,shieldNext:0,firstDealt:false,chances:{funfun:[],love:[],pikainu:[]},chanceBonus:0,extraTurns:0,permaBlock:false,blockTurns:0,edoTurns:0,permaEdo:false,chain:false,fairy:0,kaii:0,tomato:0,star:0,napTurns:[],handUsedCount:0,specialOnce:{fe:{draw:false,damage:false},oru:{draw:false,damage:false}}}}
 function initialDraw(p){p.hand.push(p.deck.pop())}
 function startGame(mode='normal'){if(mode!=='gauntlet')gauntlet=null;botFxQueue=[];botFxBusy=false;clearTimeout(botFxTimer);document.getElementById('botMobileFx')?.classList.remove('visible');if(mode==='gauntlet'&&!gauntlet)return;if(mode!=='gauntlet'&&sum()!==20){alert('先にデッキを20枚にしてください');return}if(mode!=='gauntlet'&&!botSaveShared())return;let playerCounts=mode==='gauntlet'?gauntlet.playerCounts:counts;let deck=playerCounts.flatMap((n,i)=>Array(n).fill(i));let botSample=mode==='gauntlet'?gauntlet.names[gauntlet.index]:Object.keys(SAMPLE_DECKS)[Math.floor(Math.random()*Object.keys(SAMPLE_DECKS).length)];if(mode==='beginner')botSample='初心者デッキ';let botCounts=mode==='beginner'?(()=>{const c=Array(CARDS.length).fill(0);for(const [name,n] of Object.entries(BEGINNER_DECK)){const i=CARDS.findIndex(card=>card[0]===name);if(i<0)throw Error('カードがありません: '+name);c[i]=n}if(c.reduce((a,b)=>a+b,0)!==20)throw Error('初心者デッキが20枚ではありません');return c})():sampleToCounts(botSample);let botDeck=botCounts.flatMap((n,i)=>Array(n).fill(i));game={winner:null,players:[makePlayer(deck),makePlayer(botDeck)],turn:Math.random()<.5?0:1,round:0,acted:false,over:false,damageCap:false,logs:[],privateLogs:[[],[]],mode};pending=null;lock=false;for(const p of game.players){initialDraw(p);initialDraw(p)}$('builder').classList.add('hidden');$('game').classList.remove('hidden');log((mode==='gauntlet'?'🏆 勝ち抜け '+(gauntlet.index+1)+' / '+gauntlet.names.length+'戦目　':'')+'BOTの使用デッキ：'+botSample);log('対戦開始！ '+(game.turn===0?'あなたが先攻':'BOTが先攻'));beginTurn(true)}
 let assassinFxTimer;function showAssassinFx(label){const el=document.getElementById('assassinFx');if(!el)return;document.getElementById('assassinFxText').textContent=label||'刺客の襲撃！ −1 HP';el.classList.remove('active');void el.offsetWidth;el.classList.add('active');clearTimeout(assassinFxTimer);assassinFxTimer=setTimeout(()=>el.classList.remove('active'),1700)}
@@ -423,7 +449,7 @@ function damage(target,n,source=1-target){
 function afterHandToUsed(who,id,byOpponent=false){
  if(!game||game.over)return;
  const opponent=1-who, watcher=game.players[opponent];
- if(byOpponent && id===55){log('オル虐：相手の効果で移動したため1ダメージと1ドロー');damage(opponent,1,who);if(!game.over)draw(who,1,true);}
+ if(byOpponent && CARDS[id][2]==='oru'){specialChoice(who,'oru');}
  if(watcher.bloodActive && !game.bloodRewardResolving){
   watcher.bloodCount=(watcher.bloodCount||0)+1;
   if(watcher.bloodCount%3===0){
@@ -463,7 +489,36 @@ function showForcedHandExit(who,id,destination){
  log((who===0?'あなた':'BOT')+'の手札「'+name+'」が相手の効果で'+destination+'へ移動');
 }
 function moveHandUsed(who,i,byOpponent=false){let p=game.players[who],id=p.hand.splice(i,1)[0];if(id===undefined)return;putUsed(who,id);if(byOpponent)showForcedHandExit(who,id,p.used.includes(id)?'USED':'手札（戻る）');afterHandToUsed(who,id,byOpponent);if(id===24&&game.turn!==who&&!game.over){draw(who,2)}}
-function draw(who,n,fromEffect=!!(game&&game.acted)){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='fe'&&fromEffect){log('ﾌｪｯ!?：このカードが効果で手札に入ったため、1ダメージと追加1ドロー（この移動につき各1回）');damage(1-who,1,who);if(!game.over)draw(who,1,true)}if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii){log('🗡️ 刺客の襲撃！ '+(who===0?'あなた':'BOT')+'が刺されて1ダメージ！');showAssassinFx((who===0?'あなた':'BOT')+'が刺客に刺された！ −1 HP');damage(who,1,who);}check()}}
+function specialFx(kind,choice,who){
+ const old=document.getElementById('detectiveCatFx');if(old)old.remove();
+ const el=document.createElement('div');el.id='detectiveCatFx';
+ el.className='detective-cat-fx '+(kind==='fe'?'detective':'blackcat');
+ const title=kind==='fe'?'🔎 名探偵の推理':'🐈‍⬛ 黒猫の怪しい気配';
+ el.innerHTML='<div class="dc-scene"><div class="dc-moon"></div><div class="dc-character">'+(kind==='fe'?'':'🐈‍⬛')+'</div>'+(kind==='fe'?'<div class="dc-glass"></div><div class="dc-case">CASE FILE / THE FINAL CLUE</div><div class="dc-stamp">解決</div>':'')+'<div class="dc-title">'+(kind==='fe'?'効果発動':title)+'</div><div class="dc-effect">'+(choice==='draw'?'✦ 1枚ドロー ✦':'⚡ 相手に1ダメージ ⚡')+'</div><div class="dc-spark">✦ ✧ ✦ ✧ ✦</div></div>';
+ document.body.appendChild(el);setTimeout(()=>el.remove(),kind==='fe'?3100:2200);
+}
+function specialChoice(who,kind){
+ if(!game||game.over)return;
+ const used=game.players[who].specialOnce[kind];
+ const choices=[];
+ if(!used.draw)choices.push({label:'1枚ドロー（ゲーム中1回）',fn:()=>specialActivate(who,kind,'draw')});
+ if(!used.damage)choices.push({label:'相手に1ダメージ（ゲーム中1回）',fn:()=>specialActivate(who,kind,'damage')});
+ if(!choices.length){log((kind==='fe'?'ﾌｪｯ!?':'オル虐')+'：ドローとダメージは使用済み');return}
+ if(who===0){pending={type:'specialChoice',who,kind};showOptions((kind==='fe'?'( \'ω\')ﾌｪｯ!?':'オル虐')+'：発動する効果を選択',choices)}
+ else{const choice=choices.some(c=>c.label.startsWith('相手に'))?'damage':'draw';specialActivate(who,kind,choice)}
+}
+function specialActivate(who,kind,choice){
+ if(!game||game.over)return;
+ const used=game.players[who].specialOnce[kind];if(used[choice])return;
+ used[choice]=true;pending=null;
+ specialFx(kind,choice,who);
+ log((who===0?'あなた':'BOT')+'の'+(kind==='fe'?'ﾌｪｯ!?':'オル虐')+'：'+(choice==='draw'?'1枚ドロー':'相手に1ダメージ')+'（この効果はゲーム中1回）');
+ if(choice==='damage')damage(1-who,1,who);
+ else if(!game.over)draw(who,1,true);
+ render();
+}
+function draw(who,n,fromEffect=!!(game&&game.acted)){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='fe'&&fromEffect){specialChoice(who,'fe')}if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii){log('🗡️ 刺客の襲撃！ '+(who===0?'あなた':'BOT')+'が刺されて1ダメージ！');showAssassinFx((who===0?'あなた':'BOT')+'が刺客に刺された！ −1 HP');damage(who,1,who);}check();if(pending&&pending.type==='specialChoice')break}}
+
 let botTurnAnnouncementTimer=null;
 function announceBotTurn(who,round){
  const el=$('botTurnAnnouncement');
@@ -575,7 +630,7 @@ else if(type==='voice'){
 else if(type==='blood'){p.bloodActive=true;p.bloodCount=p.bloodCount||0;log('這音嘗血：相手の手札→USEDを累計3枚ごとに監視開始')}
 
 else if(type==='nice'){damage(other,1);let pos=p.used.lastIndexOf(id);if(pos!==-1){p.used.splice(pos,1);p.hand.push(id);log((who===0?'あなた':'BOT')+'のガチナイスが効果①で手札に戻った')}}
-else if(type==='buncho'){damage(other,1);if(!game.over){let indexes=p.hand.map((x,i)=>effectiveCardName(x)===effectiveCardName(id)?i:-1).filter(i=>i>=0);if(indexes.length){if(who===0){pending={type:'buncho'};showOptions('追加のﾌﾞﾝﾁｮｳｱﾀｯｸをUSEDへ送りますか？',[...indexes.map(i=>({label:'送る（追加1ダメージ）',fn:()=>{moveHandUsed(who,i);pending=null;damage(other,1);render()}})),{label:'送らない',fn:()=>{pending=null;render()}}]);return}else{moveHandUsed(who,indexes[0]);damage(other,1)}}}}
+else if(type==='buncho'){damage(other,1);if(!game.over){let indexes=p.hand.map((x,i)=>effectiveCardName(x).includes('ﾌﾞﾝﾁｮｳ')?i:-1).filter(i=>i>=0);if(indexes.length){if(who===0){pending={type:'buncho'};showOptions('名前に「ﾌﾞﾝﾁｮｳ」を含む手札をUSEDへ送って追加1ダメージを与えますか？',[...indexes.map(i=>({label:effectiveCardName(p.hand[i])+' を送る（追加1ダメージ）',fn:()=>{moveHandUsed(who,i);pending=null;damage(other,1);render()}})),{label:'送らない',fn:()=>{pending=null;render()}}]);return}else{moveHandUsed(who,indexes[0]);damage(other,1)}}}}
 else if(type==='otomo'){damage(other,1);if(!game.over){let top=game.players[other].deck.at(-1);privateLog(who,'オトモアタックで確認：相手の山札の一番上は「'+(top===undefined?'なし':effectiveCardName(top))+'」');if(who===1)log('BOTがあなたの山札の一番上を確認')}}
 else if(type==='mochi'){damage(other,1);p.protect=1;}
 else if(type==='shino'){p.life=Math.min(7,p.life+1);if(p.deck.length){putUsed(who,p.deck.pop());check()}}
