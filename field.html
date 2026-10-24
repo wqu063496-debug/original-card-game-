@@ -1,6 +1,13 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>オリジナルカードゲーム｜オンライン対戦フィールド</title><style>
 :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0a0c12;color:#f5ebd5;font:15px system-ui,'Noto Sans JP',sans-serif}button,input{font:inherit}button{border:1px solid #e0b75f;background:linear-gradient(#f6d38c,#ae7128);color:#20140a;border-radius:8px;padding:9px 13px;font-weight:700;cursor:pointer}button:disabled{filter:grayscale(1);opacity:.43;cursor:not-allowed}a{color:#f2c875}.shell{max-width:1440px;margin:auto;padding:12px}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.top h1{font-size:clamp(19px,2.2vw,28px);margin:3px 0}.tag{border:1px solid #85683a;border-radius:20px;padding:5px 11px;color:#ffe3a1;font-size:12px}.lobby{background:#1d2634;border:1px solid #4b5769;border-radius:10px;padding:10px;margin:10px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.lobby input{width:115px;padding:9px;border-radius:7px;border:1px solid #977749;background:#faf3e3;color:#151515}.muted{color:#c6c4bd;font-size:12px}.arena{position:relative;overflow:hidden;border:5px ridge #7c603e;border-radius:14px;background:radial-gradient(ellipse at center,#514339 0,#211c1b 66%,#0f1015 100%);box-shadow:inset 0 0 80px #000,0 10px 28px #000;min-height:650px;padding:16px}.arena:before{content:'';position:absolute;inset:0;opacity:.13;pointer-events:none;background:repeating-linear-gradient(135deg,transparent 0 34px,#d1bda0 35px,#1b1411 38px,transparent 40px 80px)}.arena>*{position:relative}.side{display:grid;grid-template-columns:140px minmax(0,1fr) 140px;gap:10px;min-height:220px}.side.enemy{transform:none}.duelist{background:linear-gradient(145deg,#101d32,#273e52);border:2px solid #c69c55;border-radius:10px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center}.portrait{font-size:42px}.life{font-size:30px;color:#fff;text-shadow:0 2px 5px #000}.slotarea{border:2px solid #9b8b77;background:linear-gradient(130deg,#a49a90,#77716e 55%,#a9a49f);box-shadow:inset 0 0 20px #40372c;border-radius:9px;display:flex;align-items:center;justify-content:center;gap:12px;min-height:195px;padding:10px;color:#332820}.zone{background:#1c1c1e9e;border:2px solid #b6a58c;border-radius:9px;min-width:110px;min-height:138px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;color:#fff;text-align:center}.zone .number{font-size:33px;font-weight:900;color:#fff0c7}.boardcard{height:110px;width:76px;border:3px solid #d8b36c;border-radius:7px;background:repeating-radial-gradient(circle at 50% 50%,#9a652a 0 5px,#392318 7px 14px);box-shadow:0 2px 8px #000;display:grid;place-items:center;color:#ffe3a0;font-weight:900}.dividerboard{display:flex;justify-content:center;align-items:center;gap:14px;min-height:80px}.turnplate{background:linear-gradient(#473221,#1c1512);border:2px solid #c59b54;border-radius:40px;padding:10px 26px;text-align:center;font-weight:900;box-shadow:0 3px 12px #000}#turn{font-size:21px;margin:0}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:12px;background:#141b27dd;border:1px solid #8d764c;border-radius:12px;margin-top:10px}.handtray{background:#111823ee;border:2px solid #a17d43;border-radius:12px;margin-top:10px;padding:14px;text-align:center}.handtray h2{margin:0 0 8px;font-size:17px}.hand{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;min-height:132px;align-items:stretch}.hand button{width:116px;min-height:144px;padding:10px 6px;border:3px solid #c9a86c;border-radius:10px;background:linear-gradient(150deg,#3e5c75,#101b2f 60%,#2b3b53);color:#f7eddd;box-shadow:0 5px 10px #000;overflow-wrap:anywhere;font-size:13px}.hand button:has(+ *){} .hand button[data-selected="true"]{border-color:#8de9ff;transform:translateY(-8px);box-shadow:0 0 14px #43caff}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.panel{background:#1b2534;border:1px solid #756342;border-radius:10px;padding:13px}.panel h3{margin:0 0 10px}#log{white-space:pre-wrap;max-height:180px;overflow:auto;font-size:13px}.effects{font-size:13px;line-height:1.7}.effects p{margin:4px 0}.notes{color:#f2dba4;font-size:12px;margin:8px 0}.catalog{margin-top:12px}.catalog summary{cursor:pointer;font-weight:bold}.catalog li{margin:7px 0}.statsline{font-size:13px;word-break:break-word;color:#fff4d8}.badge{font-size:12px;color:#f9dd9b}.small{font-size:12px;color:#d1d0c7}#status{font-size:13px;color:#fce4aa}#stats{display:none}@media(max-width:740px){.side{grid-template-columns:80px minmax(0,1fr) 80px;min-height:170px;gap:4px}.arena{padding:7px;min-height:500px}.duelist{padding:4px}.portrait{font-size:26px}.life{font-size:21px}.slotarea{min-height:145px;gap:4px;padding:4px}.zone{min-width:0;min-height:108px;flex:1;font-size:11px}.zone .number{font-size:23px}.boardcard{height:73px;width:48px;font-size:10px}.bottom{grid-template-columns:1fr}.hand button{width:96px;min-height:125px}.dividerboard{min-height:65px}.turnplate{padding:8px 12px}#turn{font-size:16px}}
- .online-deck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:8px;margin:10px 0}.online-deck-item{border:1px solid #89764e;border-radius:8px;padding:10px;background:#151f30;display:flex;align-items:center;justify-content:space-between;gap:6px}.online-deck-item .buttons{display:flex;align-items:center;gap:7px}.online-deck-item button{padding:3px 9px}</style><style>.battle-damage-fx{position:fixed;inset:0;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden}.battle-damage-fx.active{visibility:visible;animation:damageLong 2.1s ease-out both}.battle-damage-fx .damage-box{padding:24px 34px;border:3px solid #ffd078;border-radius:18px;background:#17131ae8;box-shadow:0 0 70px #ff503a;text-align:center}.battle-damage-fx .damage-value{font-size:clamp(55px,12vw,110px);font-weight:1000;color:#ffdc72;text-shadow:0 0 30px #e33}.battle-damage-fx.received .damage-value{color:#ff667e}.battle-damage-fx .damage-caption{font-size:clamp(20px,4vw,32px);font-weight:900;color:#fff}@keyframes damageLong{0%{opacity:0;transform:scale(.55)}12%{opacity:1;transform:scale(1.08)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05)}}@media(prefers-reduced-motion:reduce){.battle-damage-fx.active{animation:none;opacity:1}}</style><style>
+ .online-deck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:8px;margin:10px 0}.online-deck-item{border:1px solid #89764e;border-radius:8px;padding:10px;background:#151f30;display:flex;align-items:center;justify-content:space-between;gap:6px}.online-deck-item .buttons{display:flex;align-items:center;gap:7px}.online-deck-item button{padding:3px 9px}.yaka-picker{margin:10px auto;padding:14px;max-width:720px;background:#1c2940;border:2px solid #f0c36a;border-radius:12px;text-align:center;box-shadow:0 4px 20px #0008}.yaka-picker[hidden]{display:none!important}.yaka-picker p{font-size:13px;color:#e8d8b6}.yaka-choices{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:12px 0}.yaka-choices button{background:#243952;color:#fff4df;border:2px solid #8cabc7;min-height:66px;max-width:180px;overflow-wrap:anywhere}.yaka-choices button.chosen{background:#185b68;border-color:#7ff5e5;box-shadow:0 0 12px #66e7f6}.yaka-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}@media(max-width:740px){.yaka-picker{padding:10px}.yaka-choices button{width:44%;font-size:12px;padding:8px}}
+
+.peer-presence{margin:12px 0;padding:10px 14px;border:1px solid #54709c;border-radius:10px;background:#14243c;color:#d8e9ff;font-size:14px;line-height:1.6}
+.peer-presence.stale{border-color:#bc8551;background:#33251b;color:#ffdfb6}
+.peer-presence.fresh{border-color:#397e78;background:#142f30;color:#c7fff2}
+.pending-recovery{margin:8px 0;padding:11px 14px;border:1px solid #8a78bc;border-radius:10px;background:#28213f;color:#f1e8ff;font-weight:700}.pending-recovery[hidden]{display:none}
+.rejoin-notice{margin:8px 0;padding:10px 14px;border:1px solid #5ba9a0;border-radius:10px;background:#123d3a;color:#d5fff7;font-weight:700}.rejoin-notice[hidden]{display:none}
+</style><style>.battle-damage-fx{position:fixed;inset:0;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden}.battle-damage-fx.active{visibility:visible;animation:damageLong 2.1s ease-out both}.battle-damage-fx .damage-box{padding:24px 34px;border:3px solid #ffd078;border-radius:18px;background:#17131ae8;box-shadow:0 0 70px #ff503a;text-align:center}.battle-damage-fx .damage-value{font-size:clamp(55px,12vw,110px);font-weight:1000;color:#ffdc72;text-shadow:0 0 30px #e33}.battle-damage-fx.received .damage-value{color:#ff667e}.battle-damage-fx .damage-caption{font-size:clamp(20px,4vw,32px);font-weight:900;color:#fff}@keyframes damageLong{0%{opacity:0;transform:scale(.55)}12%{opacity:1;transform:scale(1.08)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05)}}@media(prefers-reduced-motion:reduce){.battle-damage-fx.active{animation:none;opacity:1}}</style><style>
 /* カード別カラー（56種類） */
 .card.card-themed{background:var(--card-bg)!important;color:var(--card-fg)!important;border:2px solid rgba(255,255,255,.65)!important;box-shadow:inset 0 0 0 1px #0005,0 6px 15px #0006;text-shadow:0 1px 2px #0007;}
 .card.card-themed strong,.card.card-themed small{color:inherit!important;text-shadow:0 1px 2px #0008;}
@@ -36,14 +43,81 @@
 .cine-result-particle{position:absolute;top:-10%;left:var(--x);width:9px;height:18px;background:var(--c);opacity:.9;animation:cineFall var(--duration) linear infinite;animation-delay:var(--delay);pointer-events:none}
 @keyframes cineFall{to{transform:translate(65px,110vh) rotate(740deg)}}
 @media(prefers-reduced-motion:reduce){.cine-turn.active,.cine-result-panel,.cine-result::before,.cine-result-symbol,.cine-result-particle{animation:none!important}.cine-turn.active{opacity:1}}
-</style><style id="assassinFxStyle">.assassin-fx{position:fixed;inset:0;z-index:99999;display:none;pointer-events:none;align-items:center;justify-content:center;background:rgba(35,3,18,.55);overflow:hidden}.assassin-fx.active{display:flex;animation:assassinFlash 1.65s ease-out forwards}.assassin-fx .assassin-knife{font-size:clamp(100px,25vw,220px);filter:drop-shadow(0 0 25px #f43f5e);transform:translate(100vw,-70vh) rotate(-45deg);animation:assassinStab 1.4s cubic-bezier(.12,.65,.3,1) forwards}.assassin-fx .assassin-text{position:absolute;bottom:25%;font-size:clamp(22px,5vw,46px);font-weight:900;color:#fff;text-shadow:0 0 12px #f00,0 3px 6px #000;text-align:center;padding:0 20px}@keyframes assassinStab{0%{transform:translate(90vw,-65vh) rotate(-45deg)}38%{transform:translate(0,0) rotate(-45deg) scale(1.25)}50%{transform:translate(-3vw,3vh) rotate(-45deg) scale(1.4)}100%{transform:translate(-85vw,65vh) rotate(-45deg) scale(.7)}}@keyframes assassinFlash{0%{background:transparent}38%{background:rgba(140,0,25,.75)}100%{background:transparent}}@media(prefers-reduced-motion:reduce){.assassin-fx.active,.assassin-fx .assassin-knife{animation:none}.assassin-fx .assassin-knife{transform:none}}</style></head><body><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><div id="cineTurn" class="cine-turn" aria-live="polite"><div class="cine-turn-inner"><div class="cine-turn-sub" id="cineTurnSub"></div><div class="cine-turn-title" id="cineTurnTitle"></div></div></div>
+</style><style id="assassinFxStyle">.assassin-fx{position:fixed;inset:0;z-index:99999;display:none;pointer-events:none;align-items:center;justify-content:center;background:rgba(35,3,18,.55);overflow:hidden}.assassin-fx.active{display:flex;animation:assassinFlash 1.65s ease-out forwards}.assassin-fx .assassin-knife{font-size:clamp(100px,25vw,220px);filter:drop-shadow(0 0 25px #f43f5e);transform:translate(100vw,-70vh) rotate(-45deg);animation:assassinStab 1.4s cubic-bezier(.12,.65,.3,1) forwards}.assassin-fx .assassin-text{position:absolute;bottom:25%;font-size:clamp(22px,5vw,46px);font-weight:900;color:#fff;text-shadow:0 0 12px #f00,0 3px 6px #000;text-align:center;padding:0 20px}@keyframes assassinStab{0%{transform:translate(90vw,-65vh) rotate(-45deg)}38%{transform:translate(0,0) rotate(-45deg) scale(1.25)}50%{transform:translate(-3vw,3vh) rotate(-45deg) scale(1.4)}100%{transform:translate(-85vw,65vh) rotate(-45deg) scale(.7)}}@keyframes assassinFlash{0%{background:transparent}38%{background:rgba(140,0,25,.75)}100%{background:transparent}}@media(prefers-reduced-motion:reduce){.assassin-fx.active,.assassin-fx .assassin-knife{animation:none}.assassin-fx .assassin-knife{transform:none}}</style><style id="mobileBattleFxStyle">
+.mobile-battle-fx{position:fixed;inset:0;inset:0 0 0 0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;visibility:hidden;opacity:0;background:rgba(2,7,20,.68);padding:18px;transform:translateZ(0);-webkit-transform:translateZ(0)}
+.mobile-battle-fx.show{visibility:visible;opacity:1;animation:mbFade var(--mb-duration, 1.65s) ease both}
+.mobile-battle-fx .mb-card{width:min(82vw,330px);min-height:min(85vw,370px);max-height:83dvh;overflow-y:auto;border:5px solid var(--mb-border,#f8d587);border-radius:16px;box-shadow:0 0 0 4px #10131b,0 0 48px var(--mb-glow,#f7cb6eaa),0 20px 65px #000;background:var(--mb-bg,linear-gradient(135deg,#394f72,#11182a));color:var(--mb-fg,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;overflow-wrap:anywhere;animation:mbCardPop var(--mb-duration, 1.65s) ease both}
+.mobile-battle-fx .mb-card-ability{font-size:clamp(14px,3.6vw,19px);font-weight:700;line-height:1.5;max-height:34dvh;overflow-y:auto;overscroll-behavior:contain;white-space:pre-wrap;padding:12px 4px 0;margin-top:12px;border-top:1px solid currentColor;width:100%;text-align:center}.mobile-battle-fx .mb-card-name{font-size:clamp(21px,5vw,33px);font-weight:950;text-shadow:0 2px 5px #0007}.mobile-battle-fx .mb-card-label{font-size:14px;letter-spacing:.15em;margin-bottom:24px;color:inherit;opacity:.85}
+.mobile-battle-fx .mb-banner{width:100%;padding:26px 8px;border-top:3px solid #f9d580;border-bottom:3px solid #f9d580;text-align:center;background:linear-gradient(90deg,transparent,#142c50f0,transparent);box-shadow:0 0 50px #8dc6ff77;animation:mbBanner 1.65s ease both}
+.mobile-battle-fx.enemy .mb-banner{border-color:#ff8399;background:linear-gradient(90deg,transparent,#52182cf0,transparent)}
+.mobile-battle-fx .mb-title{font-size:clamp(35px,10vw,76px);font-weight:1000;line-height:1.13;text-shadow:0 3px 20px #000}.mobile-battle-fx .mb-sub{font-size:clamp(13px,3.5vw,22px);font-weight:800;margin-top:12px;color:#ffe6aa}
+.mobile-battle-fx.proc .mb-banner{border-color:#8cf5c9;background:linear-gradient(90deg,transparent,#0c4839f5,transparent)}.mobile-battle-fx.proc .mb-title{font-size:clamp(27px,7vw,56px)}
+@keyframes mbFade{0%{opacity:0}12%,78%{opacity:1}100%{opacity:0}}@keyframes mbCardPop{0%{transform:scale(.35) rotate(-12deg)}23%{transform:scale(1.09) rotate(1deg)}42%,76%{transform:scale(1) rotate(0)}100%{transform:scale(1.12)}}@keyframes mbBanner{0%{transform:translateY(24px) scale(.8)}25%,80%{transform:translateY(0) scale(1)}100%{transform:translateY(-12px) scale(1.05)}}
+@media(prefers-reduced-motion:reduce){.mobile-battle-fx.show,.mobile-battle-fx .mb-card,.mobile-battle-fx .mb-banner{animation:none!important;opacity:1}}
+
+/* スマホ用：左右から切り裂くターン開始演出 */
+.mobile-battle-fx.slash-turn{background:rgba(3,6,18,.38);overflow:hidden}
+.mobile-battle-fx.slash-turn .mb-banner{position:relative;isolation:isolate;overflow:visible;border:0;background:transparent;box-shadow:none;animation:slashBanner 1.9s ease-out both}
+.mobile-battle-fx.slash-turn .mb-banner::before,.mobile-battle-fx.slash-turn .mb-banner::after{content:"";position:absolute;z-index:-1;left:-35vw;width:170vw;height:53%;background:linear-gradient(90deg,transparent,#173f7d 23%,#226bb7 53%,transparent);box-shadow:0 0 32px #71baffaa;transform:skewX(-17deg)}
+.mobile-battle-fx.slash-turn .mb-banner::before{top:0;animation:slashFromLeft 1.9s cubic-bezier(.16,.9,.2,1) both}
+.mobile-battle-fx.slash-turn .mb-banner::after{bottom:0;animation:slashFromRight 1.9s cubic-bezier(.16,.9,.2,1) both}
+.mobile-battle-fx.slash-turn.enemy .mb-banner::before,.mobile-battle-fx.slash-turn.enemy .mb-banner::after{background:linear-gradient(90deg,transparent,#782039 23%,#be365d 53%,transparent);box-shadow:0 0 32px #ff7398aa}
+.mobile-battle-fx.slash-turn .mb-title{font-size:clamp(34px,9vw,76px);color:#fff;text-shadow:0 2px 12px #000,0 0 25px #a8e5ff;animation:slashText 1.9s ease-out both}
+.mobile-battle-fx.slash-turn .mb-sub{color:#fff}
+@keyframes slashFromLeft{0%{transform:translateX(-130vw) skewX(-17deg);opacity:0}22%{transform:translateX(0) skewX(-17deg);opacity:1}75%{opacity:1}100%{transform:translateX(120vw) skewX(-17deg);opacity:0}}
+@keyframes slashFromRight{0%{transform:translateX(130vw) skewX(-17deg);opacity:0}22%{transform:translateX(0) skewX(-17deg);opacity:1}75%{opacity:1}100%{transform:translateX(-120vw) skewX(-17deg);opacity:0}}
+@keyframes slashText{0%,12%{opacity:0;transform:scale(.72)}27%,72%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.1)}}
+@keyframes slashBanner{0%,100%{opacity:0}12%,80%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.mobile-battle-fx.slash-turn .mb-banner,.mobile-battle-fx.slash-turn .mb-banner::before,.mobile-battle-fx.slash-turn .mb-banner::after,.mobile-battle-fx.slash-turn .mb-title{animation:none!important;opacity:1!important;transform:none!important}}
+</style><style>
+/* 第33段階：相手は上、自分は下。ダメージだけ中央 */
+.mobile-battle-fx{justify-content:center!important;align-items:center!important;padding:0 10px!important;pointer-events:none}
+.mobile-battle-fx.card,.mobile-battle-fx.proc{background:transparent!important}
+.mobile-battle-fx.card.enemy,.mobile-battle-fx.proc.enemy{justify-content:flex-start!important;padding-top:max(12px,env(safe-area-inset-top))!important}
+.mobile-battle-fx.card:not(.enemy),.mobile-battle-fx.proc:not(.enemy){justify-content:flex-end!important;padding-bottom:max(12px,env(safe-area-inset-bottom))!important}
+.mobile-battle-fx.card .mb-card{width:min(66vw,255px)!important;min-height:0!important;max-height:38dvh!important;padding:10px 12px!important;border-width:3px!important;border-radius:12px!important;box-shadow:0 0 26px var(--mb-glow,#f7cb6e88),0 8px 28px #000b!important}
+.mobile-battle-fx.card .mb-card-label{font-size:11px!important;margin-bottom:6px!important}
+.mobile-battle-fx.card .mb-card-name{font-size:clamp(17px,4.5vw,25px)!important}
+.mobile-battle-fx.card .mb-card-ability{font-size:clamp(12px,3.1vw,15px)!important;max-height:17dvh!important;padding-top:6px!important;margin-top:6px!important}
+.mobile-battle-fx.proc .mb-banner{max-width:min(94vw,480px)!important;padding:12px 8px!important;border-width:2px!important}
+.mobile-battle-fx.proc .mb-title{font-size:clamp(23px,6vw,42px)!important}
+.mobile-battle-fx.proc .mb-sub{font-size:clamp(12px,3vw,17px)!important}
+.battle-damage-fx .damage-box{padding:15px 22px!important}
+.battle-damage-fx .damage-value{font-size:clamp(39px,9vw,78px)!important}
+.battle-damage-fx .damage-caption{font-size:clamp(15px,3.4vw,23px)!important}
+</style></head><body><div id="mobileBattleFx" class="mobile-battle-fx" aria-live="polite"><div id="mobileBattleFxContent"></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><div id="cineTurn" class="cine-turn" aria-live="polite"><div class="cine-turn-inner"><div class="cine-turn-sub" id="cineTurnSub"></div><div class="cine-turn-title" id="cineTurnTitle"></div></div></div>
 <div id="cineResult" class="cine-result" role="dialog" aria-modal="true" aria-labelledby="cineResultTitle"><div id="cineParticles" aria-hidden="true"></div><div class="cine-result-panel"><div class="cine-result-eyebrow" id="cineResultEyebrow"></div><div class="cine-result-symbol" id="cineResultSymbol"></div><div class="cine-result-title" id="cineResultTitle"></div><div class="cine-result-reason" id="cineResultReason"></div><div class="cine-result-actions"><button type="button" id="cineResultClose">盤面を確認</button><button type="button" id="cineResultLobby">ロビーに戻る</button></div></div></div>
-<div id="battleDamageFx" class="battle-damage-fx" aria-live="polite"><div class="damage-box"><div class="damage-value" id="battleDamageValue"></div><div class="damage-caption" id="battleDamageCaption"></div></div></div><div class="shell"><header class="top"><h1>⚔ ORIGINAL CARD BATTLE <span class="tag">フィールド版・同期調整テスト</span></h1><a href="online.html">← ロビーに戻る</a></header><div class="lobby"><span id="auth">接続中…</span><input id="code" maxlength="6" inputmode="numeric" placeholder="6桁コード"><button id="enter" disabled>部屋に入る</button><span id="status"></span></div><details class="panel" id="onlineDeckPanel"><summary>🃏 オンライン専用デッキ編集（20枚）</summary><p class="notes">オンライン版の対応カードを段階拡張中。各カード3枚まで、小森アタックのみ20枚まで。対戦開始前に保存してください。相手のデッキとは独立しています。</p><div id="onlineDeckCount" class="badge"></div><div id="onlineDeckEditor" class="online-deck-grid"></div><button type="button" id="saveOnlineDeck">オンラインデッキを保存</button><span id="onlineDeckMessage" class="notes"></span></details><div class="arena"><div class="side enemy"><div class="duelist"><div class="portrait">👤</div><b>OPPONENT</b><div class="life">♥ <span id="oppLife">7</span></div><span class="badge" id="oppHand">手札 ? 枚</span></div><div class="slotarea"><div class="zone"><b>相手 USED</b><div class="number" id="oppUsed">非公開</div><small>現行版は枚数未同期</small></div><div class="zone"><b>相手の場</b><span>継続効果</span><small id="oppEffects">未実装</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>相手の山札</b><span id="oppDeck">枚数未同期</span></div></div><div class="dividerboard"><span class="turnplate"><span id="turn">対戦待機</span><div class="small" id="round">TURN —</div></span></div><div class="side self"><div class="duelist"><div class="portrait">🛡️</div><b>YOU</b><div class="life">♥ <span id="myLife">7</span></div><span class="badge" id="myHand">手札 0 枚</span></div><div class="slotarea"><div class="zone"><b>自分 USED</b><div class="number" id="myUsed">0</div><small id="usedPreview"></small></div><div class="zone"><b>自分の場</b><span>継続効果</span><small id="myEffects">未実装</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>自分の山札</b><span id="myDeck">— 枚</span></div></div><div class="controls"><button id="start" disabled>オンライン対戦を開始</button><button id="draw" disabled>1枚引く</button><button id="play" disabled>選択カードを使う</button><button id="discard" disabled>2枚で1ダメージ</button><button id="pass" disabled>パス</button></div><div class="handtray"><h2>自分の手札</h2><p class="small">カードを1枚選んで使用／2枚選んで1ダメージ。青い枠が選択中。</p><div id="hand" class="hand"></div></div></div><div id="stats"></div><div class="bottom"><section class="panel"><h3>📜 対戦ログ</h3><div id="log">未接続</div></section><section class="panel effects"><h3>✨ 継続効果・状態</h3><p>自分：<span id="ownStatus">未実装（基本対戦のみ）</span></p><p>相手：<span id="enemyStatus">未実装（基本対戦のみ）</span></p><p class="notes">相手のUSED枚数・山札枚数・継続効果は、現在のFirebaseデータに項目がないため未表示です。相手の非公開カード情報は読み取りません。</p></section></div><details class="panel catalog"><summary>📚 新カード・改定カードの登録メモ（効果はまだオンライン未実装）</summary><div id="catalog"><ul><li><b>春風と木音</b> — 相手USEDが3/5/7枚以上ならそれぞれ1/2/3ダメージと同数ドロー。その後相手USEDをシャッフルして山札の底へ。</li><li><b>かすみ草の妖精</b> — 次の自分のカード効果処理終了まで相手USEDからカードが離れない。</li><li><b>1リットルってなんりっとる</b> — 相手手札枚数−1枚（最低0枚）を相手山札の上からUSEDへ。</li><li><b>怪異</b> — 次の自分のカード効果処理終了まで双方の全カード名を「ﾌﾞﾝﾁｮｳ」に変更。効果文章はそのまま。</li><li><b>トマト倍々発生</b> — 次に使用する自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う。</li><li><b>窓を破るﾌﾞﾝﾁｮｳ</b> — 自分の山札上から3枚をUSEDへ。その中の「ﾌﾞﾝﾁｮｳ」を名前に含むカード数だけダメージ。</li><li><b>文化の勝利</b> — 相手のランダム手札1枚を5秒公開し、そのカードかそれ以外のランダム1枚をUSEDに送らせる。</li><li><b>這音嘗血（はいおんしょうけつ）</b> — 相手手札からUSEDへ移動した累計3枚ごとに、1ダメージ／相手選択捨て／自分1ドローから選択。</li><li><b>うどん。</b> — 先攻最初のターンのみ。2枚引き、追加ターンを得る。</li><li><b>針治療</b> — 現在両者にかかるすべての効果・継続能力を解除。</li><li><b>江戸姫</b> — 相手の次ターン終了まで手札をUSEDへ送る能力と2枚捨て攻撃を禁止。自分USEDのSBFFが3枚なら永続。</li><li><b>ハートのチェーン</b> — 自分のカード効果で自分のライフが減るたび、1回の減少につき相手へ1ダメージ。</li><li><b>( &#x27;ω&#x27;)ﾌｪｯ!?</b> — 通常使用不可。効果で山札から手札に加えたとき、各1回だけ1ダメージ／1ドロー。</li><li><b>SBFF</b> — 使用しても何も起こらない。</li><li><b>導く北極星</b> — 3枚ドロー。次の自分のカード効果後、手札5枚以下なら全手札を捨てる。</li><li><b>刺客</b> — 初期デッキ選択画面に非表示、枚数上限なし。名前未変更の状態で手札に加わると自分に1ダメージ。</li><li><b>お命頂戴します☪︎*｡꙳</b> — 相手の山札にゲーム外から刺客2枚を加えてシャッフル。</li><li><b>お昼寝(昼夜逆転)</b> — 次の次とその次の自分ターンで通常ドロー・カード使用・2枚攻撃禁止。3回復。</li><li><b>声殺夜奪</b> — 相手ランダム手札1枚を除外、相手山札に刺客1枚を加えてシャッフルし、相手が1枚引く。</li><li><b>正論パンチ</b> — 自分に1ダメージ、相手に2ダメージ。</li><li><b>うんコンボ・・・・？</b> — 相手USED内の刺客と同数の刺客をゲーム外から相手USEDに加え、相手USED全部を山札へ戻してシャッフル。</li><li><b>企画破壊</b> — 相手カード発動時に自分2ダメージ、このカードをUSEDへ送ってその効果を無効化。</li><li><b>行っちゃうの？…</b> — 自分のライフを好きな数減らし、その2倍ドロー。</li><li><b>オル虐</b> — 通常使用不可。相手効果のランダム手札選択で優先され、相手効果で手札から移動したとき各1回1ダメージ／1ドロー。</li><li><b>そう！高〇健！！（改定）</b> — 次の相手ターン、通常ドローを含むすべてのドローを禁止。自分USEDにSBFF3枚で永続。</li><li><b>ﾌﾞﾝﾁｮｳｱﾀｯｸ（改定）</b> — 追加ダメージの捨て札条件は、カードの元の名前ではなく現在の同名カード。</li></ul></div></details><p class="notes">現在プレイ可能なカードはオンライン専用デッキ編集に表示されています。残りのカードは今後のゲーム処理に追加します。本番用の不正対策は未実装です。</p></div><script type="module">
+<div id="battleDamageFx" class="battle-damage-fx" aria-live="polite"><div class="damage-box"><div class="damage-value" id="battleDamageValue"></div><div class="damage-caption" id="battleDamageCaption"></div></div></div><div class="shell"><header class="top"><h1>⚔ ORIGINAL CARD BATTLE <span class="tag">フィールド版・第50段階（特殊ダメージ統合点検）</span></h1><a href="online.html">← ロビーに戻る</a></header><div class="lobby"><span id="auth">接続中…</span><input id="code" maxlength="6" inputmode="numeric" placeholder="6桁コード"><button id="enter" disabled>部屋に入る</button><span id="status"></span></div><details class="panel" id="onlineDeckPanel"><summary>🃏 オンライン専用デッキ編集（20枚）</summary><p class="notes">オンライン版は56種類を登録済み（刺客はデッキ編集対象外）。各カード3枚まで、小森アタックのみ20枚まで。対戦開始前に保存してください。相手のデッキとは独立しています。</p><div id="onlineDeckCount" class="badge"></div><div id="onlineDeckEditor" class="online-deck-grid"></div><button type="button" id="saveOnlineDeck">オンラインデッキを保存</button><span id="onlineDeckMessage" class="notes"></span></details><div class="arena"><div class="side enemy"><div class="duelist"><div class="portrait">👤</div><b>OPPONENT</b><div class="life">♥ <span id="oppLife">7</span></div><span class="badge" id="oppHand">手札 ? 枚</span></div><div class="slotarea"><div class="zone"><b>相手 USED</b><div class="number" id="oppUsed">非公開</div><small>現行版は枚数未同期</small></div><div class="zone"><b>相手の場</b><span>継続効果</span><small id="oppEffects">未実装</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>相手の山札</b><span id="oppDeck">枚数未同期</span></div></div><div class="dividerboard"><span class="turnplate"><span id="turn">対戦待機</span><div class="small" id="round">TURN —</div></span></div><div class="side self"><div class="duelist"><div class="portrait">🛡️</div><b>YOU</b><div class="life">♥ <span id="myLife">7</span></div><span class="badge" id="myHand">手札 0 枚</span></div><div class="slotarea"><div class="zone"><b>自分 USED</b><div class="number" id="myUsed">0</div><small id="usedPreview"></small></div><div class="zone"><b>自分の場</b><span>継続効果</span><small id="myEffects">未実装</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>自分の山札</b><span id="myDeck">— 枚</span></div></div><div id="pendingRecovery" class="pending-recovery" role="status" aria-live="polite" hidden></div><div id="rejoinNotice" class="rejoin-notice" role="status" aria-live="polite" hidden></div><div id="peerPresence" class="peer-presence" role="status" aria-live="polite">相手の応答状況：対戦開始後に表示</div><div class="controls"><button id="start" disabled>オンライン対戦を開始</button><button id="draw" disabled>1枚引く</button><button id="play" disabled>選択カードを使う</button><button id="discard" disabled>2枚で1ダメージ</button><button id="pass" disabled>パス</button><button id="counterAccept" hidden>効果を通す</button><button id="counterUse" hidden>企画破壊で無効化</button><button id="counterYaka" hidden>やかましいわで無効化</button><button id="counterResolve" hidden>カード効果を確定</button><button id="counterCancel" hidden>応答なし：発動宣言を取り消す</button></div><section id="yakaPicker" class="yaka-picker" hidden><strong>⚡ やかましいわ：追加コストを2枚選択</strong><p>指定カードをタップしてください（同名カードも別々に選べます）。</p><div id="yakaChoices" class="yaka-choices"></div><div class="yaka-actions"><button type="button" id="yakaConfirm" disabled>選択した2枚でカウンター</button><button type="button" id="yakaCancel">キャンセル</button></div></section><div class="handtray"><h2>自分の手札</h2><p class="small">カードを1枚選んで使用／2枚選んで1ダメージ。青い枠が選択中。</p><div id="hand" class="hand"></div></div></div><div id="stats"></div><div class="bottom"><section class="panel"><h3>📜 対戦ログ</h3><div id="log">未接続</div></section><section class="panel effects"><h3>✨ 継続効果・状態</h3><p class="notes">「企画破壊」「やかましいわ」はカード発動宣言に対して相手が選択します。選択後、使用者が「カード効果を確定」を押して進行します。相手の応答が120秒以上ない場合、カード使用者は発動宣言を取り消して再操作できます。応答状況は20秒間隔の更新をもとにした目安で、通信切断を確定するものではありません。カウンターが確定した後は取り消せません。自動勝利・自動カウンター通過は行いません。</p><p>自分：<span id="ownStatus">なし</span></p><p>相手：<span id="enemyStatus">なし</span></p><p class="notes">継続効果はFirebaseの公開対戦データから表示します。相手のUSED枚数・山札枚数は未同期です。一部の効果では相手の非公開カード情報を読み書きします。Firestoreの権限設定と同期検証が必要です。</p></section></div><details class="panel catalog"><summary>📚 カード・改定カードの仕様メモ（実装状況・動作確認はカードごとに異なります）</summary><div id="catalog"><ul><li><b>春風と木音</b> — 相手USEDが3/5/7枚以上ならそれぞれ1/2/3ダメージと同数ドロー。その後相手USEDをシャッフルして山札の底へ。</li><li><b>かすみ草の妖精</b> — 次の自分のカード効果処理終了まで相手USEDからカードが離れない。</li><li><b>1リットルってなんりっとる</b> — 相手手札枚数−1枚（最低0枚）を相手山札の上からUSEDへ。</li><li><b>怪異</b> — 次の自分のカード効果処理終了まで双方の全カード名を「ﾌﾞﾝﾁｮｳ」に変更。効果文章はそのまま。</li><li><b>トマト倍々発生</b> — 次に使用する自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う。</li><li><b>窓を破るﾌﾞﾝﾁｮｳ</b> — 自分の山札上から3枚をUSEDへ。その中の「ﾌﾞﾝﾁｮｳ」を名前に含むカード数だけダメージ。</li><li><b>文化の勝利</b> — 相手のランダム手札1枚を5秒公開し、そのカードかそれ以外のランダム1枚をUSEDに送らせる。</li><li><b>這音嘗血（はいおんしょうけつ）</b> — 相手手札からUSEDへ移動した累計3枚ごとに、1ダメージ／相手選択捨て／自分1ドローから選択。</li><li><b>うどん。</b> — 先攻最初のターンのみ。2枚引き、追加ターンを得る。</li><li><b>針治療</b> — 現在両者にかかるすべての効果・継続能力を解除。</li><li><b>江戸姫</b> — 相手の次ターン終了まで手札をUSEDへ送る能力と2枚捨て攻撃を禁止。自分USEDのSBFFが3枚なら永続。</li><li><b>ハートのチェーン</b> — 自分のカード効果で自分のライフが減るたび、1回の減少につき相手へ1ダメージ。</li><li><b>( &#x27;ω&#x27;)ﾌｪｯ!?</b> — 通常使用不可。効果で山札から手札に加えたとき、各1回だけ1ダメージ／1ドロー。</li><li><b>SBFF</b> — 使用しても何も起こらない。</li><li><b>導く北極星</b> — 3枚ドロー。次の自分のカード効果後、手札5枚以下なら全手札を捨てる。</li><li><b>刺客</b> — 初期デッキ選択画面に非表示、枚数上限なし。名前未変更の状態で手札に加わると自分に1ダメージ。</li><li><b>お命頂戴します☪︎*｡꙳</b> — 相手の山札にゲーム外から刺客2枚を加えてシャッフル。</li><li><b>お昼寝(昼夜逆転)</b> — 次の次とその次の自分ターンで通常ドロー・カード使用・2枚攻撃禁止。3回復。</li><li><b>声殺夜奪</b> — 相手ランダム手札1枚を除外、相手山札に刺客1枚を加えてシャッフルし、相手が1枚引く。</li><li><b>正論パンチ</b> — 自分に1ダメージ、相手に2ダメージ。</li><li><b>うんコンボ・・・・？</b> — 相手USED内の刺客と同数の刺客をゲーム外から相手USEDに加え、相手USED全部を山札へ戻してシャッフル。</li><li><b>企画破壊</b> — 相手カード発動時に自分2ダメージ、このカードをUSEDへ送ってその効果を無効化。</li><li><b>行っちゃうの？…</b> — 自分のライフを好きな数減らし、その2倍ドロー。</li><li><b>オル虐</b> — 通常使用不可。相手効果のランダム手札選択で優先され、相手効果で手札から移動したとき各1回1ダメージ／1ドロー。</li><li><b>そう！高〇健！！（改定）</b> — 次の相手ターン、通常ドローを含むすべてのドローを禁止。自分USEDにSBFF3枚で永続。</li><li><b>ﾌﾞﾝﾁｮｳｱﾀｯｸ（改定）</b> — 追加ダメージの捨て札条件は、カードの元の名前ではなく現在の同名カード。</li></ul></div></details><p class="notes">現在プレイ可能なカードはオンライン専用デッキ編集に表示されています（56種類、うち企画破壊・やかましいわはカウンター専用、刺客はデッキ投入不可）。残りのカードは今後のゲーム処理に追加します。第46段階では「刺客」を特殊カードとして登録し、デッキ投入・通常使用を禁止しました。全56種類をカード一覧に登録済みです。ただし、すべての効果の動作検証が完了したわけではありません。本番用の不正対策は未実装です。</p></div><script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {getAuth,onAuthStateChanged,signInAnonymously} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import {getFirestore,doc,getDoc,setDoc,updateDoc,onSnapshot,runTransaction,writeBatch} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 const firebaseConfig={apiKey:'AIzaSyCRdX-k7sbaBE1k8MRezsf3htk1BOrURDg',authDomain:'original-card-game.firebaseapp.com',projectId:'original-card-game',storageBucket:'original-card-game.firebasestorage.app',messagingSenderId:'374012324530',appId:'1:374012324530:web:b30cb0cc4f4406dc7ef7ab'};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),$=id=>document.getElementById(id);
+const CARD_ABILITY_TEXT=["1ダメージ。手札の同名カードを追加でUSEDにするとさらに1ダメージ", "山札から1枚引く", "山札から1枚引く", "1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）", "次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続", "自分のUSEDから最大3枚を山札に戻してシャッフル", "手札がこのカードだけなら3ダメージ", "山札の上から3枚を確認し、好きな順に並べ替える", "相手に1ダメージ（デッキに4枚以上入れられる）", "山札から1枚引く", "1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない", "手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ", "相手の山札上2枚をUSEDへ", "使用前の手札が7枚以上なら5ダメージ", "山札から1枚引く", "別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ", "2枚引いてから手札2枚をUSEDへ", "USEDが5枚以上のとき使用可能。自分のライフを1回復", "ライフ1回復。その後、自分の山札の一番上をUSEDへ", "使用前の手札が4枚以上なら使用可能。山札から2枚引く", "ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ", "相手の手札のカード名を3択で当てる", "相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化", "自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ", "1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く", "相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る", "山札の一番上をUSEDへ。その後、このカードを除く自分のUSEDが3枚以下なら次の相手ターン中はダメージを受けない", "自分のUSEDからランダムに最大2枚を山札に戻してシャッフル。山札の枚数差が10枚以上なら双方ライフ7に回復し、以後ゲーム終了まで1回のダメージは最大1", "このゲーム中、以後自分がカードを使うたび30%で相手に1ダメージ", "このゲーム中、以後自分がカードを使うたび50%で山札から1枚引く", "自分に付与された確率発動効果の各確率判定を20ポイント上昇。後から付与する効果にも適用（上限100%）", "このゲーム中、以後自分がカードを使うたび1%で追加ターンを得る", "相手USEDが3/5/7枚以上でそれぞれ1/2/3ダメージと同数ドロー。その後、相手USEDをシャッフルして山札の底へ", "次の自分のカード効果処理終了まで相手USEDからカードが離れない", "相手手札の枚数−1枚を相手山札の上からUSEDへ", "次の自分のカード効果終了まで双方の全カード名が「ﾌﾞﾝﾁｮｳ」になる（効果は維持）", "次に使う自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う", "自分の山札から3枚USEDへ。うち「ﾌﾞﾝﾁｮｳ」を名前に含む枚数分ダメージ", "相手の手札ランダム1枚を5秒間公開し、選んだ方法で相手の手札をUSEDへ", "相手の手札からUSEDへ3枚移動するごとに選択効果", "先攻の最初のターンのみ使用可能。2枚引いて追加ターン", "両者の継続効果・状態を解除", "相手の次のターン終了まで手札をUSEDへ送る能力と2枚攻撃を封じる。SBFFが自分USEDに3枚なら永続", "自分のカード効果で自分のライフが減るたび相手に1ダメージ", "通常プレイ不可。カード効果で山札から手札へ加えたとき、1ダメージと1ドローを各1回使用可能", "何も起こらない", "3枚引く。次の自分のカード効果後、手札5枚以下ならすべてUSEDへ", "初期デッキ選択不可。名前が変更されていない状態で手札に入ると自分に1ダメージ", "相手山札にゲーム外から刺客2枚を加えてシャッフル", "次の次とその次の自分ターンは行動・通常ドロー不可。ライフ3回復", "相手ランダム手札1枚を除外し、相手山札に刺客を1枚追加、相手が1枚引く", "自分に1ダメージ、相手に2ダメージ", "相手USED内の刺客と同数の刺客を加え、相手USED全部を山札に戻してシャッフル", "相手カードの発動時、自分に2ダメージと引き換えに無効化", "自分のライフを任意の数減らし、その2倍ドロー", "通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時に1ダメージ・1ドローを各1回"];
+// モバイル向けの中央演出。Firestoreの共有イベントを両端末で同じ順序で再生する。
+let mbQueue=[],mbPlaying=false,mbSeenKey='',mbSeenIds=new Set(),mbTurnPrev=null;
+function mbEnqueue(ev){if(!ev)return;mbQueue.push(ev);if(mbQueue.length>32)mbQueue.splice(0,mbQueue.length-32);mbNext()}
+function mbNext(){if(mbPlaying||!mbQueue.length)return;mbPlaying=true;const ev=mbQueue.shift(),root=$('mobileBattleFx'),slot=$('mobileBattleFxContent');root.className='mobile-battle-fx '+(ev.type==='card'?'card':ev.type==='proc'?'proc':'')+(ev.enemy?' enemy':'')+(ev.type==='turn'?' slash-turn':'');slot.replaceChildren();
+ if(ev.type==='card'){const card=document.createElement('div');card.className='mb-card';const info=ONLINE_CARDS.find(c=>c.name===ev.name);const idx=info?.id??-1;if(idx>=0){card.style.setProperty('--mb-bg',CARD_THEMES[idx]);card.style.setProperty('--mb-fg',CARD_TEXT_COLORS[idx]);card.style.setProperty('--mb-border',CARD_TEXT_COLORS[idx]==='#fff'?'#d6e6ff':'#35405a');card.style.setProperty('--mb-glow',CARD_TEXT_COLORS[idx]==='#fff'?'#8b9dff88':'#f8e2a888')}const label=document.createElement('div');label.className='mb-card-label';label.textContent=ev.enemy?'OPPONENT CARD':'YOUR CARD';const name=document.createElement('div');name.className='mb-card-name';name.textContent=ev.name||'カード使用';const ability=document.createElement('div');ability.className='mb-card-ability';ability.textContent=idx>=0?(CARD_ABILITY_TEXT[idx]||'効果説明なし'):'効果説明を取得できません';card.append(label,name,ability);slot.append(card)}
+ else{const banner=document.createElement('div');banner.className='mb-banner';const title=document.createElement('div');title.className='mb-title';title.textContent=ev.title||'';const sub=document.createElement('div');sub.className='mb-sub';sub.textContent=ev.sub||'';banner.append(title,sub);slot.append(banner)}
+ const duration=ev.type==='card'?2900:ev.type==='proc'?2100:ev.type==='turn'?1900:1450;root.style.setProperty('--mb-duration',duration+'ms');void root.offsetWidth;root.classList.add('show');setTimeout(()=>{root.classList.remove('show');mbPlaying=false;mbNext()},duration)}
+function mbSyncEvents(){if(!game||!code||!uid||!side)return;const key=code+':'+uid;if(mbSeenKey!==key){mbSeenKey=key;mbSeenIds=new Set();mbTurnPrev=null;mbQueue=[];mbPlaying=false;$('mobileBattleFx').classList.remove('show')}
+ const current={state:game.state,turn:game.turn,round:game.round};if(current.state==='playing'&&(!mbTurnPrev||mbTurnPrev.state!=='playing'||mbTurnPrev.turn!==current.turn||mbTurnPrev.round!==current.round)){
+ mbEnqueue({type:'turn',title:current.turn===uid?'あなたのターン':'相手のターン',sub:'TURN '+current.round,enemy:current.turn!==uid});}
+ mbTurnPrev=current;
+ const events=Array.isArray(game.fxEvents)?game.fxEvents:[];for(const ev of events){if(!ev||!ev.id)continue;if(!mbSeenIds.has(ev.id)){mbSeenIds.add(ev.id);if(ev.type==='card')mbEnqueue({...ev,enemy:ev.actor!==uid});else if(ev.type==='proc'||ev.type==='counter'||ev.type==='nullify')mbEnqueue({...ev,type:'proc',enemy:ev.actor!==uid,title:ev.title||(ev.type==='counter'?'カウンター発動！':'効果を無効化！')})}}}
+// 無効・カウンターのログが記録された場合も通知（カード処理自体の実装とは独立）
+let mbLogKey='',mbSeenLog=new Set();
+function mbSyncCounterLog(){
+ if(!game||!code||!uid)return;
+ const k=code+':'+uid;
+ const entries=(game.log||[]).filter(x=>/カウンター|効果を無効化|無効にした/.test(String(x)));
+ if(mbLogKey!==k){mbLogKey=k;mbSeenLog=new Set(entries);return}
+ for(const line of entries){if(mbSeenLog.has(line))continue;mbSeenLog.add(line);
+   const isCounter=/カウンター/.test(line);
+   mbEnqueue({type:'proc',enemy:true,title:isCounter?'カウンター発動！':'効果を無効化！',sub:String(line).slice(0,90)});
+ }
+}
 let assassinFxTimer;function showAssassinFx(label){const el=document.getElementById('assassinFx');if(!el)return;document.getElementById('assassinFxText').textContent=label||'刺客の襲撃！ −1 HP';el.classList.remove('active');void el.offsetWidth;el.classList.add('active');clearTimeout(assassinFxTimer);assassinFxTimer=setTimeout(()=>el.classList.remove('active'),1700)}
 let assassinLogReady=false,assassinSeen=new Set();
 let uid=null,code=null,room=null,game=null,mine=null,side=null,selected=[],unsubs=[],busy=false,initializing=false;
@@ -62,7 +136,7 @@ const ONLINE_CARDS=[
  {name:'究極拳巫女パンチ',id:13,kind:'special5'},
  {name:'ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ',id:14,kind:'draw'},
  {name:'オトモアタック',id:3,kind:'hit'},
- {name:'もち蔵アタック',id:10,kind:'hit'},
+ {name:'もち蔵アタック',id:10,kind:'mochi'},
  {name:'みなさん、いつまで寝てるの！！',id:5,kind:'recycle'},
  {name:'お転婆お嬢様！！',id:12,kind:'mill'},
  {name:'人手不足の魔導書',id:11,kind:'search'},
@@ -88,41 +162,168 @@ const ONLINE_CARDS=[
  {name:'腐白蛇',id:26,kind:'snake'},
  {name:'(･ω･三･ω･)ﾌﾝﾌﾝ',id:28,kind:'funfun'},
  {name:'限界愛',id:29,kind:'love'},
- {name:'なんでもござれの藍白屋',id:30,kind:'aiya'}
+ {name:'なんでもござれの藍白屋',id:30,kind:'aiya'},
+ {name:'ガチナイス',id:25,kind:'nice'},
+ {name:'導く北極星',id:44,kind:'star'},
+ {name:'うどん。',id:40,kind:'udon'},
+ {name:'春風と木音',id:32,kind:'spring'},
+ {name:'かすみ草の妖精',id:33,kind:'fairy'},
+ {name:'うんコンボ・・・・？',id:49,kind:'combo'},
+ {name:'這音嘗血',id:46,kind:'haion'},
+ {name:'オル虐',id:47,kind:'oru'},
+ {name:"( 'ω')ﾌｪｯ!?",id:52,kind:'fe'},
+ {name:'月民の隠れ家',id:23,kind:'hideout'},
+ {name:'ピカ犬',id:31,kind:'pikainu'},
+ {name:'見透かされるアホネー',id:21,kind:'guess'},
+ {name:'眠気があってちゃんと良かったなぽ',id:27,kind:'napo'},
+ {name:'人を大切にできないやつは自分も大切にされない【名言】',id:24,kind:'quote'},
+ {name:'文化の勝利',id:38,kind:'culture'},
+ {name:'全知全能の神、弱そう',id:20,kind:'god'},
+ {name:'お昼寝(昼夜逆転)',id:46,kind:'nap'},
+ {name:'企画破壊',id:45,kind:'counter'},
+ {name:'やかましいわ',id:22,kind:'counter'},
+ // ゲーム外から追加される専用カード。デッキ編集・通常使用は禁止。
+ {name:'刺客',id:47,kind:'assassin',limit:0}
 ];
 const cards=ONLINE_CARDS.map(c=>c.name);
-const EFFECT_KEY='onlineCardDeckV5';
+let yakaPickerOpen=false,yakaSelected=[];
+const YAKA_COST_NAMES=new Set(['やかましいわ','針治療','人を大切にできないやつは自分も大切にされない【名言】','ガチナイス']);
+const EFFECT_KEY='onlineCardDeckV10';
 const effectiveName=(name,effects)=>effects?.kaii?'ﾌﾞﾝﾁｮｳ':name;
 const isKaiiActive=(a,b)=>!!(a?.kaii||b?.kaii);
 const isTurnEffectActive=(effects,key,round)=>!!(effects?.[key+'Permanent']||(Number(effects?.[key+'Until'])||0)>=round);
 const usedSBFF=(used,effects)=>used.filter(name=>effectiveName(name,effects)==='SBFF').length;
+// 表示は実際に有効な効果だけに限定し、内部カウンターは表示しない。
+function effectLabels(e,round){
+ const result=[];
+ if(e.kaii)result.push('怪異：カード名変更');
+ if((e.napRemaining||0)>0)result.push('お昼寝：休止まで'+(e.napDelay||0)+'回／休止残り'+e.napRemaining+'ターン');
+ if(e.tomato)result.push('トマト：次の該当カード2回');
+ if(isTurnEffectActive(e,'block',round))result.push(e.blockPermanent?'ドロー禁止（永続）':'ドロー禁止（期限付き）');
+ if(isTurnEffectActive(e,'edo',round))result.push(e.edoPermanent?'江戸姫（永続）':'江戸姫（期限付き）');
+ if(e.usedLocked)result.push('USED固定');
+ if(e.fairyPending)result.push('妖精：次のカード効果まで');
+ if(e.starPending)result.push('北極星：次のカード効果まで');
+ if(e.chain)result.push('ハートのチェーン');
+ if(e.shieldUntil>=round)result.push('腐白蛇：ダメージ防御');
+ if(e.damageCap)result.push('ダメージ上限1');
+ if((Number(e.mochiProtectUntil)||0)>=round)result.push('もち蔵：山札からUSEDへの移動を防止');
+ if(e.haion)result.push('這音嘗血（'+(e.haionCount||0)+'/3）');
+ if(e.chanceBonus)result.push('確率補正＋'+e.chanceBonus+'%');
+ for(const [key,name] of [['funfun','ﾌﾝﾌﾝ'],['genkai','限界愛'],['pikainu','ピカ犬']])if(e[key])result.push(name+' ×'+e[key]);
+ return result.join(' / ')||'なし';
+}
+
 const DEFAULT_ONLINE_COUNTS=[3,3,0,0,11,3,0,0,...Array(ONLINE_CARDS.length-8).fill(0)];
-function readOnlineCounts(){try{const v=JSON.parse(localStorage.getItem(EFFECT_KEY)||localStorage.getItem('onlineCardDeckV4')||localStorage.getItem('onlineCardDeckV3')||localStorage.getItem('onlineCardDeckV2')||localStorage.getItem('onlineCardDeckV1'));if(Array.isArray(v)&&v.length<=ONLINE_CARDS.length&&v.length>=8&&v.every((n,i)=>Number.isInteger(n)&&n>=0&&n<=(ONLINE_CARDS[i].limit||3))&&v.reduce((a,b)=>a+b,0)===20)return [...v,...Array(ONLINE_CARDS.length-v.length).fill(0)]}catch(e){}return [...DEFAULT_ONLINE_COUNTS]}
+function readOnlineCounts(){try{const v=JSON.parse(localStorage.getItem(EFFECT_KEY)||localStorage.getItem('onlineCardDeckV9')||localStorage.getItem('onlineCardDeckV8')||localStorage.getItem('onlineCardDeckV7')||localStorage.getItem('onlineCardDeckV6')||localStorage.getItem('onlineCardDeckV5')||localStorage.getItem('onlineCardDeckV4')||localStorage.getItem('onlineCardDeckV3')||localStorage.getItem('onlineCardDeckV2')||localStorage.getItem('onlineCardDeckV1'));if(Array.isArray(v)&&v.length<=ONLINE_CARDS.length&&v.length>=8&&v.every((n,i)=>Number.isInteger(n)&&n>=0&&n<=(ONLINE_CARDS[i].limit||3))&&v.reduce((a,b)=>a+b,0)===20)return [...v,...Array(ONLINE_CARDS.length-v.length).fill(0)]}catch(e){}return [...DEFAULT_ONLINE_COUNTS]}
 let onlineCounts=readOnlineCounts();
-function renderOnlineDeck(){const total=onlineCounts.reduce((a,b)=>a+b,0);$('onlineDeckCount').textContent=total+' / 20 枚';$('onlineDeckEditor').replaceChildren();ONLINE_CARDS.forEach((card,i)=>{if(['oru','fe'].includes(card.kind))return;const item=document.createElement('div');item.className='online-deck-item';const name=document.createElement('span');name.textContent=card.name;const controls=document.createElement('div');controls.className='buttons';const minus=document.createElement('button');minus.textContent='−';minus.disabled=onlineCounts[i]===0;minus.onclick=()=>{onlineCounts[i]--;renderOnlineDeck()};const count=document.createElement('b');count.textContent=onlineCounts[i];const plus=document.createElement('button');plus.textContent='＋';plus.disabled=total>=20||onlineCounts[i]>=(card.limit||3);plus.onclick=()=>{onlineCounts[i]++;renderOnlineDeck()};controls.append(minus,count,plus);item.append(name,controls);$('onlineDeckEditor').append(item)});$('saveOnlineDeck').disabled=total!==20}
+// 自動発動専用カードはデッキに直接入れない。旧保存データに含まれていた場合は初期デッキへ戻す。
+if(onlineCounts.some((n,i)=>n>0&&['oru','fe','assassin'].includes(ONLINE_CARDS[i].kind))){onlineCounts=[...DEFAULT_ONLINE_COUNTS];localStorage.removeItem(EFFECT_KEY)}
+function renderOnlineDeck(){const total=onlineCounts.reduce((a,b)=>a+b,0);$('onlineDeckCount').textContent=total+' / 20 枚';$('onlineDeckEditor').replaceChildren();ONLINE_CARDS.forEach((card,i)=>{if(['oru','fe','assassin'].includes(card.kind))return;const item=document.createElement('div');item.className='online-deck-item';const name=document.createElement('span');name.textContent=card.name;const controls=document.createElement('div');controls.className='buttons';const minus=document.createElement('button');minus.textContent='−';minus.disabled=onlineCounts[i]===0;minus.onclick=()=>{onlineCounts[i]--;renderOnlineDeck()};const count=document.createElement('b');count.textContent=onlineCounts[i];const plus=document.createElement('button');plus.textContent='＋';plus.disabled=total>=20||onlineCounts[i]>=(card.limit||3);plus.onclick=()=>{onlineCounts[i]++;renderOnlineDeck()};controls.append(minus,count,plus);item.append(name,controls);$('onlineDeckEditor').append(item)});$('saveOnlineDeck').disabled=total!==20}
 $('saveOnlineDeck').onclick=()=>{if(onlineCounts.reduce((a,b)=>a+b,0)!==20)return;localStorage.setItem(EFFECT_KEY,JSON.stringify(onlineCounts));$('onlineDeckMessage').textContent='保存しました。次に開始する対戦から使用します。'};
 renderOnlineDeck();
 const report=e=>{console.error(e);$('status').textContent='エラー：'+(e?.message||String(e))};
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function deck(){const saved=readOnlineCounts();return shuffle(saved.flatMap((n,i)=>Array(n).fill(cards[i])))}
 const refRoom=()=>doc(db,'rooms',code),refGame=()=>doc(db,'testBattles',code),refMine=()=>doc(db,'testBattles',code,'players',uid);
-function canPlayOnline(name,handSize){const kind=ONLINE_CARDS.find(c=>c.name===name)?.kind;return kind&&!(kind==='special3'&&handSize!==1)&&!(kind==='special5'&&handSize<7)&&!(kind==='search'&&handSize>2)&&!(kind==='heal'&&mine.used.length<5)&&!(kind==='chitose'&&handSize<4)&&!['oru','fe'].includes(kind)&&!(game?.[side+'Effects']?.napSkip)}
+function isNapRestricted(e){return Number(e?.napRemaining||0)>0&&Number(e?.napDelay||0)===0}
+function canPlayOnline(name,handSize){const kind=ONLINE_CARDS.find(c=>c.name===name)?.kind;return kind&&!(kind==='special3'&&handSize!==1)&&!(kind==='special5'&&handSize<7)&&!(kind==='search'&&handSize>2)&&!(kind==='heal'&&mine.used.length<5)&&!(kind==='udon'&&!(game?.round===1&&game?.turn===uid))&&!(kind==='chitose'&&handSize<4)&&!['oru','fe','counter','assassin'].includes(kind)&&!(game?.[side+'Effects']?.napSkip)&&!isNapRestricted(game?.[side+'Effects'])}
+// 端末が最後にFirestoreへ応答した時刻。接続状態を断定するものではありません。
+function updatePeerPresence(){
+ const el=$('peerPresence');if(!el)return;
+ if(!game||!side||game.state==='finished'){el.className='peer-presence';el.textContent=game?.state==='finished'?'対戦は終了しました':'相手の応答状況：対戦開始後に表示';return;}
+ const other=side==='host'?'guest':'host';
+ const seen=Number(game.presence?.[other]||0);
+ const age=seen?Math.max(0,Math.floor((Date.now()-seen)/1000)):null;
+ const fresh=age!==null&&age<65;
+ el.className='peer-presence '+(fresh?'fresh':'stale');
+ el.textContent=fresh?'● 相手の応答あり（最終更新 約'+age+'秒前）':age===null?'● 相手の応答をまだ確認できません': '● 相手の応答が途絶えている可能性（最終更新 約'+age+'秒前）';
+}
+// 対戦中に相手が再び応答した際だけ通知する（初回の購読時は通知しない）。
+let peerPresenceInitialized=false, peerWasStale=false, rejoinNoticeTimer=null;
+function checkPeerReturn(){
+ if(!game||!side||game.state!=='playing')return;
+ const other=side==='host'?'guest':'host';
+ const seen=Number(game.presence?.[other]||0);
+ const isFresh=seen>0&&Date.now()-seen<65000;
+ if(peerPresenceInitialized&&peerWasStale&&isFresh){
+  const pending=game.pendingCard;
+  const detail=pending?(pending.status==='waiting'?'カウンターの回答待ちを再確認してください。':pending.status==='countered'?'カウンター成立済みです。使用者が確定してください。':'カード効果の確定待ちです。'):'対戦を再開できます。';
+  const notice=$('rejoinNotice');notice.textContent='↩ 相手の応答が再開しました。'+detail;notice.hidden=false;
+  clearTimeout(rejoinNoticeTimer);rejoinNoticeTimer=setTimeout(()=>notice.hidden=true,8000);
+ }
+ peerPresenceInitialized=true;peerWasStale=!isFresh;
+}
+// 再読み込み後もFirestoreの pendingCard を唯一の正しい状態として復元する。
+// カード選択の途中状態だけ sessionStorage に保存する（選択確定はサーバーで再検証）。
+let pendingRecoverySeen='',pendingRecoveryReady=false;
+function pickerStorageKey(){return 'onlineYakaPicker:'+code+':'+uid}
+function restorePendingUi(){
+ const el=$('pendingRecovery');if(!el||!game||!side||!mine||game.state!=='playing'){if(el)el.hidden=true;return}
+ const p=game.pendingCard;
+ if(!p){el.hidden=true;pendingRecoverySeen='';try{sessionStorage.removeItem(pickerStorageKey())}catch{}return}
+ const key=String(p.id||'')+':'+String(p.status||'');
+ if(pendingRecoverySeen!==key){
+  pendingRecoverySeen=key;
+  if(p.status==='waiting'&&p.actor!==uid){
+   try{const saved=JSON.parse(sessionStorage.getItem(pickerStorageKey())||'null');
+    if(saved?.pendingId===p.id&&saved?.open&&mine.hand.includes('やかましいわ')&&!game.hostEffects?.kaii&&!game.guestEffects?.kaii){
+     yakaPickerOpen=true;
+     yakaSelected=(saved.names||[]).map((name)=>mine.hand.findIndex((n,i)=>n===name&&!yakaSelected.includes(i))).filter(i=>i>=0).slice(0,2);
+    }
+   }catch{}
+  }else{yakaPickerOpen=false;yakaSelected=[];try{sessionStorage.removeItem(pickerStorageKey())}catch{}}
+ }
+ const mineActor=p.actor===uid;
+ el.textContent=p.status==='waiting'?(mineActor?'⏳ カウンター回答待ちを復元しました。相手の選択を待ってください。':'↩ カウンター選択を復元しました。「効果を通す」か無効化を選んでください。'):(mineActor?'↩ カード効果の確定待ちを復元しました。確定ボタンを押してください。':'⏳ 使用者による効果確定を待っています。');
+ el.hidden=false;
+}
+function savePickerState(){
+ if(!game?.pendingCard||!code||!uid)return;
+ try{sessionStorage.setItem(pickerStorageKey(),JSON.stringify({pendingId:game.pendingCard.id,open:yakaPickerOpen,names:yakaSelected.map(i=>mine?.hand[i]).filter(Boolean)}))}catch{}
+}
+let presenceSending=false;
+async function sendPresence(){
+ if(presenceSending||!uid||!code||!game||!side||!['setup','playing'].includes(game.state)||document.visibilityState==='hidden'||!navigator.onLine)return;
+ presenceSending=true;
+ try{await updateDoc(refGame(),{['presence.'+side]:Date.now()});}catch(e){console.warn('応答状況の更新に失敗しました',e)}finally{presenceSending=false;}
+}
+setInterval(sendPresence,20000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){sendPresence();render();updatePeerPresence();}});
+window.addEventListener('online',sendPresence);
+setInterval(()=>{updatePeerPresence();if(game?.pendingCard)render();},1000);
 function render(){
  const isHost=!!room&&room.host===uid,ready=!!room&&!!room.guest&&room.hostReady&&room.guestReady;
  $('start').disabled=busy||!isHost||!ready||!!game;
  if(!code){$('turn').textContent='対戦待機';return}
  if(!game){$('turn').textContent='対戦待機';$('stats').textContent=ready?'両者準備完了。ホストが対戦を開始できます。':'ロビーで両者が準備完了になるのを待っています。';$('draw').disabled=$('play').disabled=$('discard').disabled=$('pass').disabled=true;$('hand').replaceChildren();$('log').textContent='対戦開始待ち';return}
- if(game.state==='setup'){$('turn').textContent='カードを配布中…';$('stats').textContent='両プレイヤーの準備を待っています。';$('draw').disabled=$('play').disabled=$('discard').disabled=$('pass').disabled=true;$('log').textContent=(game.log||[]).slice(-10).join('\n');return}
+ if(game.state==='setup'){$('turn').textContent='カードを配布中…';$('stats').textContent='両プレイヤーの準備を待っています。';$('draw').disabled=$('play').disabled=$('discard').disabled=$('pass').disabled=true;$('log').textContent=(game.log||[]).slice(-10).join('\n');
+ $('ownStatus').textContent=effectLabels(myEffects,game.round);$('enemyStatus').textContent=effectLabels(theirEffects,game.round);return}
  if(!mine){$('turn').textContent='手札を読み込み中…';return}
  const opponent=side==='host'?'guest':'host',myTurn=game.turn===uid&&game.state==='playing',needDraw=myTurn&&!game.drawn;
+ const pending=game.pendingCard||null;const awaiting=pending&&pending.status==='waiting';
+ const cancelReady=!!(awaiting&&pending.actor===uid&&Number.isFinite(pending.createdAt)&&Date.now()-pending.createdAt>=120000);
+ updatePeerPresence();$('counterCancel').hidden=!cancelReady;$('counterCancel').disabled=busy||!cancelReady;
+ if(!awaiting||pending.actor===uid){yakaPickerOpen=false;yakaSelected=[];}
+ $('yakaPicker').hidden=!yakaPickerOpen;const resolving=pending&&pending.actor===uid&&pending.status!=='waiting';
+ $('counterAccept').hidden=!(awaiting&&pending.actor!==uid);$('counterUse').hidden=!(awaiting&&pending.actor!==uid&&mine.hand.includes('企画破壊')&&game[side+'Life']>2);$('counterResolve').hidden=!resolving;
+ const kaiiOn=!!(game.hostEffects?.kaii||game.guestEffects?.kaii);
+ const yakaEligible=mine.hand.filter(n=>YAKA_COST_NAMES.has(n)&&n!=='やかましいわ'&&!kaiiOn).length;
+ $('counterYaka').hidden=!(awaiting&&pending.actor!==uid&&!kaiiOn&&mine.hand.includes('やかましいわ')&&yakaEligible>=2);
+ restorePendingUi();renderYakaPicker();
+ $('counterResolve').textContent=pending?.status==='countered'?'無効化されたカードをUSEDへ送る':'カード効果を確定';
+ if(pending)$('stats').textContent='カウンター確認中：'+pending.card+'（'+(pending.status==='waiting'?'相手の選択待ち':pending.status==='countered'?'無効化':'効果を通す')+'）';
  const myEffects=game[side+'Effects']||{},theirEffects=game[opponent+'Effects']||{};
- $('myEffects').textContent=Object.keys(myEffects).filter(k=>myEffects[k] && (!k.endsWith('Until') || myEffects[k]>=game.round)).map(k=>({kaii:'怪異：名前変更',tomato:'トマト：次の該当カード2回',blockUntil:'ドロー封じ',edoUntil:'江戸姫',blockPermanent:'永続ドロー封じ',edoPermanent:'永続江戸姫'}[k]||k)).join(' / ')||'なし';
- $('oppEffects').textContent=Object.keys(theirEffects).filter(k=>theirEffects[k] && (!k.endsWith('Until') || theirEffects[k]>=game.round)).map(k=>({kaii:'怪異：名前変更',tomato:'トマト待機',blockUntil:'ドロー封じ',edoUntil:'江戸姫',blockPermanent:'永続ドロー封じ',edoPermanent:'永続江戸姫'}[k]||k)).join(' / ')||'なし';
+ $('myEffects').textContent=effectLabels(myEffects,game.round);
+ $('oppEffects').textContent=effectLabels(theirEffects,game.round);
  $('turn').textContent=game.state==='finished'?(game.winner===uid?'🏆 勝利！':'敗北'):myTurn?'あなたのターン':'相手のターン';
  $('stats').textContent=`自分のライフ ${game[side+'Life']} ／ 相手のライフ ${game[opponent+'Life']}　|　山札 ${mine.deck.length}　|　手札 ${mine.hand.length}　|　USED ${mine.used.length}　|　相手の手札 ${game[opponent+'HandCount']}`;
- $('draw').disabled=busy||!needDraw;
+ $('draw').disabled=busy||!needDraw||!!pending;
+ const napBlocked=isNapRestricted(myEffects);
  const drawBlocked=!!(myEffects.blockPermanent||myEffects.blockUntil>=game.round);
- $('draw').textContent=drawBlocked?'ドロー封じ中（スキップ）':'1枚引く';$('play').disabled=busy||!myTurn||!game.drawn||selected.length!==1||(selected.length===1&&!canPlayOnline(mine.hand[selected[0]],mine.hand.length));$('discard').disabled=busy||!myTurn||!game.drawn||selected.length!==2||!!(myEffects.edoPermanent||myEffects.edoUntil>=game.round);$('pass').disabled=busy||!myTurn||!game.drawn;
+ $('draw').textContent=napBlocked?'お昼寝：通常ドローをスキップ':drawBlocked?'ドロー封じ中（スキップ）':'1枚引く';$('play').disabled=busy||!!pending||!myTurn||!game.drawn||selected.length!==1||(selected.length===1&&!canPlayOnline(mine.hand[selected[0]],mine.hand.length));$('discard').disabled=busy||!!pending||!myTurn||!game.drawn||selected.length!==2||napBlocked||!!(myEffects.edoPermanent||myEffects.edoUntil>=game.round);$('pass').disabled=busy||!!pending||!myTurn||!game.drawn;
+ if(pending)$('turn').textContent=pending.actor===uid?'相手のカウンター確認中':'カウンターの選択';
+ if(awaiting&&pending.actor===uid){const seconds=Number.isFinite(pending.createdAt)?Math.max(0,Math.ceil((120000-(Date.now()-pending.createdAt))/1000)):null;$('stats').textContent='相手のカウンター回答待ち'+(seconds===null?'（旧形式の宣言は取消不可）':seconds>0?'／取消まであと'+seconds+'秒':'／応答なしなら宣言を取り消せます');}
  $('hand').replaceChildren();mine.hand.forEach((name,i)=>{const b=document.createElement('button');const ci=ONLINE_CARDS.find(c=>c.name===name)?.id??-1;setCardTheme(b,ci);b.classList.remove('card-themed');b.classList.add('hand-themed');b.textContent=(selected.includes(i)?'☑ ':'□ ')+name;b.onclick=()=>{selected=selected.includes(i)?selected.filter(x=>x!==i):[...selected,i];render()};$('hand').append(b)});
  $('log').textContent=(game.log||[]).slice(-10).join('\n');
 }
@@ -162,7 +363,7 @@ function syncCinematic(){
  const current={key,state:game.state,turn:game.turn,round:game.round,winner:game.winner};
  const prev=cinePrevious;
  if(game.state==='playing'&&(!prev||prev.key!==key||prev.state!=='playing'||prev.turn!==game.turn||prev.round!==game.round)){
-   cineTurnEffect(game.turn===uid,game.round??1);
+   // ターン表示はモバイル対応の共通演出キューで処理する。
  }
  if(game.state==='finished'&&game.winner&&cineShownResult!==key){
    cineShownResult=key;
@@ -172,41 +373,253 @@ function syncCinematic(){
  cinePrevious=current;
 }
 
-function watch(){previousLifeByRoom=null;cinePrevious=null;cineShownResult=null;$('cineResult').classList.remove('visible');unsubs.forEach(fn=>fn());unsubs=[];room=game=mine=null;selected=[];render();
+function watch(){pendingRecoverySeen='';pendingRecoveryReady=false;$('pendingRecovery').hidden=true;yakaPickerOpen=false;yakaSelected=[];peerPresenceInitialized=false;peerWasStale=false;clearTimeout(rejoinNoticeTimer);$('rejoinNotice').hidden=true;previousLifeByRoom=null;cinePrevious=null;cineShownResult=null;$('cineResult').classList.remove('visible');unsubs.forEach(fn=>fn());unsubs=[];room=game=mine=null;selected=[];render();
  unsubs.push(onSnapshot(refRoom(),s=>{room=s.exists()?s.data():null;if(!room){$('status').textContent='ルームが見つかりません';return}side=room.host===uid?'host':room.guest===uid?'guest':null;$('status').textContent=`ルーム ${code} ／ ${side==='host'?'ホスト':'ゲスト'}`;render();syncCinematic()},report));
- unsubs.push(onSnapshot(refGame(),s=>{game=s.exists()?s.data():null;render();syncCinematic();if(game){const events=(game.log||[]).filter(x=>x.startsWith('🗡️ 刺客の襲撃！'));if(!assassinLogReady){assassinSeen=new Set(events);assassinLogReady=true}else{for(const ev of events)if(!assassinSeen.has(ev)){showAssassinFx(ev.split(' | ')[0]);assassinSeen.add(ev)}}}},report));
+ unsubs.push(onSnapshot(refGame(),s=>{game=s.exists()?s.data():null;render();checkPeerReturn();sendPresence();syncCinematic();mbSyncEvents();mbSyncCounterLog();if(game){const events=(game.log||[]).filter(x=>x.startsWith('🗡️ 刺客の襲撃！'));if(!assassinLogReady){assassinSeen=new Set(events);assassinLogReady=true}else{for(const ev of events)if(!assassinSeen.has(ev)){showAssassinFx(ev.split(' | ')[0]);assassinSeen.add(ev)}}}},report));
  unsubs.push(onSnapshot(refMine(),s=>{mine=s.exists()?s.data():null;selected=[];render()},report));
 }
 onAuthStateChanged(auth,u=>{if(u){uid=u.uid;$('auth').textContent='匿名ログイン済み';$('enter').disabled=false;const requested=new URLSearchParams(location.search).get('room');if(requested&&/^\d{6}$/.test(requested)&&!code){$('code').value=requested;$('enter').click()}}else{$('auth').textContent='ログイン待機';$('enter').disabled=true}});
 signInAnonymously(auth).catch(report);
 $('enter').onclick=async()=>{try{const c=$('code').value.trim();if(!/^\d{6}$/.test(c))throw Error('6桁のルーム番号を入力してください');if(!uid)throw Error('ログイン完了までお待ちください');const r=await getDoc(doc(db,'rooms',c));if(!r.exists()||![r.data().host,r.data().guest].includes(uid))throw Error('この部屋に参加していません。先にロビーで参加してください');code=c;watch()}catch(e){report(e)}};
 $('start').onclick=async()=>{if(busy)return;busy=true;render();try{const r=await getDoc(refRoom());if(!r.exists())throw Error('ルームが見つかりません');const v=r.data();if(v.host!==uid||!v.guest||!v.hostReady||!v.guestReady)throw Error('ホストとゲスト両方の準備完了が必要です');
- await runTransaction(db,async tx=>{const s=await tx.get(refGame());if(s.exists())throw Error('この部屋には既に対戦があります。新しい部屋を作成してください');tx.set(refGame(),{host:v.host,guest:v.guest,turn:Math.random()<.5?v.host:v.guest,hostLife:7,guestLife:7,hostHandCount:0,guestHandCount:0,state:'setup',drawn:false,round:1,winner:null,log:['対戦準備中']})});
+ await runTransaction(db,async tx=>{const s=await tx.get(refGame());if(s.exists())throw Error('この部屋には既に対戦があります。新しい部屋を作成してください');tx.set(refGame(),{host:v.host,guest:v.guest,turn:Math.random()<.5?v.host:v.guest,hostLife:7,guestLife:7,hostHandCount:0,guestHandCount:0,state:'setup',drawn:false,round:1,winner:null,log:['対戦準備中'],fxEvents:[]})});
 }catch(e){report(e)}finally{busy=false;render()}};
 async function initialize(){if(!game||!side||game.state!=='setup')return;const p=refMine(),s=await getDoc(p);if(!s.exists()){const d=deck(),h=d.splice(0,2);await setDoc(p,{owner:uid,hand:h,deck:d,used:[]});}if(game[side+'HandCount']!==2)await updateDoc(refGame(),{[side+'HandCount']:2});}
 setInterval(async()=>{if(!code||!game||!side||initializing||game.state!=='setup')return;initializing=true;try{await initialize();if(side==='host'){const s=await getDoc(refGame());if(s.exists()&&s.data().state==='setup'&&s.data().hostHandCount===2&&s.data().guestHandCount===2)await updateDoc(refGame(),{state:'playing',drawn:true,log:['対戦開始！先攻の最初のターンはドローなし']})}}catch(e){report(e)}finally{initializing=false}},1400);
+async function answerCounter(use){
+ if(busy||!game?.pendingCard||game.pendingCard.status!=='waiting'||game.pendingCard.actor===uid)return;
+ busy=true;render();try{
+  const pending=game.pendingCard;
+  const own=refMine(),battle=refGame();
+  await runTransaction(db,async tx=>{
+   const gs=await tx.get(battle),ps=await tx.get(own);
+   if(!gs.exists()||!ps.exists())throw Error('対戦データがありません');
+   const v=gs.data(),m=ps.data(),p=v.pendingCard;
+   if(!p||p.id!==pending.id||p.status!=='waiting'||p.actor===uid)throw Error('既に回答されています');
+   if(use){
+    const at=m.hand.indexOf('企画破壊');
+    if(at<0||v[side+'Life']<=2)throw Error('企画破壊を使用できません（手札またはHPを確認）');
+    m.used=[...(m.used||[]),m.hand.splice(at,1)[0]];
+    tx.set(own,m);
+    tx.update(battle,{[side+'Life']:v[side+'Life']-2,[side+'HandCount']:m.hand.length,
+      pendingCard:{...p,status:'countered'},
+      log:[...(v.log||[]),'⚡ 企画破壊！ 相手の「'+p.card+'」の効果を無効化（HP−2）'].slice(-30),
+      fxEvents:[...(v.fxEvents||[]),{id:uid+':counter:'+Date.now(),type:'counter',actor:uid,title:'COUNTER! 企画破壊',sub:p.card+'を無効化'}].slice(-24)});
+   }else tx.update(battle,{pendingCard:{...p,status:'allowed'},log:[...(v.log||[]),'「'+p.card+'」の発動を通した'].slice(-30)});
+  });
+ }catch(e){report(e)}finally{busy=false;render()}
+}
+function renderYakaPicker(){
+ const panel=$('yakaPicker');panel.hidden=!yakaPickerOpen;
+ if(!yakaPickerOpen||!mine)return;
+ const eligible=mine.hand.map((name,i)=>({name,i})).filter(o=>o.name!=='やかましいわ'&&YAKA_COST_NAMES.has(o.name));
+ const choices=$('yakaChoices');choices.replaceChildren();
+ for(const o of eligible){const b=document.createElement('button');b.type='button';b.textContent=(o.i+1)+'枚目：'+o.name;
+ b.classList.toggle('chosen',yakaSelected.includes(o.i));b.setAttribute('aria-pressed',String(yakaSelected.includes(o.i)));
+ b.onclick=()=>{yakaSelected=yakaSelected.includes(o.i)?yakaSelected.filter(i=>i!==o.i):yakaSelected.length<2?[...yakaSelected,o.i]:[yakaSelected[1],o.i];savePickerState();renderYakaPicker()};choices.append(b)}
+ $('yakaConfirm').disabled=busy||yakaSelected.length!==2;
+}
+async function answerYaka(){
+ if(busy||!game?.pendingCard||game.pendingCard.status!=='waiting'||game.pendingCard.actor===uid||!mine)return;
+ if(game.hostEffects?.kaii||game.guestEffects?.kaii){report(Error('怪異の発動中は指定カード名を満たせません'));return}
+ if(!mine.hand.includes('やかましいわ'))return;
+ const eligible=mine.hand.map((name,i)=>({name,i})).filter(o=>o.name!=='やかましいわ'&&YAKA_COST_NAMES.has(o.name));
+ if(eligible.length<2)return;
+ yakaSelected=[];yakaPickerOpen=true;savePickerState();renderYakaPicker();
+}
+$('yakaCancel').onclick=()=>{yakaPickerOpen=false;yakaSelected=[];savePickerState();renderYakaPicker()};
+$('yakaConfirm').onclick=async()=>{
+ if(busy||!yakaPickerOpen||yakaSelected.length!==2||!game?.pendingCard||!mine)return;
+ const ids=[...yakaSelected],pending=game.pendingCard;
+ if(ids[0]===ids[1]||ids.some(i=>!YAKA_COST_NAMES.has(mine.hand[i])||mine.hand[i]==='やかましいわ')){report(Error('指定カード2枚を選び直してください'));return}
+ busy=true;renderYakaPicker();try{
+  await runTransaction(db,async tx=>{
+   const battle=refGame(),own=refMine();const gs=await tx.get(battle),ps=await tx.get(own);
+   if(!gs.exists()||!ps.exists())throw Error('対戦データがありません');
+   const v=gs.data(),m=ps.data(),q=v.pendingCard;
+   if(!q||q.id!==pending.id||q.status!=='waiting'||q.actor===uid||v.state!=='playing'||v.turn!==q.actor)throw Error('カウンター受付は終了しました');
+   if(v.hostEffects?.kaii||v.guestEffects?.kaii)throw Error('怪異発動中は指定カード名を満たしません');
+   const counterAt=m.hand.indexOf('やかましいわ');
+   if(counterAt<0||ids.some(i=>!Number.isInteger(i)||i<0||i>=m.hand.length||!YAKA_COST_NAMES.has(m.hand[i])||m.hand[i]==='やかましいわ')||ids.includes(counterAt))throw Error('選択したカードが変更されました');
+   const costs=[counterAt,...ids].sort((a,b)=>b-a);for(const i of costs)m.used.push(m.hand.splice(i,1)[0]);
+   tx.set(own,m);
+   tx.update(battle,{[side+'HandCount']:m.hand.length,pendingCard:{...q,status:'countered'},
+    log:[...(v.log||[]),'⚡ やかましいわ！ 指定カード2枚と合わせて3枚をUSEDに送り「'+q.card+'」を無効化'].slice(-30),
+    fxEvents:[...(v.fxEvents||[]),{id:uid+':yaka:'+Date.now(),type:'counter',actor:uid,title:'COUNTER! やかましいわ',sub:q.card+'を無効化'}].slice(-24)});
+  });
+  yakaPickerOpen=false;yakaSelected=[];
+ }catch(e){report(e)}finally{busy=false;render()}
+};
+$('counterAccept').onclick=()=>answerCounter(false);
+$('counterUse').onclick=()=>answerCounter(true);
+$('counterYaka').onclick=()=>answerYaka();
+$('counterCancel').onclick=async()=>{
+ if(busy||!game?.pendingCard)return;
+ const expected=game.pendingCard;
+ if(expected.actor!==uid||expected.status!=='waiting'||!Number.isFinite(expected.createdAt)||Date.now()-expected.createdAt<120000)return;
+ busy=true;render();
+ try{
+  await runTransaction(db,async tx=>{
+   const battle=refGame(),snap=await tx.get(battle);
+   if(!snap.exists())throw Error('対戦がありません');
+   const v=snap.data(),p=v.pendingCard;
+   if(!p||p.id!==expected.id||p.status!=='waiting'||p.actor!==uid||!Number.isFinite(p.createdAt)||Date.now()-p.createdAt<120000||v.turn!==uid||v.state!=='playing')throw Error('相手の回答が先に確定したか、取消条件を満たしていません');
+   tx.update(battle,{pendingCard:null,log:[...(v.log||[]),'⌛ 相手の応答がないため「'+p.card+'」の発動宣言を取り消しました（カードは手札に残ります）'].slice(-30)});
+  });
+ }catch(e){report(e)}finally{busy=false;render()}
+};
+$('counterResolve').onclick=()=>act('resolve');
 async function act(kind){
  if(busy)return;busy=true;render();
  try{
   if(!game||!mine||game.turn!==uid||game.state!=='playing')return;
+  const pending=game.pendingCard||null;
+  if(pending&&kind!=='resolve')return;
+  if(kind==='resolve'&&(!pending||pending.actor!==uid||pending.status==='waiting'))return;
+  if(kind==='play'){
+   if(!game.drawn||selected.length!==1||!canPlayOnline(mine.hand[selected[0]],mine.hand.length))return;
+   const idx=selected[0],card=mine.hand[idx];
+   const id=uid+':'+Date.now()+':'+Math.random().toString(36).slice(2);
+   await runTransaction(db,async tx=>{
+    const snap=await tx.get(refGame());if(!snap.exists())throw Error('対戦がありません');
+    const v=snap.data();if(v.pendingCard||v.turn!==uid||v.round!==game.round||!v.drawn)throw Error('対戦状態が更新されました');
+    tx.update(refGame(),{pendingCard:{id,actor:uid,card,index:idx,status:'waiting',createdAt:Date.now()},log:[...(v.log||[]),'カード発動宣言：「'+card+'」 カウンター確認待ち'].slice(-30)});
+   });
+   selected=[];return;
+  }
+  if(kind==='resolve'&&pending.status==='countered'){
+   await runTransaction(db,async tx=>{
+    const gs=await tx.get(refGame()),ps=await tx.get(refMine());
+    if(!gs.exists()||!ps.exists())throw Error('対戦データがありません');
+    const v=gs.data(),m=ps.data(),p=v.pendingCard;
+    if(!p||p.id!==pending.id||p.status!=='countered'||v.turn!==uid)throw Error('状態が更新されました');
+    const at=m.hand[p.index]===p.card?p.index:m.hand.indexOf(p.card);
+    if(at<0)throw Error('発動カードが手札に見つかりません');
+    m.used=[...(m.used||[]),m.hand.splice(at,1)[0]];
+    const other=side==='host'?'guest':'host';
+    // 無効化されたカードは効果を発揮しない。ただしターンは終了し、
+    // 次のターンで失効する一時効果は公開状態から取り除く。
+    const nextRound=v.round+1;
+    const expiryPatch={};
+    for(const owner of ['host','guest']){
+      const key=owner+'Effects',effects={...(v[key]||{})};
+      let changed=false;
+      for(const effectKey of ['blockUntil','edoUntil','shieldUntil','mochiProtectUntil']){
+        if(effects[effectKey]!=null&&Number(effects[effectKey])<nextRound){delete effects[effectKey];changed=true}
+      }
+      if(changed)expiryPatch[key]=effects;
+    }
+    tx.set(refMine(),m);
+    tx.update(refGame(),{...expiryPatch,pendingCard:null,turn:v[other],drawn:false,round:nextRound,[side+'HandCount']:m.hand.length,log:[...(v.log||[]),'「'+p.card+'」は無効化されUSEDへ（効果なし）'].slice(-30),fxEvents:[...(v.fxEvents||[]),{id:uid+':nullify:'+Date.now(),type:'nullify',actor:v[other],title:'NEGATED!',sub:p.card+'の効果を無効化'}].slice(-24)});
+   });selected=[];return;
+  }
+  if(kind==='resolve'){
+   const at=mine.hand[pending.index]===pending.card?pending.index:mine.hand.indexOf(pending.card);
+   if(at<0)throw Error('発動カードが手札にありません');
+   selected=[at];
+  }
   const opponent=side==='host'?'guest':'host',opponentUid=game[opponent],p=refMine(),g=refGame();
-  const m=structuredClone(mine),patch={},logs=[...(game.log||[])];
+  const m=structuredClone(mine),patch={},logs=[...(game.log||[])],fxEvents=[...(game.fxEvents||[])];const fxId=()=>uid+":"+Date.now()+":"+Math.random().toString(36).slice(2);
   const ownEffects={...(game[side+'Effects']||{})},enemyEffects={...(game[opponent+'Effects']||{})};
   let ownEffectsDirty=false,enemyEffectsDirty=false,extraTurn=false;
+  // 期限切れをFirestoreからも除去し、過去の状態が残り続けないようにする。
+  for(const [effects,mark] of [[ownEffects,()=>{ownEffectsDirty=true}],[enemyEffects,()=>{enemyEffectsDirty=true}]]){
+    for(const key of ['blockUntil','edoUntil','shieldUntil','mochiProtectUntil']){
+      if(effects[key]&&Number(effects[key])<game.round){delete effects[key];mark()}
+    }
+  }
+  // 第50段階：特殊ダメージも同じ防御・上限・HP判定を通す。
+  const applyDamage=(target,amount,{ignoreShield=false,ignoreCap=false,source='効果'}={})=>{
+    if(patch.state==='finished'||!Number.isFinite(amount)||amount<=0)return 0;
+    const effects=target===side?ownEffects:enemyEffects;
+    const raw=Math.max(0,Math.floor(amount));
+    if(!ignoreShield&&(Number(effects.shieldUntil)||0)>=game.round){
+      logs.push('腐白蛇：'+source+'の'+raw+'ダメージを防御');
+      fxEvents.push({id:fxId(),type:'proc',actor:game[target],title:'腐白蛇：防御',sub:source+'を無効化'});
+      return 0;
+    }
+    const dealt=!ignoreCap&&effects.damageCap?Math.min(1,raw):raw;
+    const key=target+'Life',before=Math.max(0,Number(patch[key]??game[key])||0);
+    patch[key]=Math.max(0,before-dealt);
+    if(before>0&&patch[key]===0){patch.state='finished';patch.winner=game[target===side?opponent:side]}
+    return Math.min(before,dealt);
+  };
+  // 刺客は手札への追加イベント単位で処理する。手札の差分では見逃し・二重計上が生じる。
+  const assassinOnDraw=(target,drawn,source)=>{
+    if(drawn!=='刺客'||isKaiiActive(ownEffects,enemyEffects))return;
+    const dealt=applyDamage(target,1,{source:'刺客'});
+    if(dealt){logs.push('🗡️ 刺客の襲撃！ '+(target==='host'?'ホスト':'ゲスト')+'が刺されて'+dealt+'ダメージ！ | '+Date.now()+'-'+Math.random());
+      fxEvents.push({id:fxId(),type:'proc',actor:game[target],title:'刺客の襲撃！',sub:source+'：'+dealt+'ダメージ'});}
+  };
   let damage=0;let selfDamageFromCard=false;
-  let opponentPrivate=null;
-  const getOpponentPrivate=async()=>{if(!opponentPrivate){const snap=await getDoc(doc(db,'testBattles',code,'players',opponentUid));if(!snap.exists())throw Error('相手のカード情報を取得できません');opponentPrivate=structuredClone(snap.data())}return opponentPrivate};
+  // 手札→USEDの移動枚数を共通で集計。山札→USEDは含めない。
+  let ownHandToUsed=0;
+  const recordHandToUsed=(count=1)=>{ownHandToUsed+=count};
+  // 手札→USEDを共通化。使用・通常2枚攻撃・効果による移動を同じ累計に反映する。
+  const moveOwnHandToUsed=(index)=>{
+    if(!m.hand.length)return null;
+    const at=Math.max(0,Math.min(m.hand.length-1,index));
+    const moved=m.hand.splice(at,1)[0];m.used.push(moved);recordHandToUsed();return moved;
+  };
+  const moveAllOwnHandToUsed=()=>{while(m.hand.length)moveOwnHandToUsed(m.hand.length-1)};
+  const ownHandStart=[...m.hand];
+  let opponentUsedStart=null, opponentHandStart=null;
+  let opponentPrivate=null,opponentPrivateBefore=null;
+  const getOpponentPrivate=async()=>{if(!opponentPrivate){const snap=await getDoc(doc(db,'testBattles',code,'players',opponentUid));if(!snap.exists())throw Error('相手のカード情報を取得できません');opponentPrivateBefore=structuredClone(snap.data());opponentPrivate=structuredClone(opponentPrivateBefore);opponentUsedStart=opponentPrivate.used.length;opponentHandStart=[...opponentPrivate.hand]}return opponentPrivate};
+  // オル虐：相手の効果によって手札から移動した場合だけ反応。所有者は1枚引き、効果を起こした側が1ダメージ。
+  const oruProc=async(ownerIsOpponent)=>{
+    const owner=ownerIsOpponent?opponentUid:uid;
+    const victimSide=ownerIsOpponent?side:opponent;
+    applyDamage(victimSide,1,{source:'オル虐'});
+    logs.push('オル虐：相手の効果で手札から移動。'+(ownerIsOpponent?'使用者':'相手')+'に1ダメージ、所有者が1枚ドロー');
+    fxEvents.push({id:fxId(),type:'proc',actor:owner,title:'オル虐 発動！',sub:'1ダメージ＋所有者1ドロー'});
+    const q=ownerIsOpponent?await getOpponentPrivate():m;
+    if(isTurnEffectActive(ownerIsOpponent?enemyEffects:ownEffects,'block',game.round))logs.push('オル虐：ドロー禁止により1ドロー無効');
+    else if(!q.deck.length){patch.state='finished';patch.winner=ownerIsOpponent?uid:opponentUid;logs.push('オル虐：効果ドロー時に山札切れ')}
+    else {const drawn=q.deck.pop();q.hand.push(drawn);if(!ownerIsOpponent)assassinOnDraw(side,drawn,'オル虐');if(ownerIsOpponent)assassinOnDraw(opponent,drawn,'オル虐');}
+    if(!patch.state&&patch[victimSide+'Life']===0){patch.state='finished';patch.winner=owner}
+    const ownerSide=ownerIsOpponent?opponent:side;
+    if(!patch.state&&patch[ownerSide+'Life']===0){patch.state='finished';patch.winner=ownerIsOpponent?uid:opponentUid}
+  };
+  // 相手のカード効果による手札移動をここに集約する。
+  // 自分のカード使用・通常の2枚攻撃は「オル虐」の発動条件に含めない。
+  const moveHandByOpponentEffect=async(targetIsOpponent,index,destination='used')=>{
+    const target=targetIsOpponent?await getOpponentPrivate():m;
+    if(!target.hand.length)return null;
+    const safeIndex=Math.max(0,Math.min(target.hand.length-1,index));
+    const moved=target.hand.splice(safeIndex,1)[0];
+    if(destination==='used'){target.used.push(moved);if(!targetIsOpponent)recordHandToUsed();}
+    // 除外の場合はUSEDに入れない。オル虐は移動先に関係なく反応する。
+    if(moved==='人を大切にできないやつは自分も大切にされない【名言】'&&destination==='used'){
+      const eff=targetIsOpponent?enemyEffects:ownEffects;
+      const owner=targetIsOpponent?opponentUid:uid;
+      if(!isTurnEffectActive(eff,'block',game.round)){
+        for(let k=0;k<2;k++){
+          if(!target.deck.length){patch.state='finished';patch.winner=targetIsOpponent?uid:opponentUid;logs.push('名言：効果ドロー時に山札切れ');break}
+          {const drawn=target.deck.pop();target.hand.push(drawn);assassinOnDraw(targetIsOpponent?opponent:side,drawn,'名言');}
+        }
+        logs.push('名言：相手の効果で手札からUSEDへ移動したため2枚ドロー');
+        fxEvents.push({id:fxId(),type:'proc',actor:owner,title:'名言 発動！',sub:'2枚ドロー'});
+      }
+    }
+    if(moved==='オル虐')await oruProc(targetIsOpponent);
+    fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'手札移動',sub:(targetIsOpponent?'相手':'自分')+'の手札が'+(destination==='used'?'USEDへ':'ゲーム外へ')+'移動'});
+    return moved;
+  };
   if(kind==='draw'){
    if(game.drawn)return;
-   if(isTurnEffectActive(ownEffects,'block',game.round)){patch.drawn=true;logs.push('ドロー封じ：通常ドローをスキップ')}
+   if(isNapRestricted(ownEffects)){patch.drawn=true;logs.push('お昼寝：休止ターンのため通常ドローなし')}
+   else if(isTurnEffectActive(ownEffects,'block',game.round)){patch.drawn=true;logs.push('ドロー封じ：通常ドローをスキップ')}
    else {if(!m.deck.length){await updateDoc(g,{state:'finished',winner:opponentUid,log:[...logs,'山札切れで敗北']});return}
-   m.hand.push(m.deck.pop());patch.drawn=true;logs.push('通常ドロー')}
+   (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();patch.drawn=true;logs.push('通常ドロー')}
+   if((ownEffects.napDelay||0)>0){ownEffects.napDelay--;ownEffectsDirty=true;logs.push('お昼寝：休止開始まであと'+ownEffects.napDelay+'回の自分ターン')}
   }else{
    if(!game.drawn)return;
-   if(kind==='play'&&(selected.length!==1||!canPlayOnline(m.hand[selected[0]],m.hand.length)))return;
-   if(kind==='discard'&&(selected.length!==2||isTurnEffectActive(ownEffects,'edo',game.round)))return;
-   if(kind==='play'){
-    const card=m.hand.splice(selected[0],1)[0];m.used.push(card);
+   if(isNapRestricted(ownEffects)&&kind!=='pass')return;
+   if((kind==='play'||kind==='resolve')&&(selected.length!==1||!canPlayOnline(m.hand[selected[0]],m.hand.length)))return;
+   if(kind==='discard'&&(selected.length!==2||isNapRestricted(ownEffects)||isTurnEffectActive(ownEffects,'edo',game.round)))return;
+   if(kind==='play'||kind==='resolve'){
+    const card=moveOwnHandToUsed(selected[0]);fxEvents.push({id:fxId(),type:"card",actor:uid,name:card});
     const cardInfo=ONLINE_CARDS.find(c=>c.name===card);
     const isRenamed=!!(ownEffects.kaii||enemyEffects.kaii);
     const repeats=(ownEffects.tomato&&effectiveName(card,isRenamed?{kaii:true}:{}).includes('ﾌﾞﾝﾁｮｳ'))?2:1;
@@ -216,35 +629,172 @@ async function act(kind){
      damage=repeats;
      const other=m.hand.findIndex(x=>effectiveName(x,isRenamed?{kaii:true}:{} )===effectiveName(card,isRenamed?{kaii:true}:{}));
      if(other!==-1 && confirm('ﾌﾞﾝﾁｮｳｱﾀｯｸをもう1枚USEDに送り、追加1ダメージを与えますか？')){
-      m.used.push(m.hand.splice(other,1)[0]);damage+=repeats;
+      moveOwnHandToUsed(other);damage+=repeats;
      }
-    }else if(['小森アタック','オトモアタック','もち蔵アタック'].includes(card)){damage=repeats}
+    }else if(['小森アタック','オトモアタック'].includes(card)){damage=repeats}
+    else if(cardInfo?.kind==='mochi'){damage=repeats;ownEffects.mochiProtectUntil=game.round+1;ownEffectsDirty=true;logs.push('もち蔵アタック：相手の次ターン終了まで自分の山札→USED移動を防止');}
     else if(card==='必殺ファン●ション'){damage=3*repeats}
     else if(card==='究極拳巫女パンチ'){damage=5*repeats}
     else if(['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ'].includes(card)){
      for(let r=0;r<repeats;r++){if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じにより効果ドロー無効');break}if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('効果ドロー時に山札切れで敗北');break}
-     m.hand.push(m.deck.pop())}
+     (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})()}
     }
     else if(cardInfo?.kind==='peek'){
       const peek=m.deck.slice(-3).reverse();
       if(peek.length){const order=prompt('山札上から3枚の順番を入力（例 3,1,2）\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1,2,3');const nums=(order||'').split(',').map(x=>Number(x.trim()));if(nums.length===peek.length&&new Set(nums).size===peek.length&&nums.every(n=>n>=1&&n<=peek.length)){m.deck.splice(-peek.length,peek.length,...nums.reverse().map(n=>peek[n-1]));}}
     }
     else if(cardInfo?.kind==='select'){
-      if(m.hand.length){const num=Number(prompt('USEDへ送る手札を選択\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(num)&&num>=1&&num<=m.hand.length?num-1:0;m.used.push(m.hand.splice(at,1)[0]);}
+      if(m.hand.length){const num=Number(prompt('USEDへ送る手札を選択\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(num)&&num>=1&&num<=m.hand.length?num-1:0;moveOwnHandToUsed(at);}
       const peek=m.deck.splice(Math.max(0,m.deck.length-3));
-      if(peek.length){const num=Number(prompt('山札上3枚から手札に加えるカードを選択\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(num)&&num>=1&&num<=peek.length?num-1:0;m.hand.push(peek.splice(at,1)[0]);m.used.push(...peek)}
+      if(peek.length){const num=Number(prompt('山札上3枚から手札に加えるカードを選択\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(num)&&num>=1&&num<=peek.length?num-1:0;{const drawn=peek.splice(at,1)[0];m.hand.push(drawn);assassinOnDraw(side,drawn,'選択ドロー')}m.used.push(...peek)}
+    }
+    else if(cardInfo?.kind==='god'){logs.push('全知全能の神、弱そう：通常使用では効果なし（初回ダメージ時に手札から発動）')}
+    else if(cardInfo?.kind==='nap'){
+      patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+3);
+      ownEffects.napDelay=1;ownEffects.napRemaining=2;ownEffectsDirty=true;
+      logs.push('お昼寝：HPを3回復。次の次から2回の自分ターンは通常ドロー・カード使用・2枚攻撃不可');
+      fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'お昼寝(昼夜逆転)',sub:'HP＋3／後の2ターン休止'});
     }
     else if(cardInfo?.kind==='snake'){
       if(m.deck.length)m.used.push(m.deck.pop());
-      if(m.used.filter(x=>x!==card).length<=3){ownEffects.shieldUntil=game.round+2;ownEffectsDirty=true;logs.push('腐白蛇：次の相手ターンのダメージを防御')}
+      if(m.used.filter(x=>x!==card).length<=3){ownEffects.shieldUntil=game.round+1;ownEffectsDirty=true;logs.push('腐白蛇：次の相手ターンのダメージを防御')}
     }
     else if(cardInfo?.kind==='funfun'){ownEffects.funfun=(ownEffects.funfun||0)+1;ownEffectsDirty=true;logs.push('ﾌﾝﾌﾝ：以後のカード使用時に30%判定')}
     else if(cardInfo?.kind==='love'){ownEffects.love=(ownEffects.love||0)+1;ownEffectsDirty=true;logs.push('限界愛：以後のカード使用時に50%ドロー判定')}
+    else if(cardInfo?.kind==='nice'){
+      if(game[opponent+'Life']>game[side+'Life']||game[opponent+'Life']<=1){
+        damage=repeats;
+        const pos=m.used.lastIndexOf(card);if(pos!==-1)m.hand.push(m.used.splice(pos,1)[0]);
+        logs.push('ガチナイス：条件達成、使用カードが手札に戻った');
+      }else logs.push('ガチナイス：ライフ条件を満たさず不発');
+    }
+    else if(cardInfo?.kind==='star'){
+      for(let j=0;j<3;j++){
+        if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じ：北極星のドロー無効');break}
+        if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('導く北極星：山札切れ');break}
+        (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();
+      }
+      if(!patch.state){ownEffects.starPending=true;ownEffectsDirty=true;logs.push('導く北極星：次の自分のカード効果後に手札を確認')}
+    }
+    else if(cardInfo?.kind==='haion'){
+      const choice=prompt('這音嘗血の発動方法を選んでください（次に変更するまで適用）\n1：相手に1ダメージ\n2：相手が手札を1枚選んでUSEDへ\n3：自分が1枚ドロー','1');
+      ownEffects.haionChoice=['1','2','3'].includes(choice)?Number(choice):1;
+      ownEffects.haion=(ownEffects.haion||0)+1;ownEffectsDirty=true;
+      logs.push('這音嘗血：発動時の効果を'+['','1ダメージ','相手が1枚捨てる','自分が1枚ドロー'][ownEffects.haionChoice]+'に設定');
+    }
+    else if(cardInfo?.kind==='fairy'){
+      // 相手のUSEDを固定。次に自分がカード効果を処理するまで持続。
+      enemyEffects.usedLocked=true;enemyEffectsDirty=true;
+      ownEffects.fairyPending=true;ownEffectsDirty=true;
+      logs.push('かすみ草の妖精：相手のUSEDを固定');
+    }
+    else if(cardInfo?.kind==='spring'){
+      const q=await getOpponentPrivate();
+      const count=q.used.length;
+      const level=count>=7?3:count>=5?2:count>=3?1:0;
+      damage+=level;
+      for(let j=0;j<level;j++){
+        if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じ：春風と木音のドロー無効');break}
+        if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('春風と木音：山札切れ');break}
+        (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();
+      }
+      if(!enemyEffects.usedLocked){q.deck.unshift(...shuffle(q.used));q.used=[];logs.push('春風と木音：相手USEDを山札の底へ戻した')}
+      else logs.push('かすみ草の妖精：相手USEDの移動を阻止');
+      logs.push('春風と木音：'+level+'ダメージ／'+level+'枚ドロー判定');
+    }
+    else if(cardInfo?.kind==='combo'){
+      const q=await getOpponentPrivate();
+      if(enemyEffects.usedLocked){logs.push('かすみ草の妖精：相手USEDの移動を阻止')}
+      else {
+        const assassins=q.used.filter(x=>x==='刺客').length;
+        q.used.push(...Array(assassins).fill('刺客'));
+        q.deck=shuffle([...q.deck,...q.used]);q.used=[];
+        logs.push('うんコンボ：刺客'+assassins+'枚追加、相手USEDを山札へ戻した');
+      }
+    }
+    else if(cardInfo?.kind==='udon'){
+      if(game.round!==1)throw Error('うどん。は先攻の最初のターンにしか使用できません');
+      for(let j=0;j<2;j++){
+        if(isTurnEffectActive(ownEffects,'block',game.round))break;
+        if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('うどん。：山札切れ');break}
+        (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();
+      }
+      if(!patch.state){extraTurn=true;logs.push('うどん。：追加ターンを獲得')}
+    }
+    else if(cardInfo?.kind==='culture'){
+      const q=await getOpponentPrivate();
+      if(q.hand.length){
+        const revealIndex=Math.floor(Math.random()*q.hand.length);
+        const revealed=q.hand[revealIndex];
+        // 相手の手札を共有ログに公開しない。公開するのは使用者の画面だけ。
+        const revealName=effectiveName(revealed,isRenamed?{kaii:true}:{});
+        logs.push('文化の勝利：相手の手札を1枚確認し、1枚をUSEDへ');
+        const choice=confirm('文化の勝利：公開カード「'+revealName+'」をUSEDへ送りますか？\nOK：公開カード／キャンセル：公開カード以外からランダム（候補がなければ公開カード）');
+        const others=q.hand.map((_,i)=>i).filter(i=>i!==revealIndex);
+        const target=choice||!others.length?revealIndex:others[Math.floor(Math.random()*others.length)];
+        await moveHandByOpponentEffect(true,target,'used');
+        fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'文化の勝利',sub:'相手の手札1枚をUSEDへ'});
+      }else logs.push('文化の勝利：相手の手札がないため不発');
+    }
+    else if(cardInfo?.kind==='hideout'){
+      // 使用したこのカード以外のUSEDから最大2枚を選択する。
+      const available=m.used.map((name,i)=>({name,i})).filter(x=>x.i!==m.used.lastIndexOf(card));
+      const response=prompt('月民の隠れ家：USEDから最大2枚選択（番号をカンマ区切り。0で選択なし）\n'+available.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'0');
+      const nums=[...new Set((response||'').split(',').map(x=>Number(x.trim())))].filter(n=>Number.isInteger(n)&&n>=1&&n<=available.length).slice(0,2);
+      const indices=nums.map(n=>available[n-1].i).sort((a,b)=>b-a);
+      const chosen=indices.map(i=>m.used.splice(i,1)[0]);
+      if(chosen.length){const at=Math.floor(Math.random()*chosen.length);const toDeck=chosen.splice(at,1)[0];m.deck=shuffle([...m.deck,toDeck]);m.hand.push(...chosen);logs.push('月民の隠れ家：1枚を山札へ、'+chosen.length+'枚を手札へ')}
+      else logs.push('月民の隠れ家：カードを選択しなかった');
+    }
+    else if(cardInfo?.kind==='pikainu'){
+      ownEffects.pikainu=(ownEffects.pikainu||0)+1;ownEffectsDirty=true;
+      logs.push('ピカ犬：以後カード使用時に1%で追加ターン（確率補正あり）');
+    }
+    else if(cardInfo?.kind==='guess'){
+      const q=await getOpponentPrivate();
+      if(q.hand.length){
+        const real=q.hand[Math.floor(Math.random()*q.hand.length)];
+        const absent=shuffle(ONLINE_CARDS.map(c=>c.name).filter(name=>!q.hand.includes(name))).slice(0,2);
+        const options=shuffle([real,...absent]);
+        const answer=Number(prompt('見透かされるアホネー：相手の手札にあるカードを当ててください\n'+options.map((x,i)=>(i+1)+'：'+effectiveName(x,isRenamed?{kaii:true}:{})).join('\n'),'1'));
+        const chosen=options[Number.isInteger(answer)&&answer>=1&&answer<=options.length?answer-1:0];
+        if(effectiveName(chosen,isRenamed?{kaii:true}:{})===effectiveName(real,isRenamed?{kaii:true}:{})){
+          logs.push('見透かされるアホネー：正解！');
+          for(let i=q.hand.length-1;i>=0;i--)if(effectiveName(q.hand[i],isRenamed?{kaii:true}:{})===effectiveName(chosen,isRenamed?{kaii:true}:{}))await moveHandByOpponentEffect(true,i,'used');
+          if(q.hand.length)await moveHandByOpponentEffect(true,Math.floor(Math.random()*q.hand.length),'used');
+        }else{
+          logs.push('見透かされるアホネー：不正解。自分の手札1枚をUSEDへ');
+          if(m.hand.length)moveOwnHandToUsed(Math.floor(Math.random()*m.hand.length));
+        }
+      }else logs.push('見透かされるアホネー：相手の手札が0枚のため不発');
+    }
+    else if(cardInfo?.kind==='napo'){
+      const chosen=shuffle(m.used.map((name,i)=>({name,i})).filter(x=>x.name!==card)).slice(0,2);
+      for(const x of chosen.sort((a,b)=>b.i-a.i))m.deck.push(m.used.splice(x.i,1)[0]);
+      m.deck=shuffle(m.deck);
+      const q=await getOpponentPrivate();
+      if(Math.abs(m.deck.length-q.deck.length)>=10){
+        patch[side+'Life']=7;patch[opponent+'Life']=7;
+        ownEffects.damageCap=true;enemyEffects.damageCap=true;
+        ownEffectsDirty=true;enemyEffectsDirty=true;
+        logs.push('眠気があってちゃんと良かったなぽ：双方のHPを7に回復、以後の1回のダメージを最大1に');
+        fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'眠気があってちゃんと良かったなぽ',sub:'両者HP7・ダメージ上限1'});
+      }else logs.push('眠気があってちゃんと良かったなぽ：USEDを最大2枚山札へ戻した');
+    }
+    else if(cardInfo?.kind==='quote'){
+      if(isTurnEffectActive(ownEffects,'block',game.round))logs.push('名言：ドロー禁止のため1枚ドローできない');
+      else if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('名言：山札切れで敗北')}
+      else (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();
+      if(!patch.state&&m.hand.length){
+        const n=Number(prompt('名言：USEDへ送る手札を選んでください\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));
+        moveOwnHandToUsed(Number.isInteger(n)&&n>=1&&n<=m.hand.length?n-1:0);
+      }
+    }
     else if(cardInfo?.kind==='aiya'){ownEffects.chanceBonus=(ownEffects.chanceBonus||0)+20;ownEffectsDirty=true;logs.push('藍白屋：確率判定＋20ポイント')}
     else if(cardInfo?.kind==='kaii'){ownEffects.kaii=1;ownEffectsDirty=true;logs.push('怪異：双方のカード名をﾌﾞﾝﾁｮｳに変更')}
     else if(cardInfo?.kind==='tomato'){ownEffects.tomato=true;ownEffectsDirty=true}
-    else if(cardInfo?.kind==='block'){enemyEffects.blockUntil=game.round+2;enemyEffectsDirty=true;if(usedSBFF(m.used,isRenamed?{kaii:true}:ownEffects)>=3){enemyEffects.blockPermanent=true;logs.push('SBFF3枚：永続ドロー封じ')}}
-    else if(cardInfo?.kind==='edo'){enemyEffects.edoUntil=game.round+2;enemyEffectsDirty=true;if(usedSBFF(m.used,isRenamed?{kaii:true}:ownEffects)>=3){enemyEffects.edoPermanent=true;logs.push('SBFF3枚：永続江戸姫')}}
+    else if(cardInfo?.kind==='block'){enemyEffects.blockUntil=game.round+1;enemyEffectsDirty=true;if(usedSBFF(m.used,isRenamed?{kaii:true}:ownEffects)>=3){enemyEffects.blockPermanent=true;logs.push('SBFF3枚：永続ドロー封じ')}}
+    else if(cardInfo?.kind==='edo'){enemyEffects.edoUntil=game.round+1;enemyEffectsDirty=true;if(usedSBFF(m.used,isRenamed?{kaii:true}:ownEffects)>=3){enemyEffects.edoPermanent=true;logs.push('SBFF3枚：永続江戸姫')}}
     else if(cardInfo?.kind==='needle'){
       for(const key of Object.keys(ownEffects))delete ownEffects[key];
       for(const key of Object.keys(enemyEffects))delete enemyEffects[key];
@@ -255,16 +805,17 @@ async function act(kind){
       const q=await getOpponentPrivate();q.deck=shuffle([...q.deck,'刺客','刺客']);
     }
     else if(cardInfo?.kind==='voice'){
-      const q=await getOpponentPrivate();if(q.hand.length){const at=q.hand.indexOf('オル虐')>=0?q.hand.indexOf('オル虐'):Math.floor(Math.random()*q.hand.length);q.hand.splice(at,1);}
-      q.deck=shuffle([...q.deck,'刺客']);if(q.deck.length){const pulled=q.deck.pop();q.hand.push(pulled);if(pulled==='刺客'&&!(ownEffects.kaii||enemyEffects.kaii)){patch[opponent+'Life']=Math.max(0,game[opponent+'Life']-1);logs.push('🗡️ 刺客の襲撃！ '+(opponent==='host'?'ホスト':'ゲスト')+'が刺されて1ダメージ！ | '+Date.now()+'-'+Math.random());if(patch[opponent+'Life']===0){patch.state='finished';patch.winner=uid}}}
+      const q=await getOpponentPrivate();if(q.hand.length){const at=q.hand.indexOf('オル虐')>=0?q.hand.indexOf('オル虐'):Math.floor(Math.random()*q.hand.length);await moveHandByOpponentEffect(true,at,'removed')}
+      q.deck=shuffle([...q.deck,'刺客']);if(q.deck.length){const pulled=q.deck.pop();q.hand.push(pulled);if(pulled==="( 'ω')ﾌｪｯ!?"){applyDamage(side,1,{source:'ﾌｪｯ!?'});logs.push('ﾌｪｯ!?：相手の効果でドロー、使用者に1ダメージ');fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'ﾌｪｯ!? 発動！',sub:'使用者に1ダメージ'});if(patch[side+'Life']===0&&!patch.state){patch.state='finished';patch.winner=opponentUid}}assassinOnDraw(opponent,pulled,'声殺夜奪');}
     }
     else if(cardInfo?.kind==='window'){
       const pulled=m.deck.splice(Math.max(0,m.deck.length-3));m.used.push(...pulled);damage=pulled.filter(x=>effectiveName(x,isRenamed?{kaii:true}:{}).includes('ﾌﾞﾝﾁｮｳ')).length;
       if(!m.deck.length){patch.state='finished';patch.winner=opponentUid}
     }
     else if(cardInfo?.kind==='litre'){
-      const q=await getOpponentPrivate();const n=Math.max(0,q.hand.length-1);q.used.push(...q.deck.splice(Math.max(0,q.deck.length-n)));
-      if(!q.deck.length){patch.state='finished';patch.winner=uid}
+      if((Number(enemyEffects.mochiProtectUntil)||0)>=game.round){logs.push('もち蔵アタック：1リットルの山札→USEDを防止');fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'もち蔵アタック：防御',sub:'山札からUSEDへの移動を無効化'});}
+      else{const q=await getOpponentPrivate();const n=Math.max(0,q.hand.length-1);q.used.push(...q.deck.splice(Math.max(0,q.deck.length-n)));
+      if(!q.deck.length){patch.state='finished';patch.winner=uid}}
     }
     else if(cardInfo?.kind==='chain'){
       patch[side+'Effects']={...(game[side+'Effects']||{}),chain:true};
@@ -272,7 +823,7 @@ async function act(kind){
     else if(cardInfo?.kind==='blank'){/* SBFF：何もしない */}
     else if(cardInfo?.kind==='heal'){patch[side+'Life']=Math.min(7,game[side+'Life']+1)}
     else if(cardInfo?.kind==='chitose'){
-      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}m.hand.push(m.deck.pop())}
+      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}(()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})()}
     }
     else if(cardInfo?.kind==='shino'){
       patch[side+'Life']=Math.min(7,game[side+'Life']+1);
@@ -284,61 +835,178 @@ async function act(kind){
     }
     else if(cardInfo?.kind==='search'){
       const found=shuffle(m.deck.map((name,i)=>({name,i})).filter(x=>effectiveName(x.name,isRenamed?{kaii:true}:{}).includes('アタック'))).slice(0,2);
-      for(const x of found.sort((a,b)=>b.i-a.i))m.hand.push(m.deck.splice(x.i,1)[0]);
+      for(const x of found.sort((a,b)=>b.i-a.i)){const drawn=m.deck.splice(x.i,1)[0];m.hand.push(drawn);assassinOnDraw(side,drawn,'山札検索');}
     }
     else if(cardInfo?.kind==='mill'){
-      const q=await getOpponentPrivate();for(let j=0;j<2&&q.deck.length;j++)q.used.push(q.deck.pop());
-      if(!q.deck.length){patch.state='finished';patch.winner=uid}
+      if((Number(enemyEffects.mochiProtectUntil)||0)>=game.round){logs.push('もち蔵アタック：相手の山札→USEDを防止');fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'もち蔵アタック：防御',sub:'山札からUSEDへの移動を無効化'});}
+      else{const q=await getOpponentPrivate();for(let j=0;j<2&&q.deck.length;j++)q.used.push(q.deck.pop());
+      if(!q.deck.length){patch.state='finished';patch.winner=uid}}
     }
     else if(cardInfo?.kind==='drawdiscard'){
-      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}m.hand.push(m.deck.pop())}
+      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}(()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})()}
       if(!patch.state){for(let j=0;j<2&&m.hand.length;j++){
         const chosen=Number(prompt('USEDへ送るカード番号（1～'+m.hand.length+'）\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));
-        m.used.push(m.hand.splice(Number.isInteger(chosen)&&chosen>=1&&chosen<=m.hand.length?chosen-1:0,1)[0]);
+        moveOwnHandToUsed(Number.isInteger(chosen)&&chosen>=1&&chosen<=m.hand.length?chosen-1:0);
       }}
     }
-    else if(cardInfo?.kind==='punch'){selfDamageFromCard=true;patch[side+'Life']=Math.max(0,game[side+'Life']-1);damage=2;if(patch[side+'Life']===0){patch.state='finished';patch.winner=opponentUid}}
+    else if(cardInfo?.kind==='punch'){selfDamageFromCard=true;applyDamage(side,1,{ignoreShield:true,ignoreCap:true,source:'正論パンチ'});damage=2;if(patch[side+'Life']===0&&!patch.state){patch.state='finished';patch.winner=opponentUid}}
     else if(cardInfo?.kind==='going'){
       const max=Math.max(0,game[side+'Life']-1),n=Math.min(max,Math.max(0,Number(prompt('減らすライフ（0～'+max+'）','1'))||0));
-      patch[side+'Life']=game[side+'Life']-n;if(n>0)selfDamageFromCard=true;
-      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:n*2);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}m.hand.push(m.deck.pop())}
+      applyDamage(side,n,{ignoreShield:true,ignoreCap:true,source:'行っちゃうの？'});if(n>0)selfDamageFromCard=true;
+      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:n*2);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}(()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})()}
+    }
+    // 効果による手札追加でフェッ!?を引いた場合に反応（通常ドローは対象外）。
+    if(!patch.state){
+      const addedFe=Math.max(0,m.hand.filter(x=>x==="( 'ω')ﾌｪｯ!?").length-ownHandStart.filter(x=>x==="( 'ω')ﾌｪｯ!?").length);
+      for(let f=0;f<addedFe;f++){
+        damage+=1;logs.push("( 'ω')ﾌｪｯ!?：効果で手札に入り追加1ダメージ");
+        fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'ﾌｪｯ!? 発動！',sub:'相手に1ダメージ'});
+        if(!isTurnEffectActive(ownEffects,'block',game.round)){
+          if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('ﾌｪｯ!?：効果ドローで山札切れ');break}
+          (()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();
+        }
+      }
     }
     if(!patch.state){
       const bonus=ownEffects.chanceBonus||0;
-      for(let i=0;i<(ownEffects.funfun||0);i++)if(Math.random()*100<Math.min(100,30+bonus)){damage+=1;logs.push('ﾌﾝﾌﾝ：追加1ダメージ')}
+      for(let i=0;i<(ownEffects.funfun||0);i++)if(Math.random()*100<Math.min(100,30+bonus)){damage+=1;logs.push('ﾌﾝﾌﾝ：追加1ダメージ');fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'ﾌﾝﾌﾝ 発動！',sub:'追加1ダメージ'})}
       for(let i=0;i<(ownEffects.love||0);i++)if(Math.random()*100<Math.min(100,50+bonus)){
         if(!isTurnEffectActive(ownEffects,'block',game.round)){
           if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('限界愛：山札切れ')}
-          else {m.hand.push(m.deck.pop());logs.push('限界愛：1枚ドロー')}
+          else {(()=>{const drawn=m.deck.pop();m.hand.push(drawn);assassinOnDraw(side,drawn,'ドロー')})();logs.push('限界愛：1枚ドロー');fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'限界愛 発動！',sub:'カードを1枚ドロー'})}
         }
       }
+    }
+    if(!patch.state){
+      for(let i=0;i<(ownEffects.pikainu||0);i++){
+        if(Math.random()*100<Math.min(100,1+(ownEffects.chanceBonus||0))){
+          extraTurn=true;logs.push('ピカ犬：追加ターンを獲得！');
+          fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'ピカ犬 発動！',sub:'追加ターンを獲得'});
+        }
+      }
+    }
+    if(ownEffects.starPending&&cardInfo?.kind!=='star'&&cardInfo?.kind!=='needle'){
+      if(m.hand.length<=5){moveAllOwnHandToUsed();logs.push('導く北極星：手札が5枚以下のためすべてUSEDへ')}
+      else logs.push('導く北極星：手札6枚以上のため破棄なし');
+      ownEffects.starPending=false;ownEffectsDirty=true;
+    }
+    if(ownEffects.fairyPending&&cardInfo?.kind!=='fairy'&&cardInfo?.kind!=='needle'){
+      ownEffects.fairyPending=false;ownEffectsDirty=true;
+      enemyEffects.usedLocked=false;enemyEffectsDirty=true;
+      logs.push('かすみ草の妖精：USED固定を解除');
     }
     if(kaiiWasActive&&cardInfo?.kind!=='kaii'&&cardInfo?.kind!=='needle'){ownEffects.kaii=Math.max(0,(ownEffects.kaii||0)-1);ownEffectsDirty=true}
     logs.push(card+'を使用'+(damage?'：'+damage+'ダメージ':''));
    }else if(kind==='discard'){
-    for(const i of [...selected].sort((a,b)=>b-a))m.used.push(m.hand.splice(i,1)[0]);
+    for(const i of [...selected].sort((a,b)=>b-a)){moveOwnHandToUsed(i)}
     damage=1;logs.push('手札2枚をUSEDにして1ダメージ');
-   }else if(kind==='pass'){logs.push('パス')}
+   }else if(kind==='pass'){if(isNapRestricted(ownEffects)){ownEffects.napRemaining=Math.max(0,ownEffects.napRemaining-1);ownEffectsDirty=true;logs.push('お昼寝：休止ターンを終了（残り'+ownEffects.napRemaining+'回）')}else logs.push('パス')}
+   // 這音嘗血：3枚ごとに所有者が事前選択した効果を発動。
+   // 相手の手札操作とドローは公開ログに記録し、非公開データをバッチ更新する。
+   if(ownHandToUsed>0&&(enemyEffects.haion||0)){
+     const total=(enemyEffects.haionCount||0)+ownHandToUsed;
+     let activations=Math.floor(total/3);
+     enemyEffects.haionCount=total%3;enemyEffectsDirty=true;
+     logs.push('這音嘗血：手札→USED '+ownHandToUsed+'枚（次回へ '+enemyEffects.haionCount+'/3）');
+     // 強制捨て札が次の3枚条件を満たした場合も連鎖処理する。
+     // 上限を設け、異常な状態でも無限連鎖しないようにする。
+     const maxChain=12;
+     for(let k=0;k<activations&&k<maxChain;k++){
+       const choice=enemyEffects.haionChoice||1;
+       if(choice===2){
+         if(m.hand.length){
+           const response=prompt('相手の「這音嘗血」が発動！ USEDへ送る手札を選んでください\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1');
+           const n=Number(response),at=Number.isInteger(n)&&n>=1&&n<=m.hand.length?n-1:0;
+           const discarded=await moveHandByOpponentEffect(false,at,'used');
+           logs.push('這音嘗血：'+(side==='host'?'ホスト':'ゲスト')+'が手札1枚を選んでUSEDへ');
+           // 効果で捨てた1枚も、這音嘗血の累計に含める。
+           enemyEffects.haionCount++;
+           if(enemyEffects.haionCount>=3){enemyEffects.haionCount-=3;activations++;logs.push('這音嘗血：連鎖条件を達成')}
+         }else logs.push('這音嘗血：対象の手札がないため捨て札なし');
+         fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'這音嘗血 発動！',sub:'相手が手札1枚をUSEDへ'});
+       }else if(choice===3){
+         const q=await getOpponentPrivate();
+         if(q.deck.length){
+           const drawn=q.deck.pop();q.hand.push(drawn);assassinOnDraw(opponent,drawn,'這音嘗血');
+           logs.push('這音嘗血：所有者が1枚ドロー');
+
+         }else{
+           patch.state='finished';patch.winner=uid;
+           logs.push('這音嘗血：効果ドロー時に山札切れで敗北');
+         }
+         fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'這音嘗血 発動！',sub:'所有者が1枚ドロー'});
+       }else{
+         // 這音嘗血の直接ダメージも腐白蛇の防御を通して判定する。
+         const haionBlocked=(Number(ownEffects.shieldUntil)||0)>=game.round;
+         if(haionBlocked){
+           logs.push('腐白蛇：這音嘗血の1ダメージを防御');
+           fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'腐白蛇：防御',sub:'這音嘗血のダメージを無効化'});
+         }else{
+           applyDamage(side,1,{source:'這音嘗血'});
+           logs.push('這音嘗血：相手に1ダメージ');
+           fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'這音嘗血 発動！',sub:'相手に1ダメージ'});
+           if(patch[side+'Life']===0&&!patch.state){patch.state='finished';patch.winner=opponentUid}
+         }
+       }
+       if(patch.state==='finished')break;
+     }
+     if(activations>maxChain && patch.state!=='finished'){
+       // 発動待ちの回数を消さず、次の手札→USED移動で処理する。
+       // 発動待ちの3枚単位はカウントに保持する。
+       const remaining=activations-maxChain;
+       enemyEffects.haionCount+=remaining*3;
+       enemyEffectsDirty=true;
+       logs.push('這音嘗血：連鎖上限12回。残り'+remaining+'回分の発動条件を保持');
+       fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'這音嘗血：連鎖保留',sub:'残り'+remaining+'回分を保持'});
+     }
+   }
    if(selfDamageFromCard&&ownEffects.chain&&!patch.state){damage+=1;logs.push('ハートのチェーン：追加1ダメージ')}
    if(damage&&!patch.state && (enemyEffects.shieldUntil||0)>=game.round){logs.push('腐白蛇：ダメージを防御');damage=0}
-   if(damage&&!patch.state){patch[opponent+'Life']=Math.max(0,game[opponent+'Life']-damage);if(patch[opponent+'Life']===0){patch.state='finished';patch.winner=uid}}
-   if(!patch.state){patch.turn=opponentUid;patch.drawn=false;patch.round=game.round+1}
+   if(damage&&!patch.state&&enemyEffects.damageCap)damage=Math.min(1,damage);
+   // 初めて相手にダメージを与えたときのみ、手札の神を任意でUSEDに送って追加1ダメージ。
+   // カード効果・2枚攻撃の両方を対象とし、防御で0になった場合は発動しない。
+   if(damage>0&&!patch.state&&!game[side+'FirstDealt']){
+     patch[side+'FirstDealt']=true;
+     const godIndex=m.hand.indexOf('全知全能の神、弱そう');
+     if(godIndex>=0&&!enemyEffects.damageCap&&confirm('初めて相手にダメージを与えました。\n「全知全能の神、弱そう」を手札からUSEDへ送り、追加1ダメージを与えますか？')){
+       moveOwnHandToUsed(godIndex);
+       // 追加ダメージも腐白蛇などのダメージ上限を超えないように扱う。
+       const godBonus=enemyEffects.damageCap?0:1;
+       damage+=godBonus;
+       logs.push('全知全能の神、弱そう：手札からUSEDへ。'+(godBonus?'追加1ダメージ':'ダメージ上限により追加ダメージなし'));
+       fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'全知全能の神、弱そう',sub:godBonus?'追加1ダメージ！':'ダメージ上限により追加0'});
+     }
+   }
+   if(damage&&!patch.state)applyDamage(opponent,damage,{ignoreShield:true,ignoreCap:true,source:'カード攻撃'});
+   if(!patch.state){patch.turn=extraTurn?uid:opponentUid;patch.drawn=false;patch.round=game.round+1;if(extraTurn)logs.push('追加ターン：もう一度自分のターン')}
   }
-  // 刺客が手札に入った場合の自傷（現段階では通常ドローと効果ドローを区別しない）
-  const assassinAdded=Math.max(0,m.hand.filter(x=>x==='刺客').length-mine.hand.filter(x=>x==='刺客').length);
-  if(assassinAdded && !(ownEffects.kaii||enemyEffects.kaii)){
-    patch[side+'Life']=Math.max(0,(patch[side+'Life']??game[side+'Life'])-assassinAdded);
-    logs.push('🗡️ 刺客の襲撃！ '+(side==='host'?'ホスト':'ゲスト')+'が刺されて'+assassinAdded+'ダメージ！ | '+Date.now()+'-'+Math.random());
-    if(patch[side+'Life']===0){patch.state='finished';patch.winner=opponentUid}
-  }
+  // 刺客の自傷はドローした瞬間に処理する（差分による二重計上を防止）。
   if(ownEffectsDirty)patch[side+'Effects']=ownEffects;if(enemyEffectsDirty)patch[opponent+'Effects']=enemyEffects;
-  patch[side+'HandCount']=m.hand.length;if(opponentPrivate)patch[opponent+'HandCount']=opponentPrivate.hand.length;patch.log=logs.slice(-30);
+  if(kind==='resolve')patch.pendingCard=null;
+  patch[side+'HandCount']=m.hand.length;if(opponentPrivate)patch[opponent+'HandCount']=opponentPrivate.hand.length;patch.log=logs.slice(-30);patch.fxEvents=fxEvents.slice(-24);
   // 自分の非公開カード情報と公開対戦情報をまとめて反映（ただし不正対策ではない）。
-  const latest=await getDoc(g);
-  if(!latest.exists()||latest.data().state!=='playing'||latest.data().turn!==uid||latest.data().round!==game.round||latest.data().drawn!==game.drawn)throw Error('対戦状態が更新されました。画面の更新を待って再操作してください');
-  const batch=writeBatch(db);batch.set(p,m);if(opponentPrivate)batch.set(doc(db,'testBattles',code,'players',opponentUid),opponentPrivate);batch.update(g,patch);await batch.commit();selected=[];
+  // 競合対策：公開状態と両者の非公開カード状態をトランザクション内で再検証。
+  // カード効果の計算はローカルで行うため、古い手札・山札で上書きしないようにする。
+  await runTransaction(db,async tx=>{
+   const latest=await tx.get(g),ownLatest=await tx.get(p);
+   const opponentRef=opponentPrivate?doc(db,'testBattles',code,'players',opponentUid):null;
+   const opponentLatest=opponentRef?await tx.get(opponentRef):null;
+   if(!latest.exists()||!ownLatest.exists())throw Error('対戦情報が更新されました。再読み込みしてください');
+   const v=latest.data();
+   if(v.state!=='playing'||v.turn!==uid||v.round!==game.round||v.drawn!==game.drawn||
+      (kind==='resolve'?(v.pendingCard?.id!==pending.id||v.pendingCard?.status!=='allowed'):!!v.pendingCard))
+      throw Error('別の操作が先に確定しました。最新の画面で確認してください');
+   if(JSON.stringify(ownLatest.data())!==JSON.stringify(mine))
+      throw Error('自分の手札が更新されました。画面の更新を待ってください');
+   if(opponentPrivate&&(!opponentLatest?.exists()||JSON.stringify(opponentLatest.data())!==JSON.stringify(opponentPrivateBefore)))
+      throw Error('相手のカード情報が変更されました。再度操作してください');
+   tx.set(p,m);
+   if(opponentPrivate)tx.set(opponentRef,opponentPrivate);
+   tx.update(g,patch);
+  });selected=[];
  }catch(e){report(e)}finally{busy=false;render()}
 }
+setInterval(()=>{if(game?.pendingCard?.status==='waiting'&&game.pendingCard.actor===uid&&!busy)render()},1000);
 $('draw').onclick=()=>act('draw');$('play').onclick=()=>act('play');$('discard').onclick=()=>act('discard');$('pass').onclick=()=>act('pass');
 setInterval(updateBoard,350);
 </script></body></html>
