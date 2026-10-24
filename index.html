@@ -38,21 +38,26 @@ body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#4030
 .card.card-themed button{color:#fff;text-shadow:none;}
 #hand button.hand-themed{background:var(--card-bg)!important;color:var(--card-fg)!important;border:2px solid #ffffffa8!important;text-shadow:0 1px 2px #0009;min-height:70px;}
 </style><style>
-/* BOT対戦：ターン切替のシネマティック演出 */
-#botTurnAnnouncement{position:fixed;inset:0;z-index:1250;display:grid;place-items:center;pointer-events:none;opacity:0;visibility:hidden;background:linear-gradient(100deg,transparent,#071c3e99,transparent)}
-#botTurnAnnouncement.enemy{background:linear-gradient(100deg,transparent,#490e2499,transparent)}
-#botTurnAnnouncement.show{visibility:visible;animation:botTurnFade 1.65s ease-in-out both}
-.bot-turn-banner{width:100%;padding:22px 12px;text-align:center;border-top:2px solid #e4c678;border-bottom:2px solid #e4c678;background:linear-gradient(90deg,transparent,#0e305be8 20%,#0e305be8 80%,transparent);box-shadow:0 0 55px #4b9fff77;transform:skewY(-2deg)}
-.enemy .bot-turn-banner{background:linear-gradient(90deg,transparent,#511428e8 20%,#511428e8 80%,transparent);box-shadow:0 0 55px #f05a7777;border-color:#f39da9}
-.bot-turn-kicker{font-size:clamp(13px,2vw,19px);letter-spacing:.45em;color:#b9d6ff;font-weight:800}
-.enemy .bot-turn-kicker{color:#ffc4cc}
-.bot-turn-title{font-size:clamp(36px,9vw,86px);font-weight:1000;letter-spacing:.06em;color:#fff1b8;text-shadow:0 0 20px #d8ac5b,0 4px 16px #000}
-.enemy .bot-turn-title{color:#ffe4e9;text-shadow:0 0 20px #f36e86,0 4px 16px #000}
-@keyframes botTurnFade{0%{opacity:0}13%{opacity:1}76%{opacity:1}100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){#botTurnAnnouncement.show{animation:none;opacity:1} }
+/* BOT対戦：スマホ対応・左右から切り裂くターン開始演出 */
+#botTurnAnnouncement{position:fixed;inset:0;z-index:100020;display:grid;place-items:center;pointer-events:none;visibility:hidden;opacity:0;overflow:hidden;background:rgba(3,8,22,.40)}
+#botTurnAnnouncement.show{visibility:visible;animation:botSlashFade 1.9s ease-out both}
+.bot-turn-banner{position:relative;isolation:isolate;width:100%;min-height:155px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 12px;background:transparent;border:0;box-shadow:none;animation:botSlashBanner 1.9s ease-out both}
+.bot-turn-banner::before,.bot-turn-banner::after{content:"";position:absolute;z-index:-1;left:-35vw;width:170vw;height:54%;background:linear-gradient(90deg,transparent,#173f7d 23%,#226bb7 53%,transparent);box-shadow:0 0 32px #71baffaa;transform:skewX(-17deg)}
+.bot-turn-banner::before{top:0;animation:botSlashLeft 1.9s cubic-bezier(.16,.9,.2,1) both}
+.bot-turn-banner::after{bottom:0;animation:botSlashRight 1.9s cubic-bezier(.16,.9,.2,1) both}
+#botTurnAnnouncement.enemy .bot-turn-banner::before,#botTurnAnnouncement.enemy .bot-turn-banner::after{background:linear-gradient(90deg,transparent,#782039 23%,#be365d 53%,transparent);box-shadow:0 0 32px #ff7398aa}
+.bot-turn-kicker{font-size:clamp(13px,2.5vw,19px);letter-spacing:.3em;color:#d5eaff;font-weight:800;text-shadow:0 2px 7px #000}
+.bot-turn-title{font-size:clamp(34px,9vw,76px);font-weight:1000;letter-spacing:.04em;color:#fff;text-shadow:0 2px 12px #000,0 0 25px #a8e5ff;animation:botSlashText 1.9s ease-out both}
+#botTurnAnnouncement.enemy .bot-turn-title{color:#fff;text-shadow:0 2px 12px #000,0 0 25px #ff9fbb}
+@keyframes botSlashLeft{0%{transform:translateX(-130vw) skewX(-17deg);opacity:0}22%{transform:translateX(0) skewX(-17deg);opacity:1}75%{opacity:1}100%{transform:translateX(120vw) skewX(-17deg);opacity:0}}
+@keyframes botSlashRight{0%{transform:translateX(130vw) skewX(-17deg);opacity:0}22%{transform:translateX(0) skewX(-17deg);opacity:1}75%{opacity:1}100%{transform:translateX(-120vw) skewX(-17deg);opacity:0}}
+@keyframes botSlashText{0%,12%{opacity:0;transform:scale(.72)}27%,72%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.1)}}
+@keyframes botSlashBanner{0%,100%{opacity:0}12%,80%{opacity:1}}
+@keyframes botSlashFade{0%{opacity:0}12%,80%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){#botTurnAnnouncement.show,.bot-turn-banner,.bot-turn-banner::before,.bot-turn-banner::after,.bot-turn-title{animation:none!important;opacity:1!important;transform:none!important}}
 </style><style id="assassinFxStyle">.assassin-fx{position:fixed;inset:0;z-index:99999;display:none;pointer-events:none;align-items:center;justify-content:center;background:rgba(35,3,18,.55);overflow:hidden}.assassin-fx.active{display:flex;animation:assassinFlash 1.65s ease-out forwards}.assassin-fx .assassin-knife{font-size:clamp(100px,25vw,220px);filter:drop-shadow(0 0 25px #f43f5e);transform:translate(100vw,-70vh) rotate(-45deg);animation:assassinStab 1.4s cubic-bezier(.12,.65,.3,1) forwards}.assassin-fx .assassin-text{position:absolute;bottom:25%;font-size:clamp(22px,5vw,46px);font-weight:900;color:#fff;text-shadow:0 0 12px #f00,0 3px 6px #000;text-align:center;padding:0 20px}@keyframes assassinStab{0%{transform:translate(90vw,-65vh) rotate(-45deg)}38%{transform:translate(0,0) rotate(-45deg) scale(1.25)}50%{transform:translate(-3vw,3vh) rotate(-45deg) scale(1.4)}100%{transform:translate(-85vw,65vh) rotate(-45deg) scale(.7)}}@keyframes assassinFlash{0%{background:transparent}38%{background:rgba(140,0,25,.75)}100%{background:transparent}}@media(prefers-reduced-motion:reduce){.assassin-fx.active,.assassin-fx .assassin-knife{animation:none}.assassin-fx .assassin-knife{transform:none}}</style><style id="botMobileFxStyles">
 #botTurnAnnouncement{position:fixed!important;inset:0!important;width:100vw;height:100dvh;z-index:100020!important;display:grid!important;place-items:center!important;pointer-events:none;}
-#botTurnAnnouncement.show{visibility:visible!important;animation:botTurnFade 1.65s ease-in-out both!important}
+#botTurnAnnouncement.show{visibility:visible!important;animation:botSlashFade 1.9s ease-out both!important}
 .bot-fx-layer{position:fixed;inset:0;width:100vw;height:100dvh;z-index:100030;pointer-events:none;display:flex;justify-content:center;align-items:center;opacity:0;visibility:hidden;background:rgba(4,8,20,.65);padding:18px;}
 .bot-fx-layer.visible{visibility:visible;animation:botFxIn var(--bot-fx-duration, 1.4s) ease-out forwards}
 .bot-fx-card{width:min(76vw,310px);min-height:230px;max-height:76dvh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;padding:24px 17px;border:4px solid #e8cb85;border-radius:17px;background:linear-gradient(150deg,#403154,#172943);box-shadow:0 0 45px #ffd07899,0 18px 65px #000b;text-align:center;transform:scale(.5);animation:botCardZoom var(--bot-fx-duration, 1.4s) ease-out both}
@@ -315,10 +320,10 @@ function announceBotTurn(who,round){
  if(!el)return;
  el.classList.toggle('enemy',who===1);
  $('botTurnKicker').textContent='TURN '+round;
- $('botTurnTitle').textContent=who===0?'YOUR TURN':'ENEMY TURN';
+ $('botTurnTitle').textContent=who===0?'あなたのターン':'BOTのターン';
  el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
  clearTimeout(botTurnAnnouncementTimer);
- botTurnAnnouncementTimer=setTimeout(()=>el.classList.remove('show'),1700);
+ botTurnAnnouncementTimer=setTimeout(()=>el.classList.remove('show'),1950);
 }
 function beginTurn(first=false){if(game.over)return;game.acted=false;game.lastActionWasCard=false;pending=null;let who=game.turn,p=game.players[who];p.napTurnsActive=false;game.round++;announceBotTurn(who,game.round);log((who===0?'あなた':'BOT')+'のターン');if(p.napTurns.length){p.napTurns.shift();game.acted=true;p.napTurnsActive=true;log('お昼寝：このターンは通常ドロー・カード使用・2枚攻撃ができない');render();queueAutoEnd();return;}if(!first){if(p.skip||p.permaBlock){log('ドロー封じで通常ドローなし')}else draw(who,1,false)}render();if(who===1&&!game.over)setTimeout(botAct,1750);else if(who===0)queueAutoEnd()}
 function valid(who,index){let p=game.players[who],type=CARDS[index][2];return !(p.napTurnsActive||type==='special3'&&p.hand.length!==1||type==='special5'&&p.hand.length<7||type==='search'&&p.hand.length>2||type==='select'&&p.hand.length<2||type==='heal'&&p.used.length<5||type==='chitose'&&p.hand.length<4||type==='god'||type==='counter'||type==='fe'||type==='oru'||type==='assassin'||type==='cancel'||type==='udon'&&!(game.round===1&&game.turn===who)||type==='nice'&&!(game.players[1-who].life>p.life||game.players[1-who].life<=1))}
@@ -510,7 +515,6 @@ function queueAutoEnd(){
 function advanceTurn(){
  if(!game||game.over||pending)return;
  const previous=game.turn;
- enqueueBotFx('end',previous===0?'YOUR TURN END':'ENEMY TURN END','ターン終了','TURN END');
  // カード効果の解決後、怪異の残り回数を進める。
  // 発動したターンは2→1、次に自分のカード効果を解決したターンは1→0。
  if(game.lastActionWasCard && game.players[previous].kaii>0){
