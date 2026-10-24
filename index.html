@@ -592,7 +592,24 @@ function chooseCounterCosts(){
  }
  showOptions('追加でUSEDに送る指定カードを選択（'+(q.selected.length+1)+'/2枚）',choices.map(o=>({label:effectiveCardName(o.id)+'（手札'+(o.i+1)+'枚目）',fn:()=>{q.selected.push(o.i);chooseCounterCosts()}})));
 }
-function resolveEffect(who,id){if(game.over)return;let p=game.players[who],type=CARDS[id][2],other=1-who;
+// トマト倍々発生：対象カードの能力をもう1回解決する。
+// 選択式能力は最初の選択が完了してから2回目を開始する。
+let tomatoRepeat=null,tomatoRepeatScheduled=false;
+function tomatoContinue(){
+ if(!tomatoRepeat||!game||game.over||pending)return;
+ const task=tomatoRepeat;tomatoRepeat=null;
+ log('🍅 トマト倍々発生：能力をもう1回発動！');
+ resolveEffectCore(task.who,task.id);
+}
+function resolveEffect(who,id){
+ if(game.over)return;
+ const p=game.players[who];
+ const qualifies=p.tomato>0&&CARDS[id][2]!=='tomato'&&effectiveCardName(id).includes('ﾌﾞﾝﾁｮｳ');
+ if(qualifies){p.tomato=0;tomatoRepeat={who,id};log('🍅 トマト倍々発生が発動！');}
+ resolveEffectCore(who,id);
+ if(qualifies&&!pending&&!game.over)tomatoContinue();
+}
+function resolveEffectCore(who,id){if(game.over)return;let p=game.players[who],type=CARDS[id][2],other=1-who;
 if(type==='hit')damage(other,1);
 else if(type==='sbff')log('SBFF：何も起こらない');
 else if(type==='spring'){
@@ -765,7 +782,12 @@ function botAct(){
  render();
 }
 function showUsed(){if(!game)return;alert(game.players.map((p,i)=>(i?'BOT':'あなた')+' USED ('+p.used.length+'枚)\n'+(p.used.map(id=>effectiveCardName(id)).join('\n')||'なし')).join('\n\n'))}
-function render(clear=true){if(!game)return;updateFieldVisual();let a=game.players[0],b=game.players[1];$('enemyStats').textContent='♥ '+b.life+' / 7　🂠 山札 '+b.deck.length+'　✋ 手札 '+b.hand.length+'　USED '+b.used.length+(b.shieldNext?'　🛡 防御待機':'');$('myStats').textContent='♥ '+a.life+' / 7　🂠 山札 '+a.deck.length+'　USED '+a.used.length+(a.shieldNext?'　🛡 防御待機':'')+(game.damageCap?'　⚔ ダメージ上限1':'')+'　🎲 付与 '+Object.entries(a.chances).filter(([k,v])=>v.length>0).map(([k,v])=>({funfun:'ﾌﾝﾌﾝ',love:'限界愛',pikainu:'ピカ犬'}[k])+v.length+'回×'+Math.min(100,({funfun:30,love:50,pikainu:1}[k])+a.chanceBonus)+'%').join(' / ');$('status').textContent=game.over?'対戦終了':pending?'カード効果を処理中':game.turn===0?'あなたのターン'+(game.acted?'（行動済み）':''):'BOTのターン';$('endBtn').disabled=game.over||game.turn!==0||!!pending;$('hand').replaceChildren();a.hand.forEach((id,i)=>{let c=CARDS[id],e=document.createElement('div');e.className='card';setCardTheme(e,id);let name=document.createElement('strong');name.textContent=effectiveCardName(id);let desc=document.createElement('small');desc.textContent=c[1];let play=document.createElement('button');play.textContent='カードをプレイ';play.disabled=game.over||game.turn!==0||game.acted||!!pending||!valid(0,id);play.onclick=()=>playCard(0,i);let attack=document.createElement('button');attack.className='danger';attack.textContent='2枚USEDへ送って1ダメージ';attack.disabled=game.over||game.turn!==0||game.acted||!!pending||a.hand.length<2||a.edoTurns>0||a.permaEdo;attack.onclick=()=>usedAttack(0,i);e.append(name,desc,play,attack);$('hand').append(e)});if(clear&&!pending)$('choices').replaceChildren();if(!game.over&&!pending)queueAutoEnd();$('log').replaceChildren(...([...game.privateLogs[0].map(x=>'🔍 【自分だけ】'+x),...game.logs.map(x=>'• '+x)]).map(x=>{let d=document.createElement('div');d.textContent=x;return d}))}
+function render(clear=true){if(!game)return;
+ if(tomatoRepeat&&!pending&&!game.over&&!tomatoRepeatScheduled){
+  tomatoRepeatScheduled=true;
+  setTimeout(()=>{tomatoRepeatScheduled=false;tomatoContinue()},0);
+ }
+ updateFieldVisual();let a=game.players[0],b=game.players[1];$('enemyStats').textContent='♥ '+b.life+' / 7　🂠 山札 '+b.deck.length+'　✋ 手札 '+b.hand.length+'　USED '+b.used.length+(b.shieldNext?'　🛡 防御待機':'');$('myStats').textContent='♥ '+a.life+' / 7　🂠 山札 '+a.deck.length+'　USED '+a.used.length+(a.shieldNext?'　🛡 防御待機':'')+(game.damageCap?'　⚔ ダメージ上限1':'')+'　🎲 付与 '+Object.entries(a.chances).filter(([k,v])=>v.length>0).map(([k,v])=>({funfun:'ﾌﾝﾌﾝ',love:'限界愛',pikainu:'ピカ犬'}[k])+v.length+'回×'+Math.min(100,({funfun:30,love:50,pikainu:1}[k])+a.chanceBonus)+'%').join(' / ');$('status').textContent=game.over?'対戦終了':pending?'カード効果を処理中':game.turn===0?'あなたのターン'+(game.acted?'（行動済み）':''):'BOTのターン';$('endBtn').disabled=game.over||game.turn!==0||!!pending;$('hand').replaceChildren();a.hand.forEach((id,i)=>{let c=CARDS[id],e=document.createElement('div');e.className='card';setCardTheme(e,id);let name=document.createElement('strong');name.textContent=effectiveCardName(id);let desc=document.createElement('small');desc.textContent=c[1];let play=document.createElement('button');play.textContent='カードをプレイ';play.disabled=game.over||game.turn!==0||game.acted||!!pending||!valid(0,id);play.onclick=()=>playCard(0,i);let attack=document.createElement('button');attack.className='danger';attack.textContent='2枚USEDへ送って1ダメージ';attack.disabled=game.over||game.turn!==0||game.acted||!!pending||a.hand.length<2||a.edoTurns>0||a.permaEdo;attack.onclick=()=>usedAttack(0,i);e.append(name,desc,play,attack);$('hand').append(e)});if(clear&&!pending)$('choices').replaceChildren();if(!game.over&&!pending)queueAutoEnd();$('log').replaceChildren(...([...game.privateLogs[0].map(x=>'🔍 【自分だけ】'+x),...game.logs.map(x=>'• '+x)]).map(x=>{let d=document.createElement('div');d.textContent=x;return d}))}
 try{botSyncShared();}catch(e){console.warn("共通デッキの読込をスキップ",e)}
 renderCatalog();
 $('myUsedVisual').parentElement.onclick=showUsed;
