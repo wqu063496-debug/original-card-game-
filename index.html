@@ -117,7 +117,35 @@ body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#4030
 @keyframes dcTitle{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
 @keyframes dcStamp{from{opacity:0;transform:rotate(12deg) scale(2)}to{opacity:.9;transform:rotate(12deg) scale(1)}}
 @media(prefers-reduced-motion:reduce){.detective-cat-fx.detective,.detective .dc-scene:before,.detective .dc-character,.detective .dc-glass,.detective .dc-case,.detective .dc-title,.detective .dc-effect,.detective .dc-stamp{animation:none!important;opacity:1!important}}
-</style></head><body><div id="botMobileFx" class="bot-fx-layer" aria-live="polite"><div class="bot-fx-card"><div class="fx-kicker" id="botFxKicker"></div><strong id="botFxName"></strong><small id="botFxDescription"></small></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="startGame('normal')">🤖 通常BOT対戦</button><button onclick="startGauntlet()">🏆 全8デッキ勝ち抜け</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button><button class="secondary" onclick="location.href='online.html'">🌐 オンライン対戦ロビー</button><button class="secondary" onclick="location.href='field.html'">⚔ オンライン新フィールド</button></div></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。ﾌｪｯ!?は投入できますが通常使用できません。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">1 KTワンショット</option><option value="RKロック">2 RKロック</option><option value="PMループ">3 PMループ</option><option value="TNコントロール">4 TNコントロール</option><option value="KB連撃">5 KB連撃</option><option value="RVメタビート">6 RVメタビート</option><option value="NH妨害墓地ソ">7 NH妨害墓地ソ</option><option value="ES暴発">8 ES暴発</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><p id="sharedBotMessage" class="muted">BOT・オンライン共通デッキ（同じサイト・ブラウザで利用）</p><button class="secondary" onclick="botSyncShared()">オンラインで保存したデッキを読み込む</button><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden bot-field">
+</style><style id="bot-match-start-73">
+#botMatchStart{position:fixed;inset:0;z-index:100010;display:none;align-items:center;justify-content:center;pointer-events:none;background:rgba(3,7,22,.48);overflow:hidden}
+#botMatchStart.active{display:flex!important;visibility:visible!important;opacity:1!important}
+#botMatchStart .start-banner{box-sizing:border-box;max-width:100%;width:100vw;text-align:center;background:linear-gradient(100deg,#750e25,#df2746 45%,#f9a532);border-top:4px solid #ffe7a3;border-bottom:4px solid #ffe7a3;box-shadow:0 0 65px #ff354e99;padding:24px 10px;animation:botMatchStartSweep 2.5s cubic-bezier(.18,.78,.26,1) both}
+#botMatchStart .start-title{font-size:clamp(24px,8vw,94px);font-weight:1000;white-space:nowrap;letter-spacing:.03em;color:#fff;text-shadow:4px 5px 0 #590d25,0 0 22px #ffe2a0}
+#botMatchStart .start-sub{font-size:clamp(12px,3vw,22px);font-weight:900;color:#fff0bb;letter-spacing:.3em}
+@keyframes botMatchStartSweep{0%{transform:translateX(-120vw) skewY(-5deg)}27%{transform:translateX(0) skewY(-5deg)}70%{transform:translateX(0) skewY(-5deg)}100%{transform:translateX(120vw) skewY(-5deg)}}
+@media(prefers-reduced-motion:reduce){#botMatchStart .start-banner{animation:none;transform:none}}
+@media(max-width:650px){#botMatchStart{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;z-index:2147483000!important}#botMatchStart .start-banner{padding:22px 6px!important}#botMatchStart .start-title{font-size:clamp(24px,8vw,48px)!important;letter-spacing:0!important}}
+</style><style id="bot-match-responsive-78">
+/* 画面幅に応じて試合開始カットインを自動調整 */
+#botMatchStart .start-banner{width:min(100vw,1500px);padding:clamp(18px,3vw,42px) clamp(8px,3vw,40px)}
+#botMatchStart .start-title{font-size:clamp(30px,6.5vw,110px);line-height:1.15;letter-spacing:.025em}
+#botMatchStart .start-sub{font-size:clamp(12px,1.8vw,25px);letter-spacing:clamp(.08em,.4vw,.3em)}
+@media(max-width:650px){
+ #botMatchStart .start-banner{width:100vw!important;padding:clamp(15px,5vw,24px) 5px!important}
+ #botMatchStart .start-title{font-size:clamp(24px,7.2vw,45px)!important;letter-spacing:0!important;text-shadow:2px 3px 0 #590d25,0 0 12px #ffe2a0}
+ #botMatchStart .start-sub{font-size:clamp(11px,3.1vw,16px)!important;letter-spacing:.12em!important}
+}
+@media(min-width:651px) and (max-width:1024px){#botMatchStart .start-title{font-size:clamp(45px,7vw,75px)}}
+</style><style>
+.ur-reward,.tidal-cutin{position:fixed;inset:0;z-index:999999;display:grid;place-items:center;text-align:center;color:#fff}
+.ur-reward{background:#060c1df0;padding:18px}.ur-reward-inner{max-width:760px;width:100%;padding:22px;border:3px solid #f5d47c;border-radius:20px;background:#15213b}
+#urRewardCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px auto}#urRewardCards .card{min-width:0}
+.tidal-cutin{inset:35% 0;animation:tidalSlide 1.8s ease-in-out both;border-top:5px solid #fff8;border-bottom:5px solid #fff8;box-shadow:0 0 30px #000a}
+.tidal-cutin strong{font-size:clamp(28px,7vw,76px);text-shadow:3px 4px 4px #000a}
+@keyframes tidalSlide{0%{transform:translateX(-110%)}18%,70%{transform:translateX(0)}100%{transform:translateX(110%)}}
+#botMatchStart .start-title{font-size:clamp(24px,5.5vw,76px)!important;overflow-wrap:anywhere}
+</style></head><body><div id="botMatchStart" aria-live="polite"><div class="start-banner"><div class="start-title">試合開始！！！</div><div class="start-sub">BATTLE START</div></div></div><div id="botMobileFx" class="bot-fx-layer" aria-live="polite"><div class="bot-fx-card"><div class="fx-kicker" id="botFxKicker"></div><strong id="botFxName"></strong><small id="botFxDescription"></small></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><header><h1>⚔ オリジナルカードバトル</h1><div class="row"><button class="secondary" onclick="showBuilder()">デッキ編集</button><button class="secondary" onclick="openTutorial()">📖 ルール体験デモ</button><button onclick="startGame('normal')">🤖 通常BOT対戦</button><button onclick="startGauntlet()">🏆 無限連勝チャレンジ</button><button class="secondary" onclick="startGame('beginner')">🌱 初心者モード</button><button class="secondary" onclick="location.href='online.html'">🌐 オンライン対戦ロビー</button><button class="secondary" onclick="location.href='field.html'">⚔ オンライン新フィールド</button></div></header><main class="wrap"><section id="builder"><div class="panel"><h2>デッキ編集 <span id="deckCount" class="badge">0 / 20</span></h2><p class="muted">同名カードは最大3枚（小森アタックのみ上限20枚）。ﾌｪｯ!?は投入できますが通常使用できません。20枚にするとBOT対戦を開始できます。設定はこのブラウザに保存されます。</p><div class="controls"><button class="secondary" onclick="openTutorial()">はじめての方向けデモ</button><button onclick="saveDeck()">デッキを保存</button><button class="secondary" onclick="autoDeck()">おまかせ20枚</button><label style="display:inline-flex;align-items:center;gap:7px">サンプルデッキ <select id="sampleDeck" onchange="loadSampleDeck(this.value)"><option value="">選択してください</option><option value="KTワンショット">1 KTワンショット</option><option value="RKロック">2 RKロック</option><option value="PMループ">3 PMループ</option><option value="TNコントロール">4 TNコントロール</option><option value="KB連撃">5 KB連撃</option><option value="RVメタビート">6 RVメタビート</option><option value="NH妨害墓地ソ">7 NH妨害墓地ソ</option><option value="ES暴発">8 ES暴発</option><option value="URサーチ" id="urDeckOption" hidden>9 URサーチ（10連勝報酬）</option></select></label><button class="danger" onclick="clearDeck()">全解除</button></div><p id="sharedBotMessage" class="muted">BOT・オンライン共通デッキ（同じサイト・ブラウザで利用）</p><button class="secondary" onclick="botSyncShared()">オンラインで保存したデッキを読み込む</button><div id="catalog" class="grid"></div></div></section><section id="game" class="hidden bot-field">
 <div class="arena-board" id="arenaBoard">
  <div class="fighter fighter-enemy" id="fighterEnemy"><div class="fighter-profile"><div class="avatar">🤖</div><strong>BOT</strong><div class="heart-meter">♥ <span id="botLifeVisual">7</span></div><small id="botHandVisual">手札 2枚</small></div><div class="battle-zones"><div class="battle-zone used-zone"><b>USED</b><strong id="botUsedVisual">0</strong><small>クリックで一覧</small></div><div class="battle-zone effect-zone"><b>継続効果</b><div id="botEffectsVisual">なし</div></div></div><div class="deck-zone"><div class="deck-back">✦</div><b>BOT DECK</b><span id="botDeckVisual">18枚</span></div></div>
  <div class="board-center"><span id="turnBadge">TURN 1</span><span id="status"></span><span class="center-emblem">⚔</span></div>
@@ -146,7 +174,13 @@ body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#4030
 
 const CARD_THEMES=["linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "#17171d", "#b3b7c0", "#7145ac", "linear-gradient(135deg,#155541 0%,#f1f4e9 100%)", "linear-gradient(135deg,#b5e15e 0%,#f6a4c6 100%)", "linear-gradient(135deg,#12345d 0%,#ead7b4 100%)", "linear-gradient(135deg,#16151b 0%,#f5cb39 100%)", "linear-gradient(135deg,#82dff6 0%,#f7e27d 50%,#ab8bd9 100%)", "#399d62", "linear-gradient(135deg,#45206c 0%,#17131e 50%,#a5253d 100%)", "#f1a2c7", "linear-gradient(135deg,#8e66c7 0%,#f5f3ff 100%)", "linear-gradient(135deg,#b52c49 0%,#f4ce52 100%)", "linear-gradient(135deg,#f9f9f2 0%,#fff0a8 100%)", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#c4b0e6 0%,#1c172a 50%,#f3ce59 100%)", "linear-gradient(135deg,#c4b0e6 0%,#1c172a 50%,#f3ce59 100%)", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "linear-gradient(135deg,#8e66c7 0%,#f5f3ff 100%)", "#b3b7c0", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#f9f9f2 0%,#fff0a8 100%)", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#1a1b24 0%,#f6f6f8 100%)", "linear-gradient(135deg,#155541 0%,#f1f4e9 100%)", "linear-gradient(135deg,#155541 0%,#f1f4e9 100%)", "#8dd8f2", "#8dd8f2", "#8dd8f2", "#8dd8f2", "#f1a2c7", "#f1a2c7", "#f1a2c7", "linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "#b3b7c0", "#b3b7c0", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "linear-gradient(135deg,#152d57 0%,#11121c 100%)", "#7145ac", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "#17171d", "#7145ac", "linear-gradient(135deg,#13254f 0%,#70d9f4 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#cdb5f5 0%,#f6a7d2 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "linear-gradient(135deg,#874ab7 0%,#15131f 100%)", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "linear-gradient(135deg,#b1b4bc 0%,#25252c 100%)", "#17171d"];
 const CARD_TEXT_COLORS=["#172035", "#fff", "#fff", "#172035", "#fff", "#172035", "#172035", "#fff", "#172035", "#172035", "#fff", "#fff", "#172035", "#172035", "#fff", "#172035", "#fff", "#fff", "#fff", "#fff", "#172035", "#172035", "#fff", "#172035", "#fff", "#fff", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#fff", "#fff", "#fff", "#172035", "#fff", "#fff", "#fff", "#fff", "#fff", "#172035", "#fff", "#172035", "#fff", "#172035", "#172035", "#fff"];
-function setCardTheme(element,index){if(index<0||index>=CARD_THEMES.length)return;element.classList.add("card-themed");element.style.setProperty("--card-bg",CARD_THEMES[index]);element.style.setProperty("--card-fg",CARD_TEXT_COLORS[index]);}
+const UR_TYPES=new Set(['tidal','talk','bookshop','diver']);
+const UR_UNLOCK_KEY='ocbUrUnlockedV1';
+function urUnlocked(){return localStorage.getItem(UR_UNLOCK_KEY)==='yes'}
+const UR_DECK={'Diver':3,'思い出の中の古本屋':3,'今日は推し談笑！！':3,'人手不足の魔導書':3,'ﾌﾞﾝﾁｮｳｱﾀｯｸ':3,'(･ω･三･ω･)ﾌﾝﾌﾝ':2,'タイダル・ウィンド':3};
+function isUR(id){return UR_TYPES.has(CARDS[id]?.[2])}
+function urCardId(type){return CARDS.findIndex(c=>c[2]===type)}
+function setCardTheme(element,index){if(isUR(index)){element.classList.add("card-themed");element.style.setProperty("--card-bg","linear-gradient(135deg,#ffe279 0%,#152e61 52%,#9a9da7 100%)");element.style.setProperty("--card-fg","#fff");return;}if(index<0||index>=CARD_THEMES.length)return;element.classList.add("card-themed");element.style.setProperty("--card-bg",CARD_THEMES[index]);element.style.setProperty("--card-fg",CARD_TEXT_COLORS[index]);}
 
 const CARDS=[
 ['ﾌﾞﾝﾁｮｳｱﾀｯｸ','1ダメージ。手札の名前に「ﾌﾞﾝﾁｮｳ」を含むカードを1枚USEDにするとさらに1ダメージ','buncho'],['観測者の悪ノリ','山札から1枚引く','draw'],['うーんひらめいた！','山札から1枚引く','draw'],['オトモアタック','1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）','otomo'],['そう！高〇健！！','次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続','block'],['みなさん、いつまで寝てるの！！','自分のUSEDから最大3枚を山札に戻してシャッフル','recycle'],['必殺ファン●ション','手札がこのカードだけなら3ダメージ','special3'],['深夜の大人の勉強会','山札の上から3枚を確認し、好きな順に並べ替える','peek'],['小森アタック','相手に1ダメージ（デッキに4枚以上入れられる）','hit'],['星色の推し活','山札から1枚引く','draw'],['もち蔵アタック','1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない','mochi'],['人手不足の魔導書','手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ','search'],['お転婆お嬢様！！','相手の山札上2枚をUSEDへ','mill'],['究極拳巫女パンチ','使用前の手札が7枚以上なら5ダメージ','special5'],['ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ','山札から1枚引く','draw'],['冷静竜声','別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ','select'],['まずはありがとう','2枚引いてから手札2枚をUSEDへ','drawdiscard'],['音バケ隊！！','USEDが5枚以上のとき使用可能。自分のライフを1回復','heal'],['しのみーらいぶ','ライフ1回復。その後、自分の山札の一番上をUSEDへ','shino'],['チトセニウム','使用前の手札が4枚以上なら使用可能。山札から2枚引く','chitose'],['全知全能の神、弱そう','ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ','god'],['見透かされるアホネー','相手の手札のカード名を3択で当てる','guess'],['やかましいわ','相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化','counter'],['月民の隠れ家','自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ','hideout'],['人を大切にできないやつは自分も大切にされない【名言】','1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く','quote'],['ガチナイス','相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る','nice'],
@@ -179,7 +213,11 @@ const CARDS=[
 ['うんコンボ・・・・？','相手USED内の刺客と同数の刺客を加え、相手USED全部を山札に戻してシャッフル','combo'],
 ['企画破壊','相手カードの発動時、自分に2ダメージと引き換えに無効化','cancel'],
 ['行っちゃうの？…','自分のライフを任意の数減らし、その2倍ドロー','going'],
-['オル虐','通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時にドローか1ダメージを選択（それぞれゲーム中1回）','oru']
+['オル虐','通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時にドローか1ダメージを選択（それぞれゲーム中1回）','oru'],
+['タイダル・ウィンド','使用条件？　効果？　※対人戦では使用できません','tidal'],
+['今日は推し談笑！！','手札を1枚選び、同じ色の山札のカードをランダムに1枚手札に加える','talk'],
+['思い出の中の古本屋','対象カード3枚から1枚を選び手札に加える','bookshop'],
+['Diver','自分のUSEDから1枚選んで手札に加える','diver']
 ];
 // 怪異はカードの内部ID・効果を変えず、名前だけを一時的に変更する。
 function kaiiActive(){return !!game && game.players.some(p=>p.kaii>0)}
@@ -272,11 +310,12 @@ const SAMPLE_DECKS={
   "( 'ω')ﾌｪｯ!?": 3
  }
 };
+SAMPLE_DECKS['URサーチ']=UR_DECK;
 const BEGINNER_DECK={'ﾌﾞﾝﾁｮｳｱﾀｯｸ':3,'観測者の悪ノリ':3,'必殺ファン●ション':1,'小森アタック':5,'まずはありがとう':3,'チトセニウム':3,'人手不足の魔導書':2};
-function sampleToCounts(name){const result=Array(CARDS.length).fill(0);for(const [card,n] of Object.entries(SAMPLE_DECKS[name])){const i=CARDS.findIndex(c=>c[0]===card);if(i<0)throw Error('未登録カード: '+card);result[i]=n}if(result.reduce((a,b)=>a+b,0)!==20)throw Error('20枚になっていません: '+name);return result}
+function sampleToCounts(name,forBot=false){if(name==='URサーチ'&&!forBot&&!urUnlocked())throw Error('10連勝で解放されます');const result=Array(CARDS.length).fill(0);for(const [card,n] of Object.entries(SAMPLE_DECKS[name])){const i=CARDS.findIndex(c=>c[0]===card);if(i<0)throw Error('未登録カード: '+card);result[i]=n}if(result.reduce((a,b)=>a+b,0)!==20)throw Error('20枚になっていません: '+name);return result}
 function loadSampleDeck(name){if(!name)return;try{counts=sampleToCounts(name);renderCatalog();botSaveShared();$('sharedBotMessage').textContent='サンプル「'+name+'」を共通デッキに設定しました'}catch(e){alert(e.message)}}
 let counts;try{counts=JSON.parse(localStorage.getItem('cardDeck')||'null')}catch(e){counts=null;console.warn('保存デッキを初期化',e)}if(!Array.isArray(counts)||counts.length>CARDS.length||counts.some(x=>!Number.isInteger(x)||x<0||x>20))counts=Array(CARDS.length).fill(0);else if(counts.length<CARDS.length)counts.push(...Array(CARDS.length-counts.length).fill(0));
-function botDeckDefs(){return CARDS.map(c=>({name:c[0],limit:c[2]==='hit'&&c[0]==='小森アタック'?20:3,forbidden:['assassin','oru'].includes(c[2])}));}
+function botDeckDefs(){return CARDS.map(c=>({name:c[0],limit:c[2]==='hit'&&c[0]==='小森アタック'?20:3,forbidden:['assassin','oru'].includes(c[2])||UR_TYPES.has(c[2])&&!urUnlocked()}));}
 function botNamesFromCounts(arr){return Object.fromEntries(CARDS.map((c,i)=>[c[0],arr[i]]).filter(x=>x[1]>0));}
 function botCountsFromNames(names){if(!sharedDeckValid(names,botDeckDefs()))return null;return CARDS.map(c=>names[c[0]]||0);}
 function botSyncShared(){const v=sharedDeckRead();const next=botCountsFromNames(v?.cards);if(next){counts=next;localStorage.setItem('cardDeck',JSON.stringify(counts));renderCatalog();return true;}return false;}
@@ -288,30 +327,43 @@ let game=null,pending=null,lock=false;
 let gauntlet=null;
 function startGauntlet(){
  if(sum()!==20){alert('先に自分のデッキを20枚にしてください');return}
- gauntlet={names:Object.keys(SAMPLE_DECKS),index:0,wins:0,playerCounts:counts.slice(),complete:false};
+ gauntlet={index:0,wins:0,playerCounts:counts.slice(),complete:false};
  startGame('gauntlet');
 }
 function nextGauntlet(){
- if(!gauntlet||!game?.over||game.winner!==0||gauntlet.complete)return;
- if(gauntlet.index>=gauntlet.names.length)return;
+ if(!gauntlet||!game?.over||game.winner!==0)return;
  closeResult();startGame('gauntlet');
 }
 function shareGauntlet(){
- if(!gauntlet?.complete)return;
- const message='🏆 オリジナルカードバトル BOT勝ち抜けモードを完全制覇！\n'+gauntlet.wins+'連勝で全'+gauntlet.names.length+'デッキ撃破！ #オリジナルカードバトル';
- const url='https://twitter.com/intent/tweet?text='+encodeURIComponent(message)+(location.protocol.startsWith('http')?'&url='+encodeURIComponent(location.href):'');
- window.open(url,'_blank','noopener,noreferrer');
+ if(!gauntlet)return;
+ const message='🏆 BOT連勝チャレンジ '+gauntlet.wins+'連勝！ #オリジナルカードバトル';
+ window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
 }
-
+function unlockUR(){
+ if(urUnlocked())return;
+ localStorage.setItem(UR_UNLOCK_KEY,'yes');
+ renderCatalog();
+ setTimeout(()=>{
+  const box=document.createElement('div');
+  box.id='urReward';box.className='ur-reward';
+  box.innerHTML='<div class="ur-reward-inner"><h2>🎉 おめでとう！追加カードを手に入れた！</h2><p>URサーチ デッキが解放されました！</p><div id="urRewardCards"></div><button id="urRewardClose">閉じる</button></div>';
+  document.body.appendChild(box);
+  for(const type of UR_TYPES){const id=urCardId(type),e=document.createElement('div');e.className='card';setCardTheme(e,id);const title=document.createElement('strong');title.textContent=CARDS[id][0];e.append(title);$('urRewardCards').append(e)}
+  $('urRewardClose').onclick=()=>box.remove();
+ },650);
+}
 const $=id=>document.getElementById(id),sum=()=>counts.reduce((a,b)=>a+b,0),shuffle=a=>{for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-function renderCatalog(){ $('deckCount').textContent=sum()+' / 20';$('catalog').innerHTML='';CARDS.forEach((c,i)=>{if(c[2]==='assassin')return;let e=document.createElement('div');e.className='card';setCardTheme(e,i);e.innerHTML='<strong></strong><small></small><div class="counter"><button class="secondary">−</button><b></b><button>＋</button></div>';e.querySelector('strong').textContent=c[0];e.querySelector('small').textContent=c[1];e.querySelector('b').textContent=counts[i];let bs=e.querySelectorAll('button');bs[0].disabled=counts[i]===0;bs[1].disabled=counts[i]===([8,47].includes(i)?20:3)||sum()>=20;bs[0].onclick=()=>{counts[i]--;renderCatalog()};bs[1].onclick=()=>{counts[i]++;renderCatalog()};$('catalog').append(e)})}
+function renderCatalog(){const urOption=$('urDeckOption');if(urOption)urOption.hidden=!urUnlocked(); $('deckCount').textContent=sum()+' / 20';$('catalog').innerHTML='';CARDS.forEach((c,i)=>{if(c[2]==='assassin'||isUR(i)&&!urUnlocked())return;let e=document.createElement('div');e.className='card';setCardTheme(e,i);e.innerHTML='<strong></strong><small></small><div class="counter"><button class="secondary">−</button><b></b><button>＋</button></div>';e.querySelector('strong').textContent=c[0];e.querySelector('small').textContent=c[1];e.querySelector('b').textContent=counts[i];let bs=e.querySelectorAll('button');bs[0].disabled=counts[i]===0;bs[1].disabled=counts[i]===([8,47].includes(i)?20:3)||sum()>=20;bs[0].onclick=()=>{counts[i]--;renderCatalog()};bs[1].onclick=()=>{counts[i]++;renderCatalog()};$('catalog').append(e)})}
 function saveDeck(){if(sum()!==20){alert('デッキを20枚にしてください');return false}if(!botSaveShared())return false;alert('BOT・オンライン共通デッキとして保存しました');return true}
-function autoDeck(){counts=Array(CARDS.length).fill(0);let ids=shuffle(Array.from({length:CARDS.length},(_,i)=>i).filter(i=>CARDS[i][2]!=='assassin'));for(let n=0;n<20;n++)counts[ids[n%ids.length]]++;renderCatalog()}
+function autoDeck(){counts=Array(CARDS.length).fill(0);let ids=shuffle(Array.from({length:CARDS.length},(_,i)=>i).filter(i=>CARDS[i][2]!=='assassin'&&(!isUR(i)||urUnlocked())));for(let n=0;n<20;n++)counts[ids[n%ids.length]]++;renderCatalog()}
 function clearDeck(){counts.fill(0);renderCatalog()}
-function showBuilder(){if(game&&!game.over&&!confirm('対戦を終了してデッキ編集に戻りますか？'))return;game=null;pending=null;lock=false;$('builder').classList.remove('hidden');$('game').classList.add('hidden');botSyncShared();renderCatalog()}
+function showBuilder(){hideBotMatchStart();if(game&&!game.over&&!confirm('対戦を終了してデッキ編集に戻りますか？'))return;game=null;pending=null;lock=false;$('builder').classList.remove('hidden');$('game').classList.add('hidden');botSyncShared();renderCatalog()}
 function makePlayer(deck){return{deck:shuffle(deck),hand:[],used:[],life:7,skip:0,protect:0,shieldNext:0,firstDealt:false,chances:{funfun:[],love:[],pikainu:[]},chanceBonus:0,extraTurns:0,permaBlock:false,blockTurns:0,edoTurns:0,permaEdo:false,chain:false,fairy:0,kaii:0,tomato:0,star:0,napTurns:[],handUsedCount:0,specialOnce:{fe:{draw:false,damage:false},oru:{draw:false,damage:false}}}}
 function initialDraw(p){p.hand.push(p.deck.pop())}
-function startGame(mode='normal'){if(mode!=='gauntlet')gauntlet=null;botFxQueue=[];botFxBusy=false;clearTimeout(botFxTimer);document.getElementById('botMobileFx')?.classList.remove('visible');if(mode==='gauntlet'&&!gauntlet)return;if(mode!=='gauntlet'&&sum()!==20){alert('先にデッキを20枚にしてください');return}if(mode!=='gauntlet'&&!botSaveShared())return;let playerCounts=mode==='gauntlet'?gauntlet.playerCounts:counts;let deck=playerCounts.flatMap((n,i)=>Array(n).fill(i));let botSample=mode==='gauntlet'?gauntlet.names[gauntlet.index]:Object.keys(SAMPLE_DECKS)[Math.floor(Math.random()*Object.keys(SAMPLE_DECKS).length)];if(mode==='beginner')botSample='初心者デッキ';let botCounts=mode==='beginner'?(()=>{const c=Array(CARDS.length).fill(0);for(const [name,n] of Object.entries(BEGINNER_DECK)){const i=CARDS.findIndex(card=>card[0]===name);if(i<0)throw Error('カードがありません: '+name);c[i]=n}if(c.reduce((a,b)=>a+b,0)!==20)throw Error('初心者デッキが20枚ではありません');return c})():sampleToCounts(botSample);let botDeck=botCounts.flatMap((n,i)=>Array(n).fill(i));game={winner:null,players:[makePlayer(deck),makePlayer(botDeck)],turn:Math.random()<.5?0:1,round:0,acted:false,over:false,damageCap:false,logs:[],privateLogs:[[],[]],mode};pending=null;lock=false;for(const p of game.players){initialDraw(p);initialDraw(p)}$('builder').classList.add('hidden');$('game').classList.remove('hidden');log((mode==='gauntlet'?'🏆 勝ち抜け '+(gauntlet.index+1)+' / '+gauntlet.names.length+'戦目　':'')+'BOTの使用デッキ：'+botSample);log('対戦開始！ '+(game.turn===0?'あなたが先攻':'BOTが先攻'));beginTurn(true)}
+let botMatchStartTimer=null;
+function hideBotMatchStart(){clearTimeout(botMatchStartTimer);document.getElementById('botMatchStart')?.classList.remove('active')}
+function showBotMatchStart(customTitle=null){hideBotMatchStart();const el=document.getElementById('botMatchStart');if(!el)return;document.body.appendChild(el);el.querySelector('.start-title').textContent=customTitle||'試合開始！！！';el.querySelector('.start-sub').textContent=customTitle?'CHALLENGE BATTLE':'BATTLE START';void el.offsetWidth;el.classList.add('active');const banner=el.querySelector('.start-banner');if(banner){banner.style.animation='none';void banner.offsetWidth;banner.style.animation=''}botMatchStartTimer=setTimeout(hideBotMatchStart,2800)}
+function startGame(mode='normal'){clearTimeout(botTurnAnnouncementTimer);if(mode!=='gauntlet')gauntlet=null;botFxQueue=[];botFxBusy=false;clearTimeout(botFxTimer);document.getElementById('botMobileFx')?.classList.remove('visible');if(mode==='gauntlet'&&!gauntlet)return;if(mode!=='gauntlet'&&sum()!==20){alert('先にデッキを20枚にしてください');return}if(mode!=='gauntlet'&&!botSaveShared())return;let playerCounts=mode==='gauntlet'?gauntlet.playerCounts:counts;let deck=playerCounts.flatMap((n,i)=>Array(n).fill(i));let botSample=mode==='gauntlet'?(gauntlet.index%10===9?'URサーチ':Object.keys(SAMPLE_DECKS).filter(n=>n!=='URサーチ')[Math.floor(Math.random()*(Object.keys(SAMPLE_DECKS).length-1))]):Object.keys(SAMPLE_DECKS).filter(n=>n!=='URサーチ')[Math.floor(Math.random()*(Object.keys(SAMPLE_DECKS).length-1))];if(mode==='beginner')botSample='初心者デッキ';let botCounts=mode==='beginner'?(()=>{const c=Array(CARDS.length).fill(0);for(const [name,n] of Object.entries(BEGINNER_DECK)){const i=CARDS.findIndex(card=>card[0]===name);if(i<0)throw Error('カードがありません: '+name);c[i]=n}if(c.reduce((a,b)=>a+b,0)!==20)throw Error('初心者デッキが20枚ではありません');return c})():sampleToCounts(botSample,true);let botDeck=botCounts.flatMap((n,i)=>Array(n).fill(i));game={winner:null,players:[makePlayer(deck),makePlayer(botDeck)],turn:Math.random()<.5?0:1,round:0,acted:false,over:false,damageCap:false,logs:[],privateLogs:[[],[]],mode};pending=null;lock=false;for(const p of game.players){initialDraw(p);initialDraw(p)}$('builder').classList.add('hidden');$('game').classList.remove('hidden');log((mode==='gauntlet'?'🏆 勝ち抜け '+(gauntlet.index+1)+'戦目　':'')+'BOTの使用デッキ：'+botSample);log('対戦開始！ '+(game.turn===0?'あなたが先攻':'BOTが先攻'));showBotMatchStart(mode==='gauntlet'?(gauntlet.index%10===9?'！！！乱入デッキ！！！':(gauntlet.index+1)+'戦目 VS '+botSample):null);beginTurn(true)}
 let assassinFxTimer;function showAssassinFx(label){if(game?.over)return;const el=document.getElementById('assassinFx');if(!el)return;document.getElementById('assassinFxText').textContent=label||'刺客の襲撃！ −1 HP';el.classList.remove('active');void el.offsetWidth;el.classList.add('active');clearTimeout(assassinFxTimer);assassinFxTimer=setTimeout(()=>el.classList.remove('active'),1700)}
 let botFxQueue=[],botFxBusy=false,botFxTimer=null;
 function enqueueBotFx(kind,title,detail,kicker,cardId=null,who=null){
@@ -327,13 +379,13 @@ function nextBotFx(){
  if(!el){botFxBusy=false;return}
  el.className='bot-fx-layer '+fx.kind+(fx.who===0?' side-self':fx.who===1?' side-enemy':'');
  const cardId=fx.cardId;
- const cardBg=cardId>=0?CARD_THEMES[cardId]:null;
- const cardFg=cardId>=0?CARD_TEXT_COLORS[cardId]:null;
+ const cardBg=cardId>=0?(isUR(cardId)?'linear-gradient(135deg,#ffe279,#152e61,#9a9da7)':CARD_THEMES[cardId]):null;
+ const cardFg=cardId>=0?(isUR(cardId)?'#fff':CARD_TEXT_COLORS[cardId]):null;
  el.style.setProperty('--fx-card-bg',cardBg||'linear-gradient(150deg,#403154,#172943)');
  el.style.setProperty('--fx-card-fg',cardFg||'#fff');
  el.style.setProperty('--fx-card-border',cardFg==='#172035'?'#7d638b':'#e8cb85');
  el.style.setProperty('--fx-card-glow',cardFg==='#172035'?'#9d86e888':'#ffd07899');
- const duration=fx.kind==='card'?2900:fx.kind==='chance'?2100:fx.kind==='counter'||fx.kind==='negate'?1700:1400;
+ const duration=fx.kind==='card'?2900:fx.kind==='chance'?2100:fx.kind==='counter'||fx.kind==='negate'?1700:fx.kind==='turn'?1950:1400;
  el.style.setProperty('--bot-fx-duration',duration+'ms');
  document.getElementById('botFxKicker').textContent=fx.kicker||'';
  document.getElementById('botFxName').textContent=fx.title;
@@ -344,6 +396,7 @@ function nextBotFx(){
 function log(s){game.logs.unshift(s);game.logs=game.logs.slice(0,30)}
 function privateLog(who,s){game.privateLogs[who].unshift(s);game.privateLogs[who]=game.privateLogs[who].slice(0,30)}
 function stopBattleAnimations(){
+ hideBotMatchStart();
  botFxQueue.length=0;botFxBusy=false;clearTimeout(botFxTimer);clearTimeout(hitFxTimeout);clearTimeout(assassinFxTimer);clearTimeout(botTurnAnnouncementTimer);
  document.getElementById('botMobileFx')?.classList.remove('visible');
  document.getElementById('hitFX')?.classList.remove('show');
@@ -359,7 +412,7 @@ function finish(winner,reason){
  if(game.over)return;
  game.over=true;game.winner=winner;pending=null;lock=false;stopBattleAnimations();
  if(game.mode==='gauntlet'&&gauntlet){
-  if(winner===0){gauntlet.wins++;gauntlet.index++;gauntlet.complete=gauntlet.index>=gauntlet.names.length;}
+  if(winner===0){gauntlet.wins++;gauntlet.index++;gauntlet.complete=false;if(gauntlet.wins===10)game.urRewardPending=true;}
   else gauntlet.complete=false;
  }
  log((winner===0?'あなた':'BOT')+'の勝利！ '+reason);showResult(winner,reason);
@@ -375,16 +428,16 @@ function showResult(winner,reason){
  const isGauntlet=game.mode==='gauntlet'&&!!gauntlet;
  $('streakResult').classList.toggle('hidden',!isGauntlet);
  $('streakProgress').classList.toggle('hidden',!isGauntlet);
- $('nextGauntletBtn').classList.toggle('hidden',!(isGauntlet&&won&&!gauntlet.complete));
+ $('nextGauntletBtn').classList.toggle('hidden',!(isGauntlet&&won));
  $('shareGauntletBtn').classList.toggle('hidden',!(isGauntlet&&won&&gauntlet.complete));
  $('resultReplayBtn').textContent=isGauntlet?'最初から再挑戦':'もう一度対戦';
  if(isGauntlet){
-  $('streakResult').textContent=gauntlet.complete?'🎊 '+gauntlet.wins+'連勝！ 全デッキ制覇！':won?'🏆 現在 '+gauntlet.wins+'連勝中！':'🏆 '+gauntlet.wins+'連勝で終了';
-  $('streakProgress').textContent=gauntlet.complete?'すべての登録デッキに勝利しました':won?'次の対戦：'+gauntlet.names[gauntlet.index]+'（'+(gauntlet.index+1)+' / '+gauntlet.names.length+'）':'対戦結果：'+gauntlet.wins+' / '+gauntlet.names.length+'勝';
+  $('streakResult').textContent=won?'🏆 現在 '+gauntlet.wins+'連勝中！':'🏆 '+gauntlet.wins+'連勝で終了';
+  $('streakProgress').textContent=won?'次の対戦：'+(gauntlet.index+1)+'戦目':'対戦結果：'+gauntlet.wins+'連勝';
  }
  const spark=$('resultSpark');spark.replaceChildren();
  for(let i=0;i<65;i++){const el=document.createElement('span');el.style.setProperty('--x',(Math.random()*100)+'%');el.style.setProperty('--t',(2+Math.random()*3)+'s');el.style.setProperty('--delay',(-Math.random()*5)+'s');el.style.setProperty('--c',['#ffd96a','#eaa8ff','#85d6ff','#ffffff'][i%4]);spark.append(el)}
- overlay.classList.remove('hidden');render();
+ overlay.classList.remove('hidden');render();if(game.urRewardPending){game.urRewardPending=false;unlockUR();}
 }
 function closeResult(){$('resultOverlay').classList.add('hidden')}
 function replayGame(){const mode=game?.mode||'normal';closeResult();if(mode==='gauntlet'){startGauntlet()}else startGame(mode)}
@@ -534,19 +587,21 @@ function specialActivate(who,kind,choice){
 function draw(who,n,fromEffect=!!(game&&game.acted)){let p=game.players[who];if(p.permaBlock||p.skip){log((who===0?'あなた':'BOT')+'はドロー禁止中');return}for(let i=0;i<n&&!game.over;i++){if(!p.deck.length){finish(1-who,'山札切れ');break}let drawn=p.deck.pop();p.hand.push(drawn);log((who===0?'あなた':'BOT')+'が1枚引いた');if(CARDS[drawn][2]==='fe'&&fromEffect){specialChoice(who,'fe')}if(CARDS[drawn][2]==='assassin'&&!game.players[0].kaii&&!game.players[1].kaii){log('🗡️ 刺客の襲撃！ '+(who===0?'あなた':'BOT')+'が刺されて1ダメージ！');showAssassinFx((who===0?'あなた':'BOT')+'が刺客に刺された！ −1 HP');damage(who,1,who);}check();if(pending&&pending.type==='specialChoice')break}}
 
 let botTurnAnnouncementTimer=null;
-function announceBotTurn(who,round){if(game?.over)return;
- const el=$('botTurnAnnouncement');
- if(!el)return;
- el.classList.toggle('enemy',who===1);
- $('botTurnKicker').textContent='TURN '+round;
- $('botTurnTitle').textContent=who===0?'あなたのターン':'BOTのターン';
- el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
- clearTimeout(botTurnAnnouncementTimer);
- botTurnAnnouncementTimer=setTimeout(()=>el.classList.remove('show'),1950);
+function announceBotTurn(who,round){
+ if(game?.over)return;
+ if(who!==0)return; // BOTターン開始のカットインは表示しない
+ const title='あなたのターン開始！';
+ // カード演出の後にターン開始を再生。初回は「試合開始！！！」の後に再生。
+ const currentGame=game;
+ const enqueue=()=>{if(game!==currentGame||game?.over)return;enqueueBotFx('turn',title,'TURN '+round,'TURN START',null,who)};
+ if(round===1){clearTimeout(botTurnAnnouncementTimer);botTurnAnnouncementTimer=setTimeout(enqueue,2550)}
+ else enqueue();
 }
 function beginTurn(first=false){if(game.over)return;game.acted=false;game.lastActionWasCard=false;pending=null;let who=game.turn,p=game.players[who];p.napTurnsActive=false;game.round++;announceBotTurn(who,game.round);log((who===0?'あなた':'BOT')+'のターン');if(p.napTurns.length){p.napTurns.shift();game.acted=true;p.napTurnsActive=true;log('お昼寝：このターンは通常ドロー・カード使用・2枚攻撃ができない');render();queueAutoEnd();return;}if(!first){if(p.skip||p.permaBlock){log('ドロー封じで通常ドローなし')}else draw(who,1,false)}render();if(who===1&&!game.over)setTimeout(botAct,1750);else if(who===0)queueAutoEnd()}
-function valid(who,index){let p=game.players[who],type=CARDS[index][2];return !(p.napTurnsActive||type==='special3'&&p.hand.length!==1||type==='special5'&&p.hand.length<7||type==='search'&&p.hand.length>2||type==='select'&&p.hand.length<2||type==='heal'&&p.used.length<5||type==='chitose'&&p.hand.length<4||type==='god'||type==='counter'||type==='fe'||type==='oru'||type==='assassin'||type==='cancel'||type==='udon'&&!(game.round===1&&game.turn===who)||type==='nice'&&!(game.players[1-who].life>p.life||game.players[1-who].life<=1))}
-function playCard(who,handIndex){if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who],id=p.hand[handIndex];if(id===undefined||!valid(who,id))return;let type=CARDS[id][2];p.hand.splice(handIndex,1);putUsed(who,id);game.acted=true;game.lastActionWasCard=true;game.chancePending=who;log((who===0?'あなた':'BOT')+'が「'+effectiveCardName(id)+'」を使用');enqueueBotFx('card',effectiveCardName(id),CARDS[id][1],who===0?'YOUR CARD':'ENEMY CARD',id,who);let other=1-who;
+function valid(who,index){let p=game.players[who],type=CARDS[index][2];return !(p.napTurnsActive||type==='special3'&&p.hand.length!==1||type==='special5'&&p.hand.length<7||type==='tidal'&&!tidalCandidates(who).length||type==='search'&&p.hand.length>2||type==='select'&&p.hand.length<2||type==='heal'&&p.used.length<5||type==='chitose'&&p.hand.length<4||type==='god'||type==='counter'||type==='fe'||type==='oru'||type==='assassin'||type==='cancel'||type==='udon'&&!(game.round===1&&game.turn===who)||type==='nice'&&!(game.players[1-who].life>p.life||game.players[1-who].life<=1))}
+function playCard(who,handIndex){if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who],id=p.hand[handIndex];if(id===undefined||!valid(who,id))return;let type=CARDS[id][2];p.hand.splice(handIndex,1);putUsed(who,id);game.acted=true;game.lastActionWasCard=true;game.chancePending=who;const doubleCard=p.tomato>0&&type!=='tomato'&&effectiveCardName(id).includes('ﾌﾞﾝﾁｮｳ');
+ const shownCardName=effectiveCardName(id)+(doubleCard?' ×2':'');
+ log((who===0?'あなた':'BOT')+'が「'+shownCardName+'」を使用');enqueueBotFx('card',shownCardName,CARDS[id][1],who===0?'YOUR CARD':'ENEMY CARD',id,who);let other=1-who;
 if(!['god','counter'].includes(type)){
  // 企画破壊：相手のカード発動に対して割り込み、効果を無効化
  const cancelIndex=game.players[other].hand.findIndex(x=>CARDS[x][2]==='cancel');
@@ -609,8 +664,58 @@ function resolveEffect(who,id){
  resolveEffectCore(who,id);
  if(qualifies&&!pending&&!game.over)tomatoContinue();
 }
+const TIDAL_CHOICES=[['edo','🪻','#a078c6'],['buncho','🐣','#f6ca56'],['star','🔭','#314f9c'],['draw','🐈‍⬛','#292b40'],['love','🐕','#cc8e63']];
+function tidalCandidates(who){
+ const p=game.players[who];
+ return TIDAL_CHOICES.filter(([type])=>{
+  const id=urTidalTarget(type);
+  return id>=0&&valid(who,id);
+ });
+}
+function urTidalTarget(type){return CARDS.findIndex(c=>c[2]===type&&(type!=='draw'||c[0]==='うーんひらめいた！'))}
+function urTidalCutin(name,emoji,color){
+ const el=document.createElement('div');el.className='tidal-cutin';el.style.background=color;
+ const label=document.createElement('strong');label.textContent=emoji+' '+name;
+ el.append(label);document.body.append(el);setTimeout(()=>el.remove(),1800);
+}
+function cardColorKey(id){return isUR(id)?'ur-gradient':(CARD_THEMES[id]||'')}
+function urAddFromPool(who,ids,title){
+ if(!ids.length){log(title+'：対象カードなし');render();return}
+ const chosen=shuffle(ids.slice()).slice(0,3);
+ if(who===0){
+  pending={type:'urSelect'};
+  showOptions(title,chosen.map(id=>({label:CARDS[id][0],fn:()=>{game.players[who].hand.push(id);pending=null;log('「'+CARDS[id][0]+'」を手札に加えた');render()}})));
+ }else{const id=chosen[Math.floor(Math.random()*chosen.length)];game.players[who].hand.push(id);log('BOTがカードを手札に加えた');render()}
+}
 function resolveEffectCore(who,id){if(game.over)return;let p=game.players[who],type=CARDS[id][2],other=1-who;
-if(type==='hit')damage(other,1);
+if(type==='tidal'){
+ const choices=tidalCandidates(who);
+ if(choices.length){const [chosen,emoji,color]=choices[Math.floor(Math.random()*choices.length)];const target=urTidalTarget(chosen);urTidalCutin(CARDS[target][0],emoji,color);log('タイダル・ウィンド：'+CARDS[target][0]+'の効果を発動');resolveEffectCore(who,target)}
+}
+else if(type==='talk'){
+ if(!p.hand.length){log('今日は推し談笑！！：選択できる手札なし')}
+ else {
+  const choose=(handId)=>{
+   const pool=p.deck.map((x,i)=>({x,i})).filter(o=>cardColorKey(o.x)===cardColorKey(handId));
+   if(pool.length){const pick=pool[Math.floor(Math.random()*pool.length)];p.hand.push(p.deck.splice(pick.i,1)[0]);log('同じ色のカードを手札に加えた')}
+   else log('同じ色のカードが山札にない');
+   pending=null;render();
+  };
+  if(who===0){pending={type:'urTalk'};showOptions('同じ色で探す手札を1枚選択',p.hand.map(id=>({label:CARDS[id][0],fn:()=>choose(id)})));return}
+  else choose(p.hand[Math.floor(Math.random()*p.hand.length)]);
+ }
+}
+else if(type==='bookshop'){
+ const pool=CARDS.map((c,i)=>i).filter(i=>['talk','tidal','diver'].includes(CARDS[i][2])||CARDS[i][0].includes('書'));
+ urAddFromPool(who,pool,'ゲーム外から手札に加えるカードを1枚選択');
+ if(who===0&&pending)return;
+}
+else if(type==='diver'){
+ if(!p.used.length){log('Diver：USEDにカードがありません')}
+ else if(who===0){pending={type:'urDiver'};showOptions('USEDから手札に戻すカードを選択',p.used.map((x,i)=>({label:CARDS[x][0],fn:()=>{p.hand.push(p.used.splice(i,1)[0]);pending=null;render()}})));return}
+ else{const i=Math.floor(Math.random()*p.used.length);p.hand.push(p.used.splice(i,1)[0])}
+}
+else if(type==='hit')damage(other,1);
 else if(type==='sbff')log('SBFF：何も起こらない');
 else if(type==='spring'){
  let q=game.players[other],n=q.used.length,level=n>=7?3:n>=5?2:n>=3?1:0;
