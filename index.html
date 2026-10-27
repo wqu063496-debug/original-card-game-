@@ -219,7 +219,7 @@ const CARDS=[
 ['ハートのチェーン','自分のカード効果で自分のライフが減るたび相手に1ダメージ','chain'],
 ["( 'ω')ﾌｪｯ!?",'通常プレイ不可。カード効果で山札から手札へ加えたとき、1ダメージと1ドローを各1回使用可能','fe'],
 ['SBFF','何も起こらない','sbff'],
-['導く北極星','2枚引く。このカードを使った後、手札がちょうど3枚ならすべてUSEDへ','star'],
+['導く北極星','2枚引く。このカードを使った後、自分の手札が3枚以下ならすべてUSEDへ','star'],
 ['刺客','初期デッキ選択不可。名前が変更されていない状態で手札に入ると自分に1ダメージ','assassin'],
 ['お命頂戴します☪︎*｡꙳','相手山札にゲーム外から刺客2枚を加えてシャッフル','insert'],
 ['お昼寝(昼夜逆転)','次の次とその次の自分ターンは行動・通常ドロー不可。ライフ3回復','nap'],
@@ -821,7 +821,7 @@ else if(type==='udon'){draw(who,2);p.extraTurns++}
 else if(type==='needle'){for(const q of game.players){q.skip=0;q.permaBlock=false;q.edoTurns=0;q.permaEdo=false;q.chain=false;q.fairy=0;q.kaii=0;q.tomato=0;q.star=0;q.shieldNext=0;q.protect=0;q.chances={funfun:[],love:[],pikainu:[]};q.chanceBonus=0;q.napTurns=[];q.bloodActive=false;q.bloodCount=0}game.damageCap=false;log('継続効果を解除')}
 else if(type==='edo'){let q=game.players[other];q.edoTurns=1;if(p.used.filter(x=>effectiveCardName(x)==='SBFF').length>=3)q.permaEdo=true}
 else if(type==='chain'){p.chain=true;if(p.life<=3)p.life=Math.min(7,p.life+1)}
-else if(type==='star'){draw(who,2);if(!game.over&&p.hand.length===3){while(p.hand.length)putUsed(who,p.hand.shift());log('導く北極星：手札が3枚のため全手札をUSEDへ');check()}}
+else if(type==='star'){draw(who,2);if(!game.over&&p.hand.length<=3){while(p.hand.length)putUsed(who,p.hand.shift());log('導く北極星：手札が3枚以下のため全手札をUSEDへ');check()}}
 else if(type==='insert'){game.players[other].deck.push(CARDS.findIndex(c=>c[2]==='assassin'),CARDS.findIndex(c=>c[2]==='assassin'));game.players[other].deck=shuffle(game.players[other].deck)}
 else if(type==='nap'){p.life=Math.min(7,p.life+3);p.napTurns=[1,2];log('次の自分の2ターンは通常ドロー・カード使用・2枚攻撃ができない')}
 else if(type==='punch'){damage(who,1,who);if(!game.over)damage(other,2,who)}
