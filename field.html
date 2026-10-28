@@ -205,34 +205,25 @@ html,body{max-width:100%;overflow-x:hidden}
 #hand button.hand-themed.selected-card{outline:5px solid #70d8ff!important;transform:translateY(-9px)!important;box-shadow:0 0 25px #69d8ff99!important}
 .controls button{min-height:46px;font-weight:800}#playHelp{color:#ffe6a1;font-weight:800}
 @media(max-width:650px){.arena{border-width:3px!important;padding:6px!important}.arena .side{padding:7px!important}#hand button.hand-themed{flex-basis:145px!important;min-height:195px!important;font-size:14px!important}}
-</style><style>#onlineDeckEditor.online-deck-grid{display:block}.online-color-group{border:1px solid #455675;background:#111e30;border-radius:12px;padding:12px;margin:12px 0}.online-color-title{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:17px;color:#f4f5ff}.online-color-swatch{display:inline-block;width:42px;height:24px;border:2px solid #e6e7f0;border-radius:5px;flex-shrink:0}.online-color-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}</style></head><body><div id="mobileBattleFx" class="mobile-battle-fx" aria-live="polite"><div id="mobileBattleFxContent"></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><div id="cineTurn" class="cine-turn" aria-live="polite"><div class="cine-turn-inner"><div class="cine-turn-sub" id="cineTurnSub"></div><div class="cine-turn-title" id="cineTurnTitle"></div></div></div>
+</style><style>#onlineDeckEditor.online-deck-grid{display:block}.online-color-group{border:1px solid #455675;background:#111e30;border-radius:12px;padding:12px;margin:12px 0}.online-color-title{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:17px;color:#f4f5ff}.online-color-swatch{display:inline-block;width:42px;height:24px;border:2px solid #e6e7f0;border-radius:5px;flex-shrink:0}.online-color-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}</style>
+<style id="online-dragon-combo-style">
+#onlineDragonCombo{position:fixed;z-index:9500;top:21%;left:50%;width:min(86vw,470px);transform:translate(-50%,-50%) scale(.7);opacity:0;visibility:hidden;pointer-events:none;text-align:center}
+#onlineDragonCombo.active{visibility:visible;animation:onlineDragonShow 2.4s ease-out both}
+.online-dragon-border{padding:26px 32px;border:4px ridge #edc46b;border-radius:28px 8px 28px 8px;background:radial-gradient(ellipse,#19548a,#07132c 80%);box-shadow:0 0 45px #4fb7ff,inset 0 0 32px #79dfff}
+.online-dragon-heading{font-size:clamp(19px,4vw,28px);font-weight:900;color:#d8f0ff;text-shadow:0 0 10px #53c5ff}
+.online-dragon-number{font-size:clamp(27px,5vw,43px);font-weight:1000;color:#ffe39a;text-shadow:0 0 14px #f7ad38}
+@keyframes onlineDragonShow{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}16%,75%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-55%) scale(1.06)}}
+@media(prefers-reduced-motion:reduce){#onlineDragonCombo.active{animation:none;opacity:1;transform:translate(-50%,-50%)}}
+</style>
+</head><body><div id="mobileBattleFx" class="mobile-battle-fx" aria-live="polite"><div id="mobileBattleFxContent"></div></div><div id="assassinFx" class="assassin-fx" aria-live="assertive"><div class="assassin-knife">🗡️</div><div class="assassin-text" id="assassinFxText">刺客の襲撃！ −1 HP</div></div><div id="cineTurn" class="cine-turn" aria-live="polite"><div class="cine-turn-inner"><div class="cine-turn-sub" id="cineTurnSub"></div><div class="cine-turn-title" id="cineTurnTitle"></div></div></div>
 <div id="cineResult" class="cine-result" role="dialog" aria-modal="true" aria-labelledby="cineResultTitle"><div id="cineParticles" aria-hidden="true"></div><div class="cine-result-panel"><div class="cine-result-eyebrow" id="cineResultEyebrow"></div><div class="cine-result-symbol" id="cineResultSymbol"></div><div class="cine-result-title" id="cineResultTitle"></div><div class="cine-result-reason" id="cineResultReason"></div><div class="cine-result-actions"><button type="button" id="cineResultClose">盤面を確認</button><button type="button" id="cineResultLobby">ロビーに戻る</button></div></div></div>
-<div id="battleDamageFx" class="battle-damage-fx" aria-live="polite"><div class="damage-box"><div class="damage-value" id="battleDamageValue"></div><div class="damage-caption" id="battleDamageCaption"></div></div></div><div class="shell"><header class="top"><h1>⚔ ORIGINAL CARD BATTLE <span class="tag">フィールド版・第145段階（カード一覧の初期表示を修復）</span></h1><a href="online.html">← ロビーに戻る</a></header><div class="lobby"><span id="auth">接続中…</span><input id="code" maxlength="6" inputmode="numeric" placeholder="6桁コード"><button id="enter" disabled>部屋に入る</button><button id="spectate" disabled>👁 観戦する</button><span id="status"></span></div><details class="panel" id="onlineDeckPanel"><summary>🃏 共通デッキ編集（20枚）</summary><p class="notes">オンライン対戦カードを拡充（URのタイダル・ウィンドは対人戦で使用不可）（刺客・オル虐はデッキ編集対象外。ﾌｪｯ!?は投入できますが通常使用不可）。各カード3枚まで、小森アタックのみ20枚まで。対戦開始前に保存してください。相手のデッキとは独立しています。</p><p class="notes">同じサイト・同じブラウザでBOTとオンラインの20枚デッキを共通利用できます。</p><label>サンプルデッキ <select id="onlineSampleDeck"><option value="">選択してください</option><option>KTワンショット</option><option>RKロック</option><option>PMループ</option><option>TNコントロール</option><option>KB連撃</option><option>RVメタビート</option><option>NH妨害墓地ソ</option><option>ES暴発</option><option value="URサーチ">9 ？？？</option><option value="推し活ビックマナ">10 ？？？</option><option value="混合術式">11 ？？？</option></select></label> <button type="button" id="loadSharedOnline">BOTの共通デッキを読み込む</button><div id="onlineDeckCount" class="badge"></div><div id="onlineDeckEditor" class="online-deck-grid"></div><button type="button" id="saveOnlineDeck">オンラインデッキを保存</button><span id="onlineDeckMessage" class="notes"></span></details><div class="arena"><div class="side enemy"><div class="duelist"><div class="portrait">👤</div><b>OPPONENT</b><div class="life">♥ <span id="oppLife">7</span></div><span class="badge" id="oppHand">手札 ? 枚</span></div><div class="slotarea"><div class="zone"><b>相手 USED</b><div class="number" id="oppUsed">— 枚</div><small id="oppUsedPreview">対戦開始後に表示</small></div><div class="zone"><b>相手の場</b><span>継続効果</span><small id="oppEffects">なし</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>相手の山札</b><span id="oppDeck">— 枚</span></div></div><div class="dividerboard"><span class="turnplate"><span id="turn">対戦待機</span><div class="small" id="round">TURN —</div></span></div><div class="side self"><div class="duelist"><div class="portrait">🛡️</div><b>YOU</b><div class="life">♥ <span id="myLife">7</span></div><span class="badge" id="myHand">手札 0 枚</span></div><div class="slotarea"><div class="zone"><b>自分 USED</b><div class="number" id="myUsed">0</div><small id="usedPreview"></small></div><div class="zone"><b>自分の場</b><span>継続効果</span><small id="myEffects">なし</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>自分の山札</b><span id="myDeck">— 枚</span></div></div><div id="pendingRecovery" class="pending-recovery" role="status" aria-live="polite" hidden></div><div id="rejoinNotice" class="rejoin-notice" role="status" aria-live="polite" hidden></div><div id="peerPresence" class="peer-presence" role="status" aria-live="polite">相手の応答状況：対戦開始後に表示</div><section id="counterQuestion" class="counter-question" hidden aria-live="polite"><strong id="counterQuestionTitle"></strong><p id="counterQuestionDetail"></p></section><div class="controls"><button id="start" disabled>オンライン対戦を開始</button><button id="play" disabled>選択カードを使う</button><button id="discard" disabled>USED攻撃</button><button id="pass" disabled>パス</button><button id="counterAccept" hidden>使わない（効果を通す）</button><button id="counterUse" hidden>「企画破壊」を使う</button><button id="counterYaka" hidden>「やかましいわ」を使う</button><button id="counterResolve" hidden>カード効果を確定</button><button id="counterCancel" hidden>応答なし：発動宣言を取り消す</button></div><section id="yakaPicker" class="yaka-picker" hidden><strong>⚡ やかましいわ：追加コストを2枚選択</strong><p>指定カードをタップしてください（同名カードも別々に選べます）。</p><div id="yakaChoices" class="yaka-choices"></div><div class="yaka-actions"><button type="button" id="yakaConfirm" disabled>選択した2枚でカウンター</button><button type="button" id="yakaCancel">キャンセル</button></div></section><div class="handtray"><h2>自分の手札</h2><p id="playHelp" class="notes" aria-live="polite">手札カードをタップして選択してください。1枚ならカード使用、2枚ならUSED攻撃です。</p><p class="small">BOT版と同じカード色で表示。タップで選択、もう一度タップで解除できます。</p><div id="hand" class="hand"></div></div></div><div id="stats"></div><div class="bottom"><section class="panel"><h3>📜 対戦ログ</h3><div id="log">未接続</div></section><section class="panel effects"><h3>✨ 継続効果・状態</h3><p class="notes">「企画破壊」「やかましいわ」はカード発動宣言に対して相手が選択します。選択後、使用者が「カード効果を確定」を押して進行します。相手の応答が120秒以上ない場合、カード使用者は発動宣言を取り消して再操作できます。応答状況は20秒間隔の更新をもとにした目安で、通信切断を確定するものではありません。カウンターが確定した後は取り消せません。自動勝利・自動カウンター通過は行いません。</p><p>自分：<span id="ownStatus">なし</span></p><p>相手：<span id="enemyStatus">なし</span></p><p class="notes">継続効果はFirebaseの公開対戦データから表示します。相手のUSED・山札枚数・手札枚数は公開対戦データから表示します。相手の非公開データを操作する一部のカード効果には別途サーバー側処理が必要です。</p></section></div><details class="panel catalog"><summary>📚 カード・改定カードの仕様メモ（実装状況・動作確認はカードごとに異なります）</summary><div id="catalog"><ul><li><b>春風と木音</b> — 相手USEDが3/5/7枚以上ならそれぞれ1/2/3ダメージと同数ドロー。その後相手USEDをシャッフルして山札の底へ。</li><li><b>かすみ草の妖精</b> — 次の自分のカード効果処理終了まで相手USEDからカードが離れない。</li><li><b>1リットルってなんりっとる</b> — 相手手札枚数−1枚（最低0枚）を相手山札の上からUSEDへ。</li><li><b>怪異</b> — 次の自分のカード効果処理終了まで双方の全カード名を「ﾌﾞﾝﾁｮｳ」に変更。効果文章はそのまま。</li><li><b>トマト倍々発生</b> — 次に使用する自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う。</li><li><b>窓を破るﾌﾞﾝﾁｮｳ</b> — 自分の山札上から3枚をUSEDへ。その中の「ﾌﾞﾝﾁｮｳ」を名前に含むカード数だけダメージ。</li><li><b>文化の勝利</b> — 相手のランダム手札1枚を5秒公開し、そのカードかそれ以外のランダム1枚をUSEDに送らせる。</li><li><b>這音嘗血（はいおんしょうけつ）</b> — 相手手札からUSEDへ移動した累計3枚ごとに、1ダメージ／相手選択捨て／自分1ドローから選択。</li><li><b>うどん。</b> — 先攻最初のターンのみ。2枚引き、追加ターンを得る。</li><li><b>針治療</b> — 現在両者にかかるすべての効果・継続能力を解除。</li><li><b>江戸姫</b> — 相手の次ターン終了まで手札をUSEDへ送る能力と2枚捨て攻撃を禁止。自分USEDのSBFFが3枚なら永続。</li><li><b>ハートのチェーン</b> — 自分のカード効果で自分のライフが減るたび、1回の減少につき相手へ1ダメージ。</li><li><b>( &#x27;ω&#x27;)ﾌｪｯ!?</b> — 通常使用不可。効果で山札から手札に加えたとき、各1回だけ1ダメージ／1ドロー。</li><li><b>SBFF</b> — 使用しても何も起こらない。</li><li><b>導く北極星</b> — 2枚ドロー。使用後の手札が2枚以下なら全手札をUSEDへ。</li><li><b>刺客</b> — 初期デッキ選択画面に非表示、枚数上限なし。名前未変更の状態で手札に加わると自分に1ダメージ。</li><li><b>お命頂戴します☪︎*｡꙳</b> — 相手の山札にゲーム外から刺客2枚を加えてシャッフル。</li><li><b>お昼寝(昼夜逆転)</b> — 次の次とその次の自分ターンで通常ドロー・カード使用・2枚攻撃禁止。3回復。</li><li><b>声殺夜奪</b> — 相手ランダム手札1枚を除外、相手山札に刺客1枚を加えてシャッフルし、相手が1枚引く。</li><li><b>正論パンチ</b> — 自分に1ダメージ、相手に2ダメージ。</li><li><b>うんコンボ・・・・？</b> — 相手USED内の刺客と同数の刺客をゲーム外から相手USEDに加え、相手USED全部を山札へ戻してシャッフル。</li><li><b>企画破壊</b> — 相手カード発動時に自分2ダメージ、このカードをUSEDへ送ってその効果を無効化。</li><li><b>行っちゃうの？…</b> — 自分のライフを好きな数減らし、1ダメージごとに1枚ドロー。</li><li><b>オル虐</b> — 通常使用不可。相手効果のランダム手札選択で優先され、相手効果で手札から移動したとき各1回1ダメージ／1ドロー。</li><li><b>そう！高〇健！！（改定）</b> — 次の相手ターン、通常ドローを含むすべてのドローを禁止。自分USEDにSBFF3枚で永続。</li><li><b>ﾌﾞﾝﾁｮｳｱﾀｯｸ（改定）</b> — 追加ダメージの捨て札条件は、カードの元の名前ではなく現在の同名カード。</li></ul></div></details><p class="notes">オンライン版のカード登録を90種類に拡張しました。タイダル・ウィンドはデッキには入れられますが、対人戦で使用できません。秘密のメカクレ魔導書・異世界猫の陰陽術などの複製効果には未対応の組み合わせがあります。ただし、すべての効果の動作検証が完了したわけではありません。本番用の不正対策は未実装です。</p></div><script>
-// 第145版: Firebaseモジュールが読み込めない場合でも、デッキ編集を先に描画する。
-(function(){
-'use strict';
-const catalog=[{"name":"ﾌﾞﾝﾁｮｳｱﾀｯｸ","id":0,"kind":"buncho","limit":3},{"name":"観測者の悪ノリ","id":1,"kind":"draw","limit":3},{"name":"うーんひらめいた！","id":2,"kind":"draw","limit":3},{"name":"必殺ファン●ション","id":6,"kind":"special3","limit":3},{"name":"小森アタック","id":8,"kind":"hit","limit":20},{"name":"星色の推し活","id":9,"kind":"draw","limit":3},{"name":"究極拳巫女パンチ","id":13,"kind":"special5","limit":3},{"name":"ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ","id":14,"kind":"draw","limit":3},{"name":"オトモアタック","id":3,"kind":"hit","limit":3},{"name":"もち蔵アタック","id":10,"kind":"mochi","limit":3},{"name":"みなさん、いつまで寝てるの！！","id":5,"kind":"recycle","limit":3},{"name":"お転婆お嬢様！！","id":12,"kind":"mill","limit":3},{"name":"人手不足の魔導書","id":11,"kind":"search","limit":3},{"name":"まずはありがとう","id":16,"kind":"drawdiscard","limit":3},{"name":"音バケ隊！！","id":17,"kind":"heal","limit":3},{"name":"しのみーらいぶ","id":18,"kind":"shino","limit":3},{"name":"チトセニウム","id":19,"kind":"chitose","limit":3},{"name":"SBFF","id":45,"kind":"blank","limit":3},{"name":"正論パンチ","id":51,"kind":"punch","limit":3},{"name":"行っちゃうの？…","id":54,"kind":"going","limit":3},{"name":"深夜の大人の勉強会","id":7,"kind":"peek","limit":3},{"name":"冷静竜声","id":15,"kind":"select","limit":3},{"name":"針治療","id":41,"kind":"needle","limit":3},{"name":"お命頂戴します☪︎*｡꙳","id":48,"kind":"insert","limit":3},{"name":"声殺夜奪","id":50,"kind":"voice","limit":3},{"name":"窓を破るﾌﾞﾝﾁｮｳ","id":37,"kind":"window","limit":3},{"name":"1リットルってなんりっとる","id":34,"kind":"litre","limit":3},{"name":"ハートのチェーン","id":43,"kind":"chain","limit":3},{"name":"怪異","id":35,"kind":"kaii","limit":3},{"name":"トマト倍々発生","id":36,"kind":"tomato","limit":3},{"name":"そう！高〇健！！","id":4,"kind":"block","limit":3},{"name":"江戸姫","id":42,"kind":"edo","limit":3},{"name":"腐白蛇","id":26,"kind":"snake","limit":3},{"name":"(･ω･三･ω･)ﾌﾝﾌﾝ","id":28,"kind":"funfun","limit":3},{"name":"限界愛","id":29,"kind":"love","limit":3},{"name":"なんでもござれの藍白屋","id":30,"kind":"aiya","limit":3},{"name":"ガチナイス","id":25,"kind":"nice","limit":3},{"name":"導く北極星","id":44,"kind":"star","limit":3},{"name":"うどん。","id":40,"kind":"udon","limit":3},{"name":"春風と木音","id":32,"kind":"spring","limit":3},{"name":"かすみ草の妖精","id":33,"kind":"fairy","limit":3},{"name":"うんコンボ・・・・？","id":49,"kind":"combo","limit":3},{"name":"這音嘗血","id":46,"kind":"haion","limit":3},{"name":"オル虐","id":47,"kind":"oru","limit":3},{"name":"( 'ω')ﾌｪｯ!?","id":52,"kind":"fe","limit":3},{"name":"月民の隠れ家","id":23,"kind":"hideout","limit":3},{"name":"ピカ犬","id":31,"kind":"pikainu","limit":3},{"name":"見透かされるアホネー","id":21,"kind":"guess","limit":3},{"name":"眠気があってちゃんと良かったなぽ","id":27,"kind":"napo","limit":3},{"name":"人を大切にできないやつは自分も大切にされない【名言】","id":24,"kind":"quote","limit":3},{"name":"文化の勝利","id":38,"kind":"culture","limit":3},{"name":"全知全能の神、弱そう","id":20,"kind":"god","limit":3},{"name":"お昼寝(昼夜逆転)","id":46,"kind":"nap","limit":3},{"name":"企画破壊","id":45,"kind":"counter","limit":3},{"name":"やかましいわ","id":22,"kind":"counter","limit":3},{"name":"刺客","id":47,"kind":"assassin","limit":0},{"name":"星色道産子アイドル","id":56,"kind":"idol","limit":3},{"name":"60キロの爆速","id":57,"kind":"speed","limit":3},{"name":"ハムさんズアタック","id":58,"kind":"hamster","limit":3},{"name":"夢読","id":59,"kind":"dreamread","limit":3},{"name":"全力守護ソルジャー","id":60,"kind":"soldier","limit":3},{"name":"タイダル・ウィンド","id":61,"kind":"tidal","limit":0},{"name":"今日は推し談笑！！","id":62,"kind":"talk","limit":3},{"name":"思い出の中の古本屋","id":63,"kind":"bookshop","limit":3},{"name":"Diver","id":64,"kind":"diver","limit":3},{"name":"寝かしつけマッサージ","id":65,"kind":"massage","limit":3},{"name":"秘密のメカクレ魔導書","id":66,"kind":"secretbook","limit":3},{"name":"誰も魔導書持ってこないんだよね？","id":67,"kind":"nobook","limit":3},{"name":"夢の続きをまた","id":68,"kind":"dreammore","limit":3},{"name":"枠内暴走系オモカテ","id":69,"kind":"shuffleall","limit":3},{"name":"それはとあるNPCの物語","id":70,"kind":"npc","limit":3},{"name":"寄生卵","id":71,"kind":"parasite","limit":3},{"name":"はいちーず！！","id":72,"kind":"cheese","limit":3},{"name":"次元の冒険家","id":73,"kind":"adventurer","limit":3},{"name":"鬼のわらべ歌","id":74,"kind":"exorcise","limit":3},{"name":"煌めくマイク","id":75,"kind":"microphone","limit":3},{"name":"スチームアタックな一刀両断","id":76,"kind":"steam","limit":3},{"name":"肉好きメロドック","id":77,"kind":"meat","limit":3},{"name":"オタ活マフィア(元)","id":78,"kind":"mafia","limit":3},{"name":"愛と魔法の歌","id":79,"kind":"magicsong","limit":3},{"name":"魔法の図書館","id":80,"kind":"library","limit":3},{"name":"魔術絵・オルカニス","id":81,"kind":"orcanis","limit":3},{"name":"ジャスラックの守護結界術","id":82,"kind":"jasrac","limit":3},{"name":"睡魔の術","id":83,"kind":"sleepmagic","limit":3},{"name":"異世界猫の陰陽術","id":84,"kind":"catmagic","limit":3},{"name":"それは未来を読む占術","id":85,"kind":"future","limit":3},{"name":"虜だｿﾞ～～","id":86,"kind":"toriko","limit":1},{"name":"ガチャの虜","id":87,"kind":"torikoDice","limit":3},{"name":"デコバットの一撃","id":88,"kind":"decoBat","limit":3},{"name":"電脳世界ハリケーン","id":89,"kind":"cyberHurricane","limit":3}];
-const storageKey='onlineCardDeckV10', sharedKey='ocbSharedDeckV1';
-const el=id=>document.getElementById(id);
-const banned=new Set(['oru','assassin']);
-const reward={dreammore:11,shuffleall:12,npc:13,parasite:14,cheese:15,adventurer:16,exorcise:17,microphone:18,soldier:19,steam:21,meat:22,mafia:23,magicsong:24,library:25,orcanis:26,jasrac:27,sleepmagic:28,catmagic:29,future:30};
-const milestone=n=>{for(const k of ['ocbGauntletMilestonesV1','ocbGauntletMilestoneV1','ocbStreakMilestonesV1']){try{const v=JSON.parse(localStorage.getItem(k)||'null');if(Array.isArray(v)&&v.includes(n)||v&&typeof v==='object'&&v[n])return true}catch(e){}}return n===10&&localStorage.getItem('ocbUrUnlockedV1')==='yes'};
-const unlocked=c=>!reward[c.kind]||milestone(reward[c.kind])||(c.kind==='soldier'&&milestone(20));
-let counts=Array(catalog.length).fill(0);Object.assign(counts,{0:3,1:3,4:11,5:3});
-try{let raw=null;for(const key of [storageKey,'onlineCardDeckV9','onlineCardDeckV8','onlineCardDeckV7']){const x=localStorage.getItem(key);if(x){raw=JSON.parse(x);break}}if(Array.isArray(raw)&&raw.length<=catalog.length&&raw.every((n,i)=>Number.isInteger(n)&&n>=0&&n<=catalog[i].limit)&&raw.reduce((a,b)=>a+b,0)===20){counts=counts.map((_,i)=>raw[i]||0)}const shared=JSON.parse(localStorage.getItem(sharedKey)||'null');if(shared?.cards&&Object.entries(shared.cards).every(([name,n])=>catalog.some(c=>c.name===name&&n<=c.limit))&&Object.values(shared.cards).reduce((a,b)=>a+b,0)===20){counts=catalog.map(c=>shared.cards[c.name]||0)}}catch(e){}
-function render(){const host=el('onlineDeckEditor');if(!host)return;const total=counts.reduce((a,b)=>a+b,0);el('onlineDeckCount').textContent=total+' / 20 枚';const frag=document.createDocumentFragment();for(const [title,filter] of [['基本カード',c=>!banned.has(c.kind)&&!reward[c.kind]&&!['tidal','talk','bookshop','diver'].includes(c.kind)],['解放カード',c=>!banned.has(c.kind)&&(reward[c.kind]||['tidal','talk','bookshop','diver'].includes(c.kind))]]){const group=document.createElement('section');group.className='online-color-group';const heading=document.createElement('h3');heading.className='online-color-title';heading.textContent=title;group.append(heading);const grid=document.createElement('div');grid.className='online-color-grid';catalog.forEach((c,i)=>{if(!filter(c))return;const item=document.createElement('div');item.className='online-deck-item';const name=document.createElement('span');name.textContent=c.name;const buttons=document.createElement('div');buttons.className='buttons';const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.disabled=!counts[i];minus.onclick=()=>{counts[i]--;render()};const number=document.createElement('b');number.textContent=counts[i];const plus=document.createElement('button');plus.type='button';plus.textContent='＋';plus.disabled=total>=20||counts[i]>=c.limit||!unlocked(c)||['tidal','talk','bookshop','diver'].includes(c.kind)&&!milestone(10);plus.onclick=()=>{counts[i]++;render()};buttons.append(minus,number,plus);item.append(name,buttons);grid.append(item)});group.append(grid);frag.append(group)}host.replaceChildren(frag);el('saveOnlineDeck').disabled=total!==20;}
-function save(){if(counts.reduce((a,b)=>a+b,0)!==20)return;try{localStorage.setItem(storageKey,JSON.stringify(counts));localStorage.setItem(sharedKey,JSON.stringify({version:1,updatedAt:Date.now(),cards:Object.fromEntries(catalog.map((c,i)=>[c.name,counts[i]]).filter(x=>x[1]>0))}));el('onlineDeckMessage').textContent='20枚のデッキを保存しました'}catch(e){el('onlineDeckMessage').textContent='保存できませんでした：'+e.message}}
-function init(){render();el('saveOnlineDeck').addEventListener('click',save);el('onlineDeckPanel').addEventListener('toggle',()=>{if(!el('onlineDeckEditor').children.length)render()});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-<script type="module">
+<div id="battleDamageFx" class="battle-damage-fx" aria-live="polite"><div class="damage-box"><div class="damage-value" id="battleDamageValue"></div><div class="damage-caption" id="battleDamageCaption"></div></div></div><div id="onlineDragonCombo" role="status" aria-live="polite"><div class="online-dragon-border"><div class="online-dragon-heading">🐉 ドラゴン連撃 🐉</div><div class="online-dragon-number" id="onlineDragonCount">連撃回数 × 0回</div></div></div><div id="whaleChoice" hidden style="position:fixed;z-index:9000;left:50%;top:12%;transform:translateX(-50%);padding:14px 18px;background:#142f55;border:3px solid #e7c36e;border-radius:16px;color:white;text-align:center;box-shadow:0 8px 28px #0009"><strong>🐋 ホエール•スクリーム：手札1枚を選んでUSEDへ</strong><p id="whaleProgress" style="font-size:13px;margin:8px 0"></p><div id="whaleHandChoices" style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:80vw"></div><div><button id="whaleAnswer" type="button" disabled>選択したカードをUSEDへ送る</button></div></div><div class="shell"><header class="top"><h1>⚔ ORIGINAL CARD BATTLE <span class="tag">フィールド版・オンライン同期 第18段階（ターン確定・選択キュー保護）</span></h1><a href="online.html">← ロビーに戻る</a></header><div id="connectionAlert" role="status" aria-live="polite" hidden style="margin:12px 18px;padding:12px;border:2px solid #f2c46b;background:#2d2333;color:#fff;border-radius:10px">⚠ <span id="connectionAlertText"></span> <button type="button" id="reconnectNow" style="margin-left:10px">再接続する</button></div><div class="lobby"><span id="auth">接続中…</span><input id="code" maxlength="6" inputmode="numeric" placeholder="6桁コード"><button id="enter" disabled>部屋に入る</button><button id="spectate" disabled>👁 観戦する</button><span id="status"></span></div><details class="panel" id="onlineDeckPanel"><summary>🃏 共通デッキ編集（20枚）</summary><p class="notes">ローカル版の最新カード名・色を反映。ドラゴン•エール、袴袴袴袴袴褌袴袴、嬌言竜声のD連打連鎖を試験実装。未実装カードに連鎖が到達した場合は山札に残して停止します。ホエール•スクリームの複数選択を画面上のカード選択UIで順番に処理します。冷静龍声・月民の隠れ家のD連打も試験対応しました。ほかの新カードも未対応です。（URのタイダル・ウィンドは対人戦で使用不可）（刺客・オル虐はデッキ編集対象外。ﾌｪｯ!?は投入できますが通常使用不可）。各カード3枚まで、小森アタックのみ20枚まで。対戦開始前に保存してください。相手のデッキとは独立しています。</p><p class="notes">同じサイト・同じブラウザでBOTとオンラインの20枚デッキを共通利用できます。</p><label>サンプルデッキ <select id="onlineSampleDeck"><option value="">選択してください</option><option>KTワンショット</option><option>RKロック</option><option>PMループ</option><option>TNコントロール</option><option>KB連撃</option><option>RVメタビート</option><option>NH妨害墓地ソ</option><option>ES暴発</option><option value="URサーチ">9 ？？？</option><option value="推し活ビックマナ">10 ？？？</option><option value="混合術式">11 ？？？</option></select></label> <button type="button" id="loadSharedOnline">BOTの共通デッキを読み込む</button><div id="onlineDeckCount" class="badge"></div><div id="onlineDeckEditor" class="online-deck-grid"></div><button type="button" id="saveOnlineDeck">オンラインデッキを保存</button><span id="onlineDeckMessage" class="notes"></span></details><div class="arena"><div class="side enemy"><div class="duelist"><div class="portrait">👤</div><b>OPPONENT</b><div class="life">♥ <span id="oppLife">7</span></div><span class="badge" id="oppHand">手札 ? 枚</span></div><div class="slotarea"><div class="zone"><b>相手 USED</b><div class="number" id="oppUsed">— 枚</div><small id="oppUsedPreview">対戦開始後に表示</small></div><div class="zone"><b>相手の場</b><span>継続効果</span><small id="oppEffects">なし</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>相手の山札</b><span id="oppDeck">— 枚</span></div></div><div class="dividerboard"><span class="turnplate"><span id="turn">対戦待機</span><div class="small" id="round">TURN —</div></span></div><div class="side self"><div class="duelist"><div class="portrait">🛡️</div><b>YOU</b><div class="life">♥ <span id="myLife">7</span></div><span class="badge" id="myHand">手札 0 枚</span></div><div class="slotarea"><div class="zone"><b>自分 USED</b><div class="number" id="myUsed">0</div><small id="usedPreview"></small></div><div class="zone"><b>自分の場</b><span>継続効果</span><small id="myEffects">なし</small></div></div><div class="duelist"><div class="boardcard">DECK</div><b>自分の山札</b><span id="myDeck">— 枚</span></div></div><div id="pendingRecovery" class="pending-recovery" role="status" aria-live="polite" hidden></div><div id="rejoinNotice" class="rejoin-notice" role="status" aria-live="polite" hidden></div><div id="peerPresence" class="peer-presence" role="status" aria-live="polite">相手の応答状況：対戦開始後に表示</div><section id="counterQuestion" class="counter-question" hidden aria-live="polite"><strong id="counterQuestionTitle"></strong><p id="counterQuestionDetail"></p></section><div class="controls"><button id="start" disabled>オンライン対戦を開始</button><button id="play" disabled>選択カードを使う</button><button id="discard" disabled>USED攻撃</button><button id="pass" disabled>パス</button><button id="counterAccept" hidden>使わない（効果を通す）</button><button id="counterUse" hidden>「企画破壊」を使う</button><button id="counterYaka" hidden>「やかましいわ」を使う</button><button id="counterResolve" hidden>カード効果を確定</button><button id="counterCancel" hidden>応答なし：発動宣言を取り消す</button></div><section id="yakaPicker" class="yaka-picker" hidden><strong>⚡ やかましいわ：追加コストを2枚選択</strong><p>指定カードをタップしてください（同名カードも別々に選べます）。</p><div id="yakaChoices" class="yaka-choices"></div><div class="yaka-actions"><button type="button" id="yakaConfirm" disabled>選択した2枚でカウンター</button><button type="button" id="yakaCancel">キャンセル</button></div></section><div class="handtray"><h2>自分の手札</h2><p id="playHelp" class="notes" aria-live="polite">手札カードをタップして選択してください。1枚ならカード使用、2枚ならUSED攻撃です。</p><p class="small">BOT版と同じカード色で表示。タップで選択、もう一度タップで解除できます。</p><div id="hand" class="hand"></div></div></div><div id="stats"></div><div class="bottom"><section class="panel"><h3>📜 対戦ログ</h3><p class="notes">最新30件を表示します。診断情報には手札・山札の中身を含めません。</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button type="button" id="copyBattleLog">対戦ログをコピー</button><button type="button" id="copyDiagnostics">診断情報をコピー</button><button type="button" id="clearDiagnostics">端末のエラー履歴を消去</button></div><div id="diagnosticStatus" role="status" aria-live="polite" class="notes">操作状況：待機中</div><div id="integrityStatus" role="status" aria-live="polite" class="notes">整合性チェック：対戦データ待機中</div><button type="button" id="checkIntegrity">整合性を再チェック</button> <button type="button" id="verifyServerSnapshot">サーバーと同期照合</button> <button type="button" id="refreshBattleState">最新データを再取得</button> <button type="button" id="repairPublicState">公開ゾーンを修復</button><p id="recoveryResult" class="notes" role="status" aria-live="polite">復旧操作は対戦の非公開カードやライフを変更しません。</p><p id="serverVerificationResult" class="notes" role="status" aria-live="polite">サーバー照合：未実施</p><details><summary>🧪 2端末での実戦テスト項目</summary><div class="notes" style="line-height:2"><label><input type="checkbox"> 2台で同じ6桁ルームへ参加し対戦開始</label><br><label><input type="checkbox"> 通常ドロー・カード使用・ターン交代</label><br><label><input type="checkbox"> USED攻撃後のライフとカード枚数</label><br><label><input type="checkbox"> D連打の連撃回数と山札・USED</label><br><label><input type="checkbox"> ホエールの相手手札選択と複数回破棄</label><br><label><input type="checkbox"> ホエール選択中に別端末で更新・再接続しても二重破棄しない</label><br><label><input type="checkbox"> 片方の通信切断・再接続・再読み込み</label><br><label><input type="checkbox"> サーバー同期照合で警告が出ない</label></div><p class="notes">チェック欄は端末内の確認用です。ページ更新で初期化されます。</p></details><details><summary>端末の操作・エラー履歴（直近20件）</summary><div id="localDiagnostics" style="white-space:pre-wrap;max-height:180px;overflow:auto;font-size:12px">記録なし</div></details><div id="log">未接続</div></section><section class="panel effects"><h3>✨ 継続効果・状態</h3><p class="notes">「企画破壊」「やかましいわ」はカード発動宣言に対して相手が選択します。選択後、使用者が「カード効果を確定」を押して進行します。相手の応答が120秒以上ない場合、カード使用者は発動宣言を取り消して再操作できます。応答状況は20秒間隔の更新をもとにした目安で、通信切断を確定するものではありません。カウンターが確定した後は取り消せません。自動勝利・自動カウンター通過は行いません。</p><p>自分：<span id="ownStatus">なし</span></p><p>相手：<span id="enemyStatus">なし</span></p><p class="notes">継続効果はFirebaseの公開対戦データから表示します。相手のUSED・山札枚数・手札枚数は公開対戦データから表示します。相手の非公開データを操作する一部のカード効果には別途サーバー側処理が必要です。</p></section></div><details class="panel catalog"><summary>📚 カード・改定カードの仕様メモ（実装状況・動作確認はカードごとに異なります）</summary><div id="catalog"><ul><li><b>春風と木音</b> — 相手USEDが3/5/7枚以上ならそれぞれ1/2/3ダメージと同数ドロー。その後相手USEDをシャッフルして山札の底へ。</li><li><b>かすみ草の妖精</b> — 次の自分のカード効果処理終了まで相手USEDからカードが離れない。</li><li><b>1リットルってなんりっとる</b> — 相手手札枚数−1枚（最低0枚）を相手山札の上からUSEDへ。</li><li><b>怪異</b> — 次の自分のカード効果処理終了まで双方の全カード名を「ﾌﾞﾝﾁｮｳ」に変更。効果文章はそのまま。</li><li><b>トマト倍々発生</b> — 次に使用する自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う。</li><li><b>窓を破るﾌﾞﾝﾁｮｳ</b> — 自分の山札上から3枚をUSEDへ。その中の「ﾌﾞﾝﾁｮｳ」を名前に含むカード数だけダメージ。</li><li><b>文化の勝利</b> — 相手のランダム手札1枚を5秒公開し、そのカードかそれ以外のランダム1枚をUSEDに送らせる。</li><li><b>這音嘗血（はいおんしょうけつ）</b> — 相手手札からUSEDへ移動した累計3枚ごとに、1ダメージ／相手選択捨て／自分1ドローから選択。</li><li><b>うどん。</b> — 先攻最初のターンのみ。2枚引き、追加ターンを得る。</li><li><b>針治療</b> — 現在両者にかかるすべての効果・継続能力を解除。</li><li><b>江戸姫</b> — 相手の次ターン終了まで手札をUSEDへ送る能力と2枚捨て攻撃を禁止。自分USEDのSBFFが3枚なら永続。</li><li><b>ハートのチェーン</b> — 自分のカード効果で自分のライフが減るたび、1回の減少につき相手へ1ダメージ。</li><li><b>( &#x27;ω&#x27;)ﾌｪｯ!?</b> — 通常使用不可。効果で山札から手札に加えたとき、各1回だけ1ダメージ／1ドロー。</li><li><b>SBFF</b> — 使用しても何も起こらない。</li><li><b>導く北極星</b> — 2枚ドロー。使用後の手札が2枚以下なら全手札をUSEDへ。</li><li><b>刺客</b> — 初期デッキ選択画面に非表示、枚数上限なし。名前未変更の状態で手札に加わると自分に1ダメージ。</li><li><b>お命頂戴します☪︎*｡꙳</b> — 相手の山札にゲーム外から刺客2枚を加えてシャッフル。</li><li><b>お昼寝(昼夜逆転)</b> — 次の次とその次の自分ターンで通常ドロー・カード使用・2枚攻撃禁止。3回復。</li><li><b>声殺夜奪</b> — 相手ランダム手札1枚を除外、相手山札に刺客1枚を加えてシャッフルし、相手が1枚引く。</li><li><b>正論パンチ</b> — 自分に1ダメージ、相手に2ダメージ。</li><li><b>うんコンボ・・・・？</b> — 相手USED内の刺客と同数の刺客をゲーム外から相手USEDに加え、相手USED全部を山札へ戻してシャッフル。</li><li><b>企画破壊</b> — 相手カード発動時に自分2ダメージ、このカードをUSEDへ送ってその効果を無効化。</li><li><b>行っちゃうの？…</b> — 自分のライフを好きな数減らし、1ダメージごとに1枚ドロー。</li><li><b>オル虐</b> — 通常使用不可。相手効果のランダム手札選択で優先され、相手効果で手札から移動したとき各1回1ダメージ／1ドロー。</li><li><b>そう！高〇健！！（改定）</b> — 次の相手ターン、通常ドローを含むすべてのドローを禁止。自分USEDにSBFF3枚で永続。</li><li><b>ﾌﾞﾝﾁｮｳｱﾀｯｸ（改定）</b> — 追加ダメージの捨て札条件は、カードの元の名前ではなく現在の同名カード。</li></ul></div></details><p class="notes">オンライン版のカード登録を86種類に拡張しました。タイダル・ウィンドはデッキには入れられますが、対人戦で使用できません。秘密のメカクレ魔導書・異世界猫の陰陽術などの複製効果には未対応の組み合わせがあります。ただし、すべての効果の動作検証が完了したわけではありません。本番用の不正対策は未実装です。</p></div><script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import {getAuth,onAuthStateChanged,signInAnonymously} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
 import {getFirestore,doc,getDoc,setDoc,updateDoc,onSnapshot,runTransaction,writeBatch} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 const firebaseConfig={apiKey:'AIzaSyCRdX-k7sbaBE1k8MRezsf3htk1BOrURDg',authDomain:'original-card-game.firebaseapp.com',projectId:'original-card-game',storageBucket:'original-card-game.firebasestorage.app',messagingSenderId:'374012324530',appId:'1:374012324530:web:b30cb0cc4f4406dc7ef7ab'};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),$=id=>document.getElementById(id);
-const CARD_ABILITY_TEXT=["1ダメージ。手札の同名カードを追加でUSEDにするとさらに1ダメージ", "山札から1枚引く", "山札から1枚引く", "1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）", "次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続", "自分のUSEDから最大3枚を山札に戻してシャッフル", "手札がこのカードだけなら3ダメージ", "山札の上から3枚を確認し、好きな順に並べ替える", "相手に1ダメージ（デッキに4枚以上入れられる）", "山札から1枚引く", "1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない", "手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ", "相手の山札上2枚をUSEDへ", "使用前の手札が7枚以上なら5ダメージ", "山札から1枚引く", "別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ", "2枚引いてから手札2枚をUSEDへ", "USEDが5枚以上のとき使用可能。自分のライフを1回復", "ライフ1回復。その後、自分の山札の一番上をUSEDへ", "使用前の手札が4枚以上なら使用可能。山札から2枚引く", "ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ", "相手の手札のカード名を3択で当てる", "相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化", "自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ", "1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く", "相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る", "山札の一番上をUSEDへ。その後、このカードを除く自分のUSEDが3枚以下なら次の相手ターン中はダメージを受けない", "自分のUSEDからランダムに最大2枚を山札に戻してシャッフル。山札の枚数差が10枚以上なら双方ライフ7に回復し、以後ゲーム終了まで1回のダメージは最大1", "このゲーム中、以後自分がカードを使うたび30%で相手に1ダメージ", "このゲーム中、以後自分がカードを使うたび50%で山札から1枚引く", "自分に付与された確率発動効果の各確率判定を20ポイント上昇。後から付与する効果にも適用（上限100%）", "このゲーム中、以後自分がカードを使うたび1%で追加ターンを得る", "相手USEDが3/5/7枚以上でそれぞれ1/2/3ダメージと同数ドロー。その後、相手USEDをシャッフルして山札の底へ", "次の自分のカード効果処理終了まで相手USEDからカードが離れない", "相手手札の枚数−1枚を相手山札の上からUSEDへ", "次の自分のカード効果終了まで双方の全カード名が「ﾌﾞﾝﾁｮｳ」になる（効果は維持）", "次に使う自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う", "自分の山札から3枚USEDへ。うち「ﾌﾞﾝﾁｮｳ」を名前に含む枚数分ダメージ", "相手の手札ランダム1枚を5秒間公開し、選んだ方法で相手の手札をUSEDへ", "相手の手札からUSEDへ3枚移動するごとに選択効果", "先攻の最初のターンのみ使用可能。2枚引いて追加ターン", "両者の継続効果・状態を解除", "相手の次のターン終了まで手札をUSEDへ送る能力と2枚攻撃を封じる。SBFFが自分USEDに3枚なら永続", "自分のカード効果で自分のライフが減るたび相手に1ダメージ", "通常プレイ不可。カード効果で山札から手札へ加えたとき、1ダメージと1ドローを各1回使用可能", "何も起こらない", "2枚引く。使用後の手札が2枚以下ならすべてUSEDへ", "初期デッキ選択不可。名前が変更されていない状態で手札に入ると自分に1ダメージ", "相手山札にゲーム外から刺客2枚を加えてシャッフル", "次の次とその次の自分ターンは行動・通常ドロー不可。ライフ3回復", "相手ランダム手札1枚を除外し、相手山札に刺客を1枚追加、相手が1枚引く", "自分に1ダメージ、相手に2ダメージ", "相手USED内の刺客と同数の刺客を加え、相手USED全部を山札に戻してシャッフル", "相手カードの発動時、自分に2ダメージと引き換えに無効化", "自分のライフを任意の数減らし、1ダメージごとに1枚引く", "通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時に1ダメージ・1ドローを各1回","自分の名前の異なる継続効果の種類数だけ相手にダメージ。3以上与えたら同数回復","爆速を1つ付与。爆速が付与されるたび、爆速の数だけドロー","相手に1ダメージ。肩乗りハムスター（効果なし）を付与","異なる継続効果をランダムに2種類付与","確率カウンター防御を付与。20%でダメージ-1、無効化時10%で反撃、反撃時5%で解除","使用条件？　効果？　※対人戦では使用できません","手札を1枚選び、同じ色の山札のカードをランダムに1枚手札に加える","対象カード3枚から1枚を選び手札に加える","自分のUSEDから1枚選んで手札に加える","自分を眠気状態にし、自分のライフを2回復","自分USEDが3枚以上なら使用可能。相手USEDから使用可能なカードの効果を使い、そのカードを相手山札の底へ","手札に他の魔導書がない場合に使用可能。山札から魔導書1枚をUSEDへ。自分USEDの魔導書3枚ごとに1回復","双方に眠気状態を付与。以降相手に付与される確率効果を10ポイント減少","手札・山札・USEDゾーンをランダムに入れ替える","1枚引くだけの効果を持つカードを山札からすべて手札へ","相手に寄生状態を付与","山札の通常使用時に効果がない／使えないカードを1枚選び山札の上へ","ゲーム外からランダムなカード2枚を手札に加える","ゲーム外から加えられたカードをすべてゲーム外に戻す","このゲーム中、自分のUSED攻撃に必要な手札を2枚から1枚にする","相手の防御効果を無効化して1ダメージ","手札1枚をUSEDへ送り、前の相手ターンに受けたダメージ分回復","相手山札から5枚を見て、ダメージ効果を持たないカードを相手USEDへ。残りをシャッフルして山札へ","相手山札の「愛」で1回復、「術」「導」を自分USEDへ、「法」を相手手札へ","ゲーム外の「魔」を含むカード7枚からランダム1枚を相手手札へ、残りを自分USEDへ","USEDから1枚を手札へ。同名カードを自分山札からすべてUSEDへ","手札を好きな枚数USEDへ。1枚以上なら次の自分の行動までダメージ無効","相手に眠気状態を付与","ゲーム外から動物名カード3枚の効果を使用。術以外はゲーム外へ除外","自分USEDの「導」「星」「術」30枚で相手に7ダメージ。無効化されたら勝利"];
+const CARD_ABILITY_TEXT=["1ダメージ。手札の同名カードを追加でUSEDにするとさらに1ダメージ", "山札から1枚引く", "山札から1枚引く", "1ダメージ。その後、使用者だけが相手の山札の一番上を確認（非公開）", "次の相手ターンのすべてのドローを封じる。自分USEDにSBFFが3枚なら永続", "自分のUSEDから最大3枚を山札に戻してシャッフル", "手札がこのカードだけなら3ダメージ", "山札の上から3枚を確認し、好きな順に並べ替える", "相手に1ダメージ（デッキに4枚以上入れられる）", "山札から1枚引く", "1ダメージ。相手の次のターン終了まで、自分の山札は効果でUSEDに送られない", "手札がこのカードを含め2枚以下なら、山札のアタック2枚をランダムに手札へ", "相手の山札上2枚をUSEDへ", "使用前の手札が7枚以上なら5ダメージ", "山札から1枚引く", "別の手札1枚をUSEDへ。その後山札上3枚から1枚を手札へ、残りをUSEDへ", "2枚引いてから手札2枚をUSEDへ", "USEDが5枚以上のとき使用可能。自分のライフを1回復", "ライフ1回復。その後、自分の山札の一番上をUSEDへ", "使用前の手札が4枚以上なら使用可能。山札から2枚引く", "ゲーム中初めて相手にダメージを与えたとき、手札からUSEDへ送って追加1ダメージ", "相手の手札のカード名を3択で当てる", "相手がカードを使用した際、このカード＋指定カード2枚（合計3枚）をUSEDに送って効果を無効化", "自分のUSEDから最大2枚選び、ランダムに1枚を山札へ、残りを手札へ", "1枚引いて1枚USEDへ。相手ターンに手札からUSEDへ送られると2枚引く", "相手のライフが自分より多い、または1以下なら1ダメージ。その後USEDから手札へ戻る。相手ターン中にUSEDへ置かれた場合も手札へ戻る", "山札の一番上をUSEDへ。その後、このカードを除く自分のUSEDが3枚以下なら次の相手ターン中はダメージを受けない", "自分のUSEDからランダムに最大2枚を山札に戻してシャッフル。山札の枚数差が10枚以上なら双方ライフ7に回復し、以後ゲーム終了まで1回のダメージは最大1", "このゲーム中、以後自分がカードを使うたび30%で相手に1ダメージ", "このゲーム中、以後自分がカードを使うたび50%で山札から1枚引く", "自分に付与された確率発動効果の各確率判定を20ポイント上昇。後から付与する効果にも適用（上限100%）", "このゲーム中、以後自分がカードを使うたび1%で追加ターンを得る", "相手USEDが3/5/7枚以上でそれぞれ1/2/3ダメージと同数ドロー。その後、相手USEDをシャッフルして山札の底へ", "次の自分のカード効果処理終了まで相手USEDからカードが離れない", "相手手札の枚数−1枚を相手山札の上からUSEDへ", "次の自分のカード効果終了まで双方の全カード名が「ﾌﾞﾝﾁｮｳ」になる（効果は維持）", "次に使う自分の「ﾌﾞﾝﾁｮｳ」を名前に含むカードの能力を2回使う", "自分の山札から3枚USEDへ。うち「ﾌﾞﾝﾁｮｳ」を名前に含む枚数分ダメージ", "相手の手札ランダム1枚を5秒間公開し、選んだ方法で相手の手札をUSEDへ", "相手の手札からUSEDへ3枚移動するごとに選択効果", "先攻の最初のターンのみ使用可能。2枚引いて追加ターン", "両者の継続効果・状態を解除", "相手の次のターン終了まで手札をUSEDへ送る能力と2枚攻撃を封じる。SBFFが自分USEDに3枚なら永続", "自分のカード効果で自分のライフが減るたび相手に1ダメージ", "通常プレイ不可。カード効果で山札から手札へ加えたとき、1ダメージと1ドローを各1回使用可能", "何も起こらない", "2枚引く。使用後の手札が3枚以下ならすべてUSEDへ", "初期デッキ選択不可。名前が変更されていない状態で手札に入ると自分に1ダメージ", "相手山札にゲーム外から刺客2枚を加えてシャッフル", "次の次とその次の自分ターンは行動・通常ドロー不可。ライフ3回復", "相手ランダム手札1枚を除外し、相手山札に刺客を1枚追加、相手が1枚引く", "自分に1ダメージ、相手に2ダメージ", "相手USED内の刺客と同数の刺客を加え、相手USED全部を山札に戻してシャッフル", "相手カードの発動時、自分に2ダメージと引き換えに無効化", "自分のライフを任意の数減らし、1ダメージごとに1枚引く", "通常プレイ不可。相手のランダム手札選択で優先、効果で手札から移動時に1ダメージ・1ドローを各1回","自分の名前の異なる継続効果の種類数だけ相手にダメージ。3以上与えたら同数回復","爆速を1つ付与。爆速が付与されるたび、爆速の数だけドロー","相手に1ダメージ。肩乗りハムスター（効果なし）を付与","異なる継続効果をランダムに2種類付与","確率カウンター防御を付与。20%でダメージ-1、無効化時10%で反撃、反撃時5%で解除","使用条件？　効果？　※対人戦では使用できません","手札を1枚選び、同じ色の山札のカードをランダムに1枚手札に加える","対象カード3枚から1枚を選び手札に加える","自分のUSEDから1枚選んで手札に加える","自分を眠気状態にし、自分のライフを2回復","自分USEDが3枚以上なら使用可能。相手USEDから使用可能なカードの効果を使い、そのカードを相手山札の底へ","手札に他の魔導書がない場合に使用可能。山札から魔導書1枚をUSEDへ。自分USEDの魔導書3枚ごとに1回復","双方に眠気状態を付与。以降相手に付与される確率効果を10ポイント減少","手札・山札・USEDゾーンをランダムに入れ替える","1枚引くだけの効果を持つカードを山札からすべて手札へ","相手に寄生状態を付与","山札の通常使用時に効果がない／使えないカードを1枚選び山札の上へ","ゲーム外からランダムなカード2枚を手札に加える","ゲーム外から加えられたカードをすべてゲーム外に戻す","このゲーム中、自分のUSED攻撃に必要な手札を2枚から1枚にする","相手の防御効果を無効化して1ダメージ","手札1枚をUSEDへ送り、前の相手ターンに受けたダメージ分回復","相手山札から5枚を見て、ダメージ効果を持たないカードを相手USEDへ。残りをシャッフルして山札へ","相手山札の「愛」で1回復、「術」「導」を自分USEDへ、「法」を相手手札へ","ゲーム外の「魔」を含むカード7枚からランダム1枚を相手手札へ、残りを自分USEDへ","USEDから1枚を手札へ。同名カードを自分山札からすべてUSEDへ","手札を好きな枚数USEDへ。1枚以上なら次の自分の行動までダメージ無効","相手に眠気状態を付与","ゲーム外から動物名カード3枚の効果を使用。術以外はゲーム外へ除外","自分USEDの「導」「星」「術」30枚で相手に7ダメージ。無効化されたら勝利"];
 // モバイル向けの中央演出。Firestoreの共有イベントを両端末で同じ順序で再生する。
 let mbQueue=[],mbPlaying=false,mbSeenKey='',mbSeenIds=new Set(),mbTurnPrev=null;
 function mbEnqueue(ev){if(!ev)return;mbQueue.push(ev);if(mbQueue.length>32)mbQueue.splice(0,mbQueue.length-32);mbNext()}
@@ -242,6 +233,17 @@ function onlineSpecialFx(kind,choice){
  el.innerHTML='<div class="dc-scene"><div class="dc-moon"></div><div class="dc-character">'+(kind==='fe'?'':'🐈‍⬛')+'</div>'+(kind==='fe'?'<div class="dc-glass"></div><div class="dc-case">CASE FILE / THE FINAL CLUE</div><div class="dc-stamp">解決</div>':'')+'<div class="dc-title">'+(kind==='fe'?'効果発動':'🐈‍⬛ 黒猫の怪しい気配')+'</div><div class="dc-effect">'+(choice==='draw'?'✦ 1枚ドロー ✦':'⚡ 相手に1ダメージ ⚡')+'</div><div class="dc-spark">✦ ✧ ✦ ✧ ✦</div></div>';
  document.body.appendChild(el);setTimeout(()=>el.remove(),kind==='fe'?3100:2200);
 }
+let onlineDragonTimer=null;
+function showOnlineDragonCombo(count){
+ const n=Number(count);if(!Number.isInteger(n)||n<1||n>200)return;
+ const box=document.getElementById('onlineDragonCombo');if(!box)return;
+ clearTimeout(onlineDragonTimer);
+ document.getElementById('onlineDragonCount').textContent='連撃回数 × '+n+'回';
+ box.classList.remove('active');void box.offsetWidth;box.classList.add('active');
+ onlineDragonTimer=setTimeout(()=>box.classList.remove('active'),2400);
+}
+// Firestore fxEvents の dragon-combo イベントを両端末で同じ回数として表示する。
+// 効果処理側から {id,type:'dragon-combo',actor,count} を確定書き込みした場合のみ発火。
 function onlineSpecialEvent(ev){if(ev?.type==='special')onlineSpecialFx(ev.kind,ev.choice)}
 function mbNext(){if(mbPlaying||!mbQueue.length)return;mbPlaying=true;const ev=mbQueue.shift(),root=$('mobileBattleFx'),slot=$('mobileBattleFxContent');root.className='mobile-battle-fx '+(ev.type==='card'?'card':ev.type==='proc'?'proc':'')+(ev.enemy?' enemy':'')+(ev.type==='turn'?' slash-turn':'')+(ev.type==='match-start'?' match-start':'');slot.replaceChildren();
  if(ev.type==='card'){const card=document.createElement('div');card.className='mb-card';const info=ONLINE_CARDS.find(c=>c.name===ev.name);const idx=info?.id??-1;if(idx>=0){card.style.setProperty('--mb-bg',CARD_THEMES[idx]);card.style.setProperty('--mb-fg',CARD_TEXT_COLORS[idx]);card.style.setProperty('--mb-border',CARD_TEXT_COLORS[idx]==='#fff'?'#d6e6ff':'#35405a');card.style.setProperty('--mb-glow',CARD_TEXT_COLORS[idx]==='#fff'?'#8b9dff88':'#f8e2a888')}const label=document.createElement('div');label.className='mb-card-label';label.textContent=ev.moved?(ev.enemy?'相手の手札から移動':'自分の手札から移動'):(ev.enemy?'OPPONENT CARD':'YOUR CARD');const name=document.createElement('div');name.className='mb-card-name';name.textContent=ev.renamed?'ﾌﾞﾝﾁｮｳ':(ev.name||'カード使用');const ability=document.createElement('div');ability.className='mb-card-ability';ability.textContent=ev.moved?(ev.destination==='used'?'相手のカード効果でUSEDへ移動':'相手のカード効果でゲーム外へ移動'):(idx>=0?(CARD_ABILITY_TEXT[idx]||'効果説明なし'):'効果説明を取得できません');card.append(label,name,ability);slot.append(card)}
@@ -265,6 +267,7 @@ function mbSyncEvents(){
  if(matchStart)mbEnqueue({type:'match-start',title:'試合開始！！！',sub:'BATTLE START'});
  for(const ev of fresh){
   if(ev.type==='special'){onlineSpecialEvent(ev);continue}
+  if(ev.type==='dragon-combo'){showOnlineDragonCombo(ev.count);continue}
   if(ev.type==='card')mbEnqueue({...ev,enemy:spectator?ev.actor===game.guest:ev.actor!==uid});
   else if(ev.type==='proc'||ev.type==='counter'||ev.type==='nullify')
    mbEnqueue({...ev,type:'proc',enemy:ev.actor!==uid,title:ev.title||(ev.type==='counter'?'カウンター発動！':'効果を無効化！')});
@@ -295,6 +298,39 @@ const CARD_THEMES=["linear-gradient(135deg,#cbb7f2 0%,#f6c6a0 100%)", "linear-gr
 const CARD_TEXT_COLORS=["#172035", "#fff", "#fff", "#172035", "#fff", "#172035", "#172035", "#fff", "#172035", "#172035", "#fff", "#fff", "#172035", "#172035", "#fff", "#172035", "#fff", "#fff", "#fff", "#fff", "#172035", "#172035", "#fff", "#172035", "#fff", "#fff", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#172035", "#fff", "#fff", "#fff", "#172035", "#fff", "#fff", "#fff", "#fff", "#fff", "#172035", "#fff", "#172035", "#fff", "#172035", "#172035", "#fff","#172035","#172035","#172035","#172035","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff","#fff"];
 function setCardTheme(element,index){if(index<0||index>=CARD_THEMES.length)return;element.classList.add("card-themed");element.style.setProperty("--card-bg",CARD_THEMES[index]);element.style.setProperty("--card-fg",CARD_TEXT_COLORS[index]);}
 
+// ローカル版と同じカード色・効果説明をオンラインカード一覧にも反映。
+const ONLINE_NEW_THEME={
+ 86:['linear-gradient(135deg,#13254f,#08080c)','#fff'],
+ 87:['linear-gradient(135deg,#ff8dc8,#61a5ff)','#17203b'],
+ 88:['linear-gradient(135deg,#ff8dc8,#61a5ff)','#17203b'],
+ 89:['linear-gradient(135deg,#ff8dc8,#61a5ff)','#17203b'],
+ 90:['linear-gradient(135deg,#ff8dc8,#61a5ff)','#17203b'],
+ 91:['#7145ac','#fff']
+};
+for(const [id,[bg,fg]] of Object.entries(ONLINE_NEW_THEME)){CARD_THEMES[Number(id)]=bg;CARD_TEXT_COLORS[Number(id)]=fg}
+const ONLINE_DRAGON_LEVELS=Object.freeze({
+ '月民の隠れ家':[2],
+ '冷静龍声':[3],
+ '嬌言竜声':[3],
+ 'ホエール•スクリーム':[4],
+ '袴袴袴袴袴褌袴袴':[6],
+ 'ドラゴン•エール':[1,8]
+});
+function onlineDragonTargets(source,top){
+ const levels=ONLINE_DRAGON_LEVELS[source]||[];
+ const target=ONLINE_DRAGON_LEVELS[top]||[];
+ return levels.some(n=>target.some(m=>m<n));
+}
+const ONLINE_NEW_DESCRIPTIONS={
+ 15:'冷静龍声：D連打③（オンライン試験対応）',
+ 23:'月民の隠れ家：D連打②（オンライン試験対応）',
+ 86:'紺→黒：ゲーム中に自分へ付与された継続効果の種類数だけ相手にダメージ（解除済みも含む）',
+ 87:'ピンク→青：相手に1ダメージ。D連打⑥（オンライン試験対応）',
+ 88:'ピンク→青：D連打③。山札の上をUSEDへ送り、USEDから最大2枚をランダム順で山札上へ（オンライン対応）',
+ 89:'ピンク→青：山札トップを確認し、任意でUSEDへ。置いた場合は相手が手札1枚を選び捨てる。D連打④',
+ 90:'ピンク→青：D連打①、D連打⑧（オンライン試験対応）',
+ 91:'紫：相手ターンのダメージ防御（SBFF条件で永続）'
+};
 const ONLINE_CARDS=[
  {name:'ﾌﾞﾝﾁｮｳｱﾀｯｸ',id:0,kind:'buncho'},
  {name:'観測者の悪ノリ',id:1,kind:'draw'},
@@ -317,7 +353,7 @@ const ONLINE_CARDS=[
  {name:'正論パンチ',id:51,kind:'punch'},
  {name:'行っちゃうの？…',id:54,kind:'going'},
  {name:'深夜の大人の勉強会',id:7,kind:'peek'},
- {name:'冷静竜声',id:15,kind:'select'},
+ {name:'冷静龍声',id:15,kind:'select'},
  {name:'針治療',id:41,kind:'needle'},
  {name:'お命頂戴します☪︎*｡꙳',id:48,kind:'insert'},
  {name:'声殺夜奪',id:50,kind:'voice'},
@@ -384,16 +420,15 @@ const ONLINE_CARDS=[
  {name:"睡魔の術",id:83,kind:"sleepmagic"},
  {name:"異世界猫の陰陽術",id:84,kind:"catmagic"},
  {name:"それは未来を読む占術",id:85,kind:"future"},
- {name:"虜だｿﾞ～～",id:86,kind:"toriko",limit:1},
- {name:"ガチャの虜",id:87,kind:"torikoDice"},
- {name:"デコバットの一撃",id:88,kind:"decoBat"},
- {name:"電脳世界ハリケーン",id:89,kind:"cyberHurricane"},
+ // ローカル版で追加されたカード。オンライン効果の実装状況に応じて段階的に解放。
+ {name:'異世界放浪録',id:86,kind:'isekai'},
+ {name:'袴袴袴袴袴褌袴袴',id:87,kind:'hakama'},
+ {name:'嬌言竜声',id:88,kind:'kyogen'},
+ {name:'ホエール•スクリーム',id:89,kind:'whale'},
+ {name:'ドラゴン•エール',id:90,kind:'dragon'},
+ {name:'ｱﾊﾊｯｽｩーｱﾊﾊﾊ(以下略)',id:91,kind:'ahaha'},
+
 ];
-// 第139段階：新カードは既存のカード配列の末尾に登録し、旧デッキ保存形式を維持。
-CARD_ABILITY_TEXT.push('デッキ1枚制限。試合開始前に設置。声・姿・話・企画の条件達成ごとに相手へ1ダメージ','サイコロ1～6でドロー・ダメージ・手札移動を決定','0～4ダメージ（確率30/40/17/10/3%）','0～4枚ドロー（確率15/42/22/14/7%）');
-CARD_THEMES.push(...Array(4).fill('linear-gradient(135deg,#f6a1cb 0%,#15121a 100%)'));
-CARD_TEXT_COLORS.push(...Array(4).fill('#fff'));
-const onlineWeightedPick=weights=>{const n=Math.random()*weights.reduce((a,b)=>a+b,0);let sum=0;for(let i=0;i<weights.length;i++){sum+=weights[i];if(n<sum)return i}return weights.length-1};
 const cards=ONLINE_CARDS.map(c=>c.name);
 let yakaPickerOpen=false,yakaSelected=[];
 const YAKA_COST_NAMES=new Set(['やかましいわ','針治療','人を大切にできないやつは自分も大切にされない【名言】','ガチナイス']);
@@ -421,7 +456,6 @@ function availableCounters(hand,life,effectsA,effectsB){
 // 表示は実際に有効な効果だけに限定し、内部カウンターは表示しない。
 function effectLabels(e,round){
  const result=[];
- if(e.torikoActive){const done=Array.isArray(e.torikoDone)?e.torikoDone:[];result.push('🎀 虜（'+done.length+'/5）［'+['声','姿','話','企画','全部'].map((x,i)=>(done.includes(i+1)?'✓':'○')+x).join('・')+'］')}
  if(e.kaii)result.push('怪異：カード名変更');
  if((e.napRemaining||0)>0)result.push('お昼寝：休止まで'+(e.napDelay||0)+'回／休止残り'+e.napRemaining+'ターン');
  if(e.tomato)result.push('トマト：次の該当カード2回');
@@ -436,7 +470,7 @@ function effectLabels(e,round){
  if((Number(e.mochiProtectUntil)||0)>=round)result.push('もち蔵：山札からUSEDへの移動を防止');
  if(e.haion)result.push('這音嘗血（'+(e.haionCount||0)+'/3）');
  if(e.chanceBonus)result.push('確率補正＋'+e.chanceBonus+'%');
- for(const [key,name] of [['funfun','ﾌﾝﾌﾝ'],['love','限界愛'],['pikainu','ピカ犬']])if(e[key])result.push(name+' ×'+e[key]);
+ for(const [key,name] of [['funfun','ﾌﾝﾌﾝ'],['genkai','限界愛'],['pikainu','ピカ犬']])if(e[key])result.push(name+' ×'+e[key]);
  return result.join(' / ')||'なし';
 }
 
@@ -521,11 +555,14 @@ const SHARED_SAMPLE_DECKS={
  }
 };
 const DEFAULT_ONLINE_COUNTS=[3,3,0,0,11,3,0,0,...Array(ONLINE_CARDS.length-8).fill(0)];
-function readOnlineCounts(){try{const v=JSON.parse(localStorage.getItem(EFFECT_KEY)||localStorage.getItem('onlineCardDeckV9')||localStorage.getItem('onlineCardDeckV8')||localStorage.getItem('onlineCardDeckV7')||localStorage.getItem('onlineCardDeckV6')||localStorage.getItem('onlineCardDeckV5')||localStorage.getItem('onlineCardDeckV4')||localStorage.getItem('onlineCardDeckV3')||localStorage.getItem('onlineCardDeckV2')||localStorage.getItem('onlineCardDeckV1'));if(Array.isArray(v)&&v.length<=ONLINE_CARDS.length&&v.length>=8&&v.every((n,i)=>Number.isInteger(n)&&n>=0&&n<=(ONLINE_CARDS[i].limit??3))&&v.reduce((a,b)=>a+b,0)===20)return [...v,...Array(ONLINE_CARDS.length-v.length).fill(0)]}catch(e){}return [...DEFAULT_ONLINE_COUNTS]}
+function readOnlineCounts(){try{const v=JSON.parse(localStorage.getItem(EFFECT_KEY)||localStorage.getItem('onlineCardDeckV9')||localStorage.getItem('onlineCardDeckV8')||localStorage.getItem('onlineCardDeckV7')||localStorage.getItem('onlineCardDeckV6')||localStorage.getItem('onlineCardDeckV5')||localStorage.getItem('onlineCardDeckV4')||localStorage.getItem('onlineCardDeckV3')||localStorage.getItem('onlineCardDeckV2')||localStorage.getItem('onlineCardDeckV1'));if(Array.isArray(v)&&v.length<=ONLINE_CARDS.length&&v.length>=8&&v.every((n,i)=>Number.isInteger(n)&&n>=0&&n<=(ONLINE_CARDS[i].limit||3))&&v.reduce((a,b)=>a+b,0)===20)return [...v,...Array(ONLINE_CARDS.length-v.length).fill(0)]}catch(e){}return [...DEFAULT_ONLINE_COUNTS]}
 const ONLINE_REWARD_LEVELS={"dreammore": 11, "shuffleall": 12, "npc": 13, "parasite": 14, "cheese": 15, "adventurer": 16, "exorcise": 17, "microphone": 18, "soldier": 19, "steam": 21, "meat": 22, "mafia": 23, "magicsong": 24, "library": 25, "orcanis": 26, "jasrac": 27, "sleepmagic": 28, "catmagic": 29, "future": 30};
 const ONLINE_UR_KINDS=["tidal","talk","bookshop","diver"];
-function onlineCardUnlocked(c){if(c.kind==="tidal")return onlineMilestoneUnlocked(10);if(ONLINE_UR_KINDS.includes(c.kind))return onlineMilestoneUnlocked(10);const level=ONLINE_REWARD_LEVELS[c.kind];return !level||onlineMilestoneUnlocked(level)||level===19&&onlineMilestoneUnlocked(20);}
-function onlineDeckDefs(){return ONLINE_CARDS.map(c=>({name:c.name,limit:c.limit??3,forbidden:['oru','assassin'].includes(c.kind)||!onlineCardUnlocked(c)}));}
+function onlineGachaOwned(name){
+ try{const p=JSON.parse(localStorage.getItem('ocbProgressV139')||'{}');return Array.isArray(p.gachaCards)&&p.gachaCards.includes(name)}catch{return false}
+}
+function onlineCardUnlocked(c){if(c.onlinePending)return false;if(['hakama','dragon','kyogen','whale','isekai','ahaha'].includes(c.kind))return onlineGachaOwned(c.name);if(c.kind==="tidal")return onlineMilestoneUnlocked(10);if(ONLINE_UR_KINDS.includes(c.kind))return onlineMilestoneUnlocked(10);const level=ONLINE_REWARD_LEVELS[c.kind];return !level||onlineMilestoneUnlocked(level)||level===19&&onlineMilestoneUnlocked(20);}
+function onlineDeckDefs(){return ONLINE_CARDS.map(c=>({name:c.name,limit:c.limit||3,forbidden:['oru','assassin'].includes(c.kind)||c.onlinePending||!onlineCardUnlocked(c)}));}
 function onlineNamesFromCounts(arr){return Object.fromEntries(ONLINE_CARDS.map((c,i)=>[c.name,arr[i]]).filter(x=>x[1]>0));}
 function onlineCountsFromNames(names){if(!sharedDeckValid(names,onlineDeckDefs()))return null;return ONLINE_CARDS.map(c=>names[c.name]||0);}
 function onlineLoadShared(){const v=sharedDeckRead();const next=onlineCountsFromNames(v?.cards);if(!next){$('onlineDeckMessage').textContent='共通デッキが未保存か、カード構成が無効です';return false;}onlineCounts=next;renderOnlineDeck();$('onlineDeckMessage').textContent='共通デッキを読み込みました。対戦開始前に保存してください';return true;}
@@ -546,39 +583,204 @@ function refreshOnlineRewardOptions(){const sel=$('onlineSampleDeck');if(!sel)re
 
 function onlineChooseSample(name){if(!name)return;const level={'URサーチ':10,'推し活ビックマナ':20,'混合術式':30}[name];if(level&&!onlineMilestoneUnlocked(level)){$('onlineDeckMessage').textContent='このデッキは連勝チャレンジで'+level+'連勝すると選べます';$('onlineSampleDeck').value='';return;}const next=onlineCountsFromNames(SHARED_SAMPLE_DECKS[name]);if(!next){$('onlineDeckMessage').textContent=level?'このデッキは解放済みですが、オンライン未実装カードを含むため、まだ対戦では使用できません':'サンプルデッキを読み込めません';return;}onlineCounts=next;renderOnlineDeck();onlineSaveShared();$('onlineDeckMessage').textContent='「'+name+'」を共通デッキに設定しました';}
 let onlineCounts=readOnlineCounts();
-if(onlineCounts.length!==ONLINE_CARDS.length||onlineCounts.some((n,i)=>!Number.isInteger(n)||n<0||n>(ONLINE_CARDS[i].limit??3))){onlineCounts=[...DEFAULT_ONLINE_COUNTS];}
 // 自動発動専用カードはデッキに直接入れない。旧保存データに含まれていた場合は初期デッキへ戻す。
-if(onlineCounts.some((n,i)=>n>0&&['oru','assassin'].includes(ONLINE_CARDS[i].kind))){onlineCounts=[...DEFAULT_ONLINE_COUNTS];localStorage.removeItem(EFFECT_KEY)}
+if(onlineCounts.some((n,i)=>n>0&&['oru','fe','assassin'].includes(ONLINE_CARDS[i].kind))){onlineCounts=[...DEFAULT_ONLINE_COUNTS];localStorage.removeItem(EFFECT_KEY)}
 const sharedInitial=onlineCountsFromNames(sharedDeckRead()?.cards);if(sharedInitial)onlineCounts=sharedInitial;
 function onlineColorLabel(key){const names={'#17171d':'黒','#b3b7c0':'灰色','#7145ac':'紫','#399d62':'緑','#f1a2c7':'ピンク','#8dd8f2':'水色'};if(names[key])return names[key];const a=(key.match(/#[0-9a-fA-F]{6}/g)||[]);const known={'#cbb7f2':'紫','#f6c6a0':'桃橙','#13254f':'紺','#70d9f4':'水色','#155541':'深緑','#f1f4e9':'白','#b5e15e':'黄緑','#f6a4c6':'ピンク','#12345d':'紺','#ead7b4':'ベージュ','#16151b':'黒','#f5cb39':'黄色','#82dff6':'水色','#f7e27d':'黄色','#ab8bd9':'紫','#45206c':'紫','#17131e':'黒','#a5253d':'赤','#8e66c7':'紫','#f5f3ff':'白','#b52c49':'赤','#f4ce52':'黄色','#f9f9f2':'白','#fff0a8':'薄黄色','#1a1b24':'黒','#f6f6f8':'白','#c4b0e6':'薄紫','#1c172a':'黒','#f3ce59':'黄色','#152d57':'紺','#11121c':'黒','#b1b4bc':'灰色','#25252c':'黒','#874ab7':'紫','#15131f':'黒','#cdb5f5':'薄紫','#f6a7d2':'ピンク'};return a.map(c=>known[c.toLowerCase()]||'特殊色').join('→')||'特殊色'}
-function renderOnlineDeck(){const total=onlineCounts.reduce((a,b)=>a+b,0);$('onlineDeckCount').textContent=total+' / 20 枚';const host=$('onlineDeckEditor');host.replaceChildren();refreshOnlineRewardOptions();const groups=new Map();ONLINE_CARDS.forEach((card,i)=>{if(['oru','assassin'].includes(card.kind))return;const key=typeof CARD_THEMES[card.id]==='string'?CARD_THEMES[card.id]:'#17171d';if(!groups.has(key))groups.set(key,[]);groups.get(key).push([card,i])});for(const [key,entries] of groups){const group=document.createElement('section');group.className='online-color-group';const heading=document.createElement('h3');heading.className='online-color-title';const swatch=document.createElement('span');swatch.className='online-color-swatch';swatch.style.background=key;heading.append(swatch,document.createTextNode(onlineColorLabel(key)+'（'+entries.length+'種類）'));group.append(heading);const grid=document.createElement('div');grid.className='online-color-grid';for(const [card,i] of entries){const item=document.createElement('div');item.className='online-deck-item';item.style.borderLeft='7px solid #9fa8bb';item.style.setProperty('--online-card-color',key);const name=document.createElement('span');name.textContent=card.name;name.title=CARD_ABILITY_TEXT[card.id]||'';const controls=document.createElement('div');controls.className='buttons';const minus=document.createElement('button');minus.textContent='−';minus.disabled=onlineCounts[i]===0;minus.onclick=()=>{onlineCounts[i]--;renderOnlineDeck()};const count=document.createElement('b');count.textContent=onlineCounts[i];const plus=document.createElement('button');plus.textContent='＋';plus.disabled=total>=20||onlineCounts[i]>=(card.limit??3)||!onlineCardUnlocked(card);plus.onclick=()=>{onlineCounts[i]++;renderOnlineDeck()};controls.append(minus,count,plus);item.append(name,controls);grid.append(item)}group.append(grid);host.append(group)}$('saveOnlineDeck').disabled=total!==20}
+function renderOnlineDeck(){const total=onlineCounts.reduce((a,b)=>a+b,0);$('onlineDeckCount').textContent=total+' / 20 枚';const host=$('onlineDeckEditor');host.replaceChildren();refreshOnlineRewardOptions();const groups=new Map();ONLINE_CARDS.forEach((card,i)=>{if(['oru','assassin'].includes(card.kind))return;const key=CARD_THEMES[card.id]||'未設定';if(!groups.has(key))groups.set(key,[]);groups.get(key).push([card,i])});for(const [key,entries] of groups){const group=document.createElement('section');group.className='online-color-group';const heading=document.createElement('h3');heading.className='online-color-title';const swatch=document.createElement('span');swatch.className='online-color-swatch';swatch.style.background=key;heading.append(swatch,document.createTextNode(onlineColorLabel(key)+'（'+entries.length+'種類）'));group.append(heading);const grid=document.createElement('div');grid.className='online-color-grid';for(const [card,i] of entries){const item=document.createElement('div');item.className='online-deck-item';item.style.borderLeft='7px solid #9fa8bb';item.style.setProperty('--online-card-color',key);const name=document.createElement('span');name.textContent=card.name;name.title=ONLINE_NEW_DESCRIPTIONS[card.id]||CARD_ABILITY_TEXT[card.id]||'';
+if(card.onlinePending){name.textContent+='（オンライン効果実装待ち）';item.style.opacity='.65'}const controls=document.createElement('div');controls.className='buttons';const minus=document.createElement('button');minus.textContent='−';minus.disabled=onlineCounts[i]===0;minus.onclick=()=>{onlineCounts[i]--;renderOnlineDeck()};const count=document.createElement('b');count.textContent=onlineCounts[i];const plus=document.createElement('button');plus.textContent='＋';plus.disabled=total>=20||onlineCounts[i]>=(card.limit||3)||!onlineCardUnlocked(card);plus.onclick=()=>{onlineCounts[i]++;renderOnlineDeck()};controls.append(minus,count,plus);item.append(name,controls);grid.append(item)}group.append(grid);host.append(group)}$('saveOnlineDeck').disabled=total!==20}
 $('onlineSampleDeck').onchange=e=>onlineChooseSample(e.target.value);$('loadSharedOnline').onclick=()=>onlineLoadShared();
-$('saveOnlineDeck').onclick=()=>{if(onlineCounts.reduce((a,b)=>a+b,0)!==20)return;localStorage.setItem(EFFECT_KEY,JSON.stringify(onlineCounts));$('onlineDeckMessage').textContent='保存しました。次に開始する対戦から使用します。'};
+$('saveOnlineDeck').onclick=()=>{if(onlineCounts.reduce((a,b)=>a+b,0)!==20||!sharedDeckValid(onlineNamesFromCounts(onlineCounts),onlineDeckDefs())){$('onlineDeckMessage').textContent='未実装または未解放のカードが含まれています';return;}localStorage.setItem(EFFECT_KEY,JSON.stringify(onlineCounts));$('onlineDeckMessage').textContent='保存しました。次に開始する対戦から使用します。'};
 renderOnlineDeck();
-const report=e=>{console.error(e);$('status').textContent='エラー：'+(e?.message||String(e))};
-
-// 第115版: Firestoreトランザクション側の手札→USEDも個体追跡を共通化。
-// 効果解決側だけでなく、カウンター・カード使用コストでも同じ追跡規則を適用する。
-function moveHandToUsedInTransaction(player,index){
-  if(!Array.isArray(player.hand)||!Array.isArray(player.used)||!Number.isInteger(index)||index<0||index>=player.hand.length)throw Error('カード移動位置が不正です');
-  const name=player.hand[index];
-  const records=player.externalInstances||[];
-  const matches=records.filter(r=>r.zone==='hand'&&r.index===index);
-  // 名前不一致・二重登録の状態で別カードのIDを移すのを防ぐ。
-  if(matches.length>1||matches.length===1&&matches[0].name!==name)throw Error('生成カードの個体追跡に不整合があります');
-  const record=matches[0]||null;
-  player.hand.splice(index,1);
-  for(const r of records)if(r.zone==='hand'&&r.index>index)r.index--;
-  const next=player.used.length;
-  player.used.push(name);
-  if(record){record.zone='used';record.index=next;}
-  return name;
+// 第12段階：端末内のみの診断履歴。カード名・手札・山札・UIDは記録しない。
+const diagnosticEvents=[];
+function recordDiagnostic(type,detail=''){
+ const item={time:new Date().toLocaleTimeString('ja-JP'),type:String(type).slice(0,40),detail:String(detail).slice(0,180)};
+ diagnosticEvents.push(item);if(diagnosticEvents.length>20)diagnosticEvents.shift();
+ const view=$('localDiagnostics');if(view)view.textContent=diagnosticEvents.map(x=>x.time+' ['+x.type+'] '+x.detail).join('\n')||'記録なし';
+ const status=$('diagnosticStatus');if(status)status.textContent='操作状況：'+item.type+(item.detail?' ／ '+item.detail:'');
 }
+// 第13段階：公開情報と自分の非公開ゾーンの不整合を検出（自動修復はしない）。
+let integrityIssues=[],integrityTimer=null,integrityLastKey='',integrityLastReported='';
+function collectIntegrityIssues(){
+ const problems=[];
+ if(!game||!side||!mine||spectator)return problems;
+ if(!['setup','playing','finished'].includes(game.state))problems.push('不明な対戦状態');
+ for(const player of ['host','guest']){
+  const life=game[player+'Life'];
+  if(typeof life!=='number'||!Number.isFinite(life)||life>10000||life< -10000)problems.push(player+'：ライフ値が不正');
+  for(const zone of ['HandCount','DeckCount']){
+   const n=game[player+zone];
+   if(n!==undefined&&(!Number.isSafeInteger(n)||n<0))problems.push(player+'：'+zone+'が不正');
+  }
+  const used=game[player+'PublicUsed'];
+  if(used!==undefined&&(!Array.isArray(used)||used.some(x=>typeof x!=='string')))problems.push(player+'：公開USEDの形式が不正');
+ }
+ for(const zone of ['hand','deck','used'])if(!Array.isArray(mine[zone]))problems.push('自分の'+zone+'が配列ではありません');
+ if(game.state==='playing'||game.state==='finished'){
+  for(const [zone,field] of [['hand','HandCount'],['deck','DeckCount']]){
+   if(Array.isArray(mine[zone])&&Number.isInteger(game[side+field])&&mine[zone].length!==game[side+field])problems.push('自分の'+zone+'枚数が公開値と異なります');
+  }
+  if(Array.isArray(mine.used)&&Array.isArray(game[side+'PublicUsed'])&&JSON.stringify(mine.used)!==JSON.stringify(game[side+'PublicUsed']))problems.push('自分のUSEDと公開USEDが一致しません');
+ }
+ if(game.pendingWhale&&(!game.pendingWhale.target||!game.pendingWhale.id))problems.push('ホエール選択要求の情報が不完全');
+ if(game.pendingWhaleQueue!==undefined&&!Array.isArray(game.pendingWhaleQueue))problems.push('ホエール選択待ちキューが不正');
+ if(Array.isArray(game.pendingWhaleQueue)){
+  const ids=new Set(game.pendingWhale?.id?[game.pendingWhale.id]:[]);
+  for(const request of game.pendingWhaleQueue){
+   if(!request||typeof request.id!=='string'||!request.id||!request.target||!request.actor)problems.push('ホエール連続選択要求の情報が不完全');
+   if(request?.id&&ids.has(request.id))problems.push('ホエール選択要求IDが重複しています');
+   if(request?.id)ids.add(request.id);
+   if(game.pendingWhale&&request?.target!==game.pendingWhale.target)problems.push('ホエール連続選択の対象者が一致しません');
+  }
+  if(game.pendingWhaleQueue.length&&!game.pendingWhale)problems.push('ホエールの先頭選択要求がありません');
+ }
+ if(game.pendingCard&&game.pendingWhale)problems.push('カウンターとホエール選択が同時に保留されています');
+ return [...new Set(problems)];
+}
+function runIntegrityCheck(manual=false){
+ clearTimeout(integrityTimer);integrityTimer=null;
+ const el=$('integrityStatus');
+ if(!game||!side||!mine||spectator){integrityIssues=[];el.textContent='整合性チェック：自分の対戦データを待機中';return}
+ if(!navigator.onLine||connectionError){el.textContent='整合性チェック：通信復旧待ち';return}
+ integrityIssues=collectIntegrityIssues();
+ if(integrityIssues.length){
+  el.textContent='⚠ 整合性の確認が必要：'+integrityIssues.join('／')+'（一時的な同期遅延の可能性あり）';
+  const key=integrityIssues.join('|');
+  if(key!==integrityLastReported){recordDiagnostic('整合性警告',integrityIssues.join('／'));integrityLastReported=key}
+ }else{el.textContent='✓ 整合性チェック：確認できる項目は正常';integrityLastReported='';if(manual)recordDiagnostic('整合性確認','確認できる項目は正常')}
+}
+function scheduleIntegrityCheck(){
+ clearTimeout(integrityTimer);
+ // 親ドキュメントとplayersの購読が別々に届くため、短いずれを警告しない。
+ integrityTimer=setTimeout(()=>runIntegrityCheck(),3000);
+}
+$('checkIntegrity').onclick=()=>runIntegrityCheck(true);
+// 第16段階：サーバーから最新スナップショットを読み、表示中の購読データと照合する。
+// 書き込み・カードの再発動は行わない。非公開のカード名は画面に出さない。
+let serverVerificationBusy=false;
+async function verifyServerSnapshot(){
+ const output=$('serverVerificationResult');
+ if(serverVerificationBusy)return;
+ if(!code||!uid||!game||!navigator.onLine){output.textContent='サーバー照合：対戦接続と通信を確認してください';return}
+ serverVerificationBusy=true;$('verifyServerSnapshot').disabled=true;
+ output.textContent='サーバー照合：取得中…';
+ try{
+  const gameSnapshot=await getDoc(refGame());
+  if(!gameSnapshot.exists())throw Error('対戦データが存在しません');
+  const server=gameSnapshot.data();const issues=[];
+  if(server.state!==game.state)issues.push('対戦状態が更新されています');
+  if(server.round!==game.round||server.turn!==game.turn)issues.push('ターン情報が更新されています');
+  if(!!server.pendingCard!==!!game.pendingCard||server.pendingCard?.id!==game.pendingCard?.id)issues.push('カウンター状態が更新されています');
+  if(server.pendingWhale?.id!==game.pendingWhale?.id)issues.push('ホエール選択状態が更新されています');
+  if(!spectator&&side){
+   const ownSnapshot=await getDoc(refMine());
+   if(!ownSnapshot.exists())throw Error('自分のカードデータがありません');
+   const own=ownSnapshot.data();
+   for(const [zone,key] of [['hand','HandCount'],['deck','DeckCount']]){
+    if(!Array.isArray(own[zone]))issues.push(zone+'のデータ形式が不正');
+    else if(own[zone].length!==server[side+key])issues.push(zone+'の公開枚数が不一致');
+   }
+   if(!Array.isArray(own.used)||!Array.isArray(server[side+'PublicUsed'])||JSON.stringify(own.used)!==JSON.stringify(server[side+'PublicUsed']))issues.push('USEDの公開情報が不一致');
+   if(mine&&['hand','deck','used'].some(z=>Array.isArray(mine[z])&&Array.isArray(own[z])&&JSON.stringify(mine[z])!==JSON.stringify(own[z])))issues.push('端末表示のカードデータが更新されています');
+  }
+  for(const player of ['host','guest']){
+   if(!Number.isFinite(server[player+'Life']))issues.push(player+'のライフ値が不正');
+   if(!Number.isSafeInteger(server[player+'HandCount'])||server[player+'HandCount']<0)issues.push(player+'の手札枚数が不正');
+   if(!Number.isSafeInteger(server[player+'DeckCount'])||server[player+'DeckCount']<0)issues.push(player+'の山札枚数が不正');
+  }
+  const unique=[...new Set(issues)];
+  output.textContent=unique.length?'⚠ サーバー照合：'+unique.join('／')+'。最新データを再取得してください。':'✓ サーバー照合：取得できた公開情報と自分のカード枚数は一致しています';
+  recordDiagnostic('サーバー照合',unique.length?unique.join('／'):'検査対象は一致');
+ }catch(e){output.textContent='サーバー照合に失敗：'+String(e.message||e).slice(0,120);recordDiagnostic('サーバー照合失敗',String(e.message||e).slice(0,100))}
+ finally{serverVerificationBusy=false;$('verifyServerSnapshot').disabled=false}
+}
+$('verifyServerSnapshot').onclick=verifyServerSnapshot;
+
+// 第14段階：サーバーの確定値を読み直し、公開ゾーンの投影のみ修復する。
+// 未完了のカウンター/ホエール選択中は変更しない。非公開のカード配置は触らない。
+let recoveryBusy=false;
+function recoveryMessage(message){$('recoveryResult').textContent=message;recordDiagnostic('同期復旧',message)}
+function recoveryBlocked(g){return !!(g.pendingCard||g.pendingWhale||(Array.isArray(g.pendingWhaleQueue)&&g.pendingWhaleQueue.length));}
+async function refreshBattleState(){
+ if(recoveryBusy)return;
+ if(!code||!uid||!navigator.onLine){recoveryMessage('対戦への接続と通信を確認してください');return}
+ recoveryBusy=true;$('refreshBattleState').disabled=true;$('repairPublicState').disabled=true;
+ try{
+  const [r,g,m]=await Promise.all([getDoc(refRoom()),getDoc(refGame()),spectator?Promise.resolve(null):getDoc(refMine())]);
+  if(!r.exists()||!g.exists()||(!spectator&&!m?.exists()))throw Error('対戦データが見つかりません');
+  if(!spectator&&![r.data().host,r.data().guest].includes(uid))throw Error('対戦参加者ではありません');
+  room=r.data();game=g.data();side=spectator?null:room.host===uid?'host':'guest';mine=m?.data()||null;selected=[];
+  render();runIntegrityCheck(true);
+  recoveryMessage('Firebaseの最新データを読み直しました。未完了の選択は画面から続行してください。');
+ }catch(e){recoveryMessage('再取得に失敗：'+String(e.message||e).slice(0,100));report(e)}
+ finally{recoveryBusy=false;$('refreshBattleState').disabled=false;$('repairPublicState').disabled=false}
+}
+async function repairPublicState(){
+ if(recoveryBusy)return;
+ if(!code||!side||!uid||spectator||!navigator.onLine||connectionError){recoveryMessage('対戦に接続してから実行してください');return}
+ if(!confirm('自分の非公開カード配置を基準に、公開USED・手札枚数・山札枚数だけを修復します。続行しますか？'))return;
+ recoveryBusy=true;$('refreshBattleState').disabled=true;$('repairPublicState').disabled=true;
+ try{
+  let changed=false;
+  await runTransaction(db,async tx=>{
+   const r=await tx.get(refRoom());const g=await tx.get(refGame());const m=await tx.get(refMine());
+   if(!r.exists()||!g.exists()||!m.exists())throw Error('対戦データがありません');
+   const actualSide=r.data().host===uid?'host':r.data().guest===uid?'guest':null;
+   if(!actualSide||actualSide!==side)throw Error('対戦参加者の確認に失敗しました');
+   const state=g.data();const own=m.data();
+   if(recoveryBlocked(state))throw Error('効果の選択待ちです。選択を完了してから修復してください');
+   if(!['playing','finished'].includes(state.state))throw Error('対戦開始前は修復できません');
+   if(!['hand','deck','used'].every(k=>Array.isArray(own[k])&&own[k].every(x=>typeof x==='string')))throw Error('非公開ゾーンの形式が不正です。自動修復できません');
+   const patch={};
+   const expected={[actualSide+'PublicUsed']:[...own.used],[actualSide+'HandCount']:own.hand.length,[actualSide+'DeckCount']:own.deck.length};
+   for(const [key,value] of Object.entries(expected))if(JSON.stringify(state[key])!==JSON.stringify(value))patch[key]=value;
+   if(Object.keys(patch).length){tx.update(refGame(),patch);changed=true}
+  });
+  publicSyncKey='';
+  recoveryMessage(changed?'公開ゾーンを修復しました。購読による画面更新を待ってください。':'公開ゾーンは既に一致しています。');
+  scheduleIntegrityCheck();
+ }catch(e){recoveryMessage('安全のため修復を中止：'+String(e.message||e).slice(0,110));report(e)}
+ finally{recoveryBusy=false;$('refreshBattleState').disabled=false;$('repairPublicState').disabled=false}
+}
+$('refreshBattleState').onclick=refreshBattleState;
+$('repairPublicState').onclick=repairPublicState;
+
+function diagnosticExport(){
+ const safeGame=game||{};
+ return ['オンライン対戦 診断情報（第18段階）',
+  '状態：'+String(safeGame.state||'未接続'),
+  'ターン番号：'+String(Number(safeGame.round)||0),
+  'カウンター：'+String(safeGame.pendingCard?.status||'なし'),
+  'ホエール選択待ち：'+String(!!safeGame.pendingWhale),
+  '端末の接続状態：'+(navigator.onLine?'オンライン':'オフライン'),
+  '整合性チェック：'+(integrityIssues.length?integrityIssues.join('／'):'警告なし（検査対象のみ）'),
+  '端末履歴：',...diagnosticEvents.map(x=>x.time+' ['+x.type+'] '+x.detail)].join('\n');
+}
+async function copyDiagnosticText(value){
+ try{await navigator.clipboard.writeText(value);recordDiagnostic('コピー完了','クリップボードに保存しました')}
+ catch(e){recordDiagnostic('コピー失敗','ブラウザの権限を確認してください');report(e)}
+}
+$('copyBattleLog').onclick=()=>copyDiagnosticText((game?.log||[]).slice(-30).join('\n')||'対戦ログなし');
+$('copyDiagnostics').onclick=()=>copyDiagnosticText(diagnosticExport());
+$('clearDiagnostics').onclick=()=>{diagnosticEvents.length=0;$('localDiagnostics').textContent='記録なし';$('diagnosticStatus').textContent='操作状況：履歴を消去しました'};
+const report=e=>{console.error(e);const message=String(e?.message||e).slice(0,180);$('status').textContent='エラー：'+message;recordDiagnostic('エラー',message)};
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function deck(){const saved=onlineCountsFromNames(sharedDeckRead()?.cards)||readOnlineCounts();return shuffle(saved.flatMap((n,i)=>Array(n).fill(cards[i])))}
 const refRoom=()=>doc(db,'rooms',code),refGame=()=>doc(db,'testBattles',code),refMine=()=>doc(db,'testBattles',code,'players',uid);
 function isNapRestricted(e){return Number(e?.napRemaining||0)>0&&Number(e?.napDelay||0)===0}
-function canPlayOnline(name,handSize){const kind=ONLINE_CARDS.find(c=>c.name===name)?.kind;return kind&&!(kind==='special3'&&handSize!==1)&&!(kind==='special5'&&handSize<7)&&!(kind==='search'&&handSize>2)&&!(kind==='heal'&&mine.used.length<5)&&!(kind==='udon'&&!(game?.round===1&&game?.turn===uid))&&!(kind==='chitose'&&handSize<4)&&!(kind==='secretbook'&&mine.used.length<3)&&!(kind==='nobook'&&mine.hand.some(x=>x!==name&&x.includes('魔導書')))&&!['oru','fe','counter','assassin','tidal','toriko'].includes(kind)&&!(game?.[side+'Effects']?.napSkip)&&!isNapRestricted(game?.[side+'Effects'])}
+// ローカル版のアハハ防御：相手が自分の領域へ干渉するカードを禁止。
+const ONLINE_AHAHA_INTERFERENCE=new Set(['mill','discard','steal','handpeek','look','searchenemy','swap','shuffleall','mafia','magicsong','library','exorcise','torikoDice','secretbook','hideout','cheese','selectenemy','banish','torture','spy','tidal']);
+function onlineAhahaProtected(owner,atRound=game?.round){
+ const e=game?.[owner+'Effects']||{};
+ return !!e.ahahaPermanent||(Number(e.ahahaWardUntil)||0)>=Number(atRound||0);
+}
+function onlineAhahaBlocked(name){
+ const k=ONLINE_CARDS.find(c=>c.name===name)?.kind;
+ const defender=side==='host'?'guest':'host';
+ return ONLINE_AHAHA_INTERFERENCE.has(k)&&onlineAhahaProtected(defender);
+}
+function canPlayOnline(name,handSize){const kind=ONLINE_CARDS.find(c=>c.name===name)?.kind;return kind&&!onlineAhahaBlocked(name)&&onlineCardUnlocked(ONLINE_CARDS.find(c=>c.name===name))&&!ONLINE_CARDS.find(c=>c.name===name)?.onlinePending&&!(kind==='special3'&&handSize!==1)&&!(kind==='special5'&&handSize<7)&&!(kind==='search'&&handSize>2)&&!(kind==='heal'&&mine.used.length<5)&&!(kind==='udon'&&!(game?.round===1&&game?.turn===uid))&&!(kind==='chitose'&&handSize<4)&&!(kind==='secretbook'&&mine.used.length<3)&&!(kind==='nobook'&&mine.hand.some(x=>x!==name&&x.includes('魔導書')))&&!['oru','fe','counter','assassin','tidal'].includes(kind)&&!(game?.[side+'Effects']?.napSkip)&&!isNapRestricted(game?.[side+'Effects'])}
 // 端末が最後にFirestoreへ応答した時刻。接続状態を断定するものではありません。
 function updatePeerPresence(){
  const el=$('peerPresence');if(!el)return;
@@ -668,6 +870,48 @@ function renderSpectator(){
  $('stats').textContent='観戦中（ホスト HP '+(game.hostLife??'—')+' / ゲスト HP '+(game.guestLife??'—')+'）';
  $('log').textContent=(game.log||[]).slice(-15).join('\\n');
 }
+let whaleSelectionRequestId=null,whaleSelectionIndex=-1;
+async function answerWhaleDiscard(){
+ if(busy||spectator||!game?.pendingWhale||game.pendingWhale.target!==uid||!mine||!navigator.onLine||connectionError)return;
+ const pending=game.pendingWhale;
+ const list=mine.hand;
+ const index=whaleSelectionIndex;
+ if(list.length&&(index<0||index>=list.length)){alert('捨てるカードを選んでください');return}
+ busy=true;render();try{
+  await runTransaction(db,async tx=>{
+   const battle=refGame(),player=refMine(),gs=await tx.get(battle),ps=await tx.get(player);
+   if(!gs.exists()||!ps.exists())throw Error('対戦情報がありません');
+   const v=gs.data(),m=ps.data(),q=v.pendingWhale;
+   if(!q||q.id!==pending.id||q.target!==uid||v.state!=='playing'||v.host!==room.host||v.guest!==room.guest)throw Error('選択待ちは終了しました');
+   if(!Array.isArray(m.hand)||!Array.isArray(m.used))throw Error('手札・USEDのデータが不正です');
+   if(!Array.isArray(v.pendingWhaleQueue||[]))throw Error('連続破棄要求のデータが不正です');
+   if(v.turn!==q.actor)throw Error('手札選択中にターンが変更されました。診断情報を確認してください');
+   if(v.pendingCard)throw Error('別のカード選択処理が進行しています。更新を待ってください');
+   if(![v.host,v.guest].includes(q.actor)||q.actor===q.target)throw Error('手札選択の発動者情報が不正です');
+   const requests=v.pendingWhaleQueue||[];
+   const ids=new Set([q.id]);
+   for(const item of requests){
+    if(!item||typeof item.id!=='string'||!item.id||ids.has(item.id)||item.target!==uid||item.actor!==q.actor)
+      throw Error('連続手札選択の順序・対象情報が不正です。修復せず診断してください');
+    ids.add(item.id);
+   }
+   let moved=null;
+   if(m.hand.length){
+    if(index<0||index>=m.hand.length||m.hand[index]!==list[index]||JSON.stringify(m.hand)!==JSON.stringify(list))throw Error('手札が変更されました。選び直してください');
+    const rec=(m.externalInstances||[]).find(r=>r.zone==='hand'&&r.index===index);
+    moved=m.hand.splice(index,1)[0];
+    for(const r of m.externalInstances||[])if(r.zone==='hand'&&r.index>index)r.index--;
+    m.used.push(moved);if(rec){rec.zone='used';rec.index=m.used.length-1}
+   }
+   tx.set(player,m);
+   tx.update(battle,{pendingWhale:(Array.isArray(v.pendingWhaleQueue)&&v.pendingWhaleQueue.length&&v.pendingWhaleQueue[0]?.target&&v.pendingWhaleQueue[0]?.id?v.pendingWhaleQueue[0]:null),pendingWhaleQueue:(v.pendingWhaleQueue||[]).slice(1),[side+'HandCount']:m.hand.length,
+    [side+'PublicUsed']:m.used,
+    log:[...(v.log||[]),moved?'🐋 ホエール•スクリーム：'+moved+'をUSEDへ':'🐋 ホエール•スクリーム：相手の手札なし'].slice(-30),
+    fxEvents:[...(v.fxEvents||[]),{id:uid+':whale:'+Date.now(),type:'card',actor:uid,name:moved||'ホエール•スクリーム',moved:!!moved,destination:'used'}].slice(-24)});
+  });
+  whaleSelectionIndex=-1;whaleSelectionRequestId=null;
+ }catch(e){report(e)}finally{busy=false;render()}
+}
 function render(){ if(spectator){renderSpectator();return;} 
  const isHost=!!room&&room.host===uid,ready=!!room&&!!room.guest&&room.hostReady&&room.guestReady;
  $('start').disabled=busy||!isHost||!ready||!!game;
@@ -677,12 +921,24 @@ function render(){ if(spectator){renderSpectator();return;}
  $('ownStatus').textContent=effectLabels(game[side+'Effects']||{},game.round);$('enemyStatus').textContent=effectLabels(game[(side==='host'?'guest':'host')+'Effects']||{},game.round);return}
  if(!mine){$('myEffects').textContent=effectLabels(game[side+'Effects']||{},game.round);$('oppEffects').textContent=effectLabels(game[(side==='host'?'guest':'host')+'Effects']||{},game.round);$('ownStatus').textContent=$('myEffects').textContent;$('enemyStatus').textContent=$('oppEffects').textContent;$('turn').textContent='手札を読み込み中…';return}
  const opponent=side==='host'?'guest':'host',myTurn=game.turn===uid&&game.state==='playing',needDraw=myTurn&&!game.drawn;
+ const matchFinished=game.state==='finished';
+ const whalePending=game.pendingWhale||null;const whaleWaiting=!!whalePending;
+ if(whalePending?.id!==whaleSelectionRequestId){whaleSelectionRequestId=whalePending?.id||null;whaleSelectionIndex=-1}
+ const whaleChoices=$('whaleHandChoices');whaleChoices.replaceChildren();
+ if(whaleWaiting&&whalePending.target===uid){
+  const hand=mine.hand||[];
+  $('whaleProgress').textContent='残りの破棄要求：'+(1+(game.pendingWhaleQueue||[]).length)+'回';
+  hand.forEach((name,i)=>{const b=document.createElement('button');b.type='button';b.textContent=(i+1)+'：'+name;b.style.background=i===whaleSelectionIndex?'#ffe4a0':'#e4efff';b.style.color='#142f55';b.setAttribute('aria-pressed',String(i===whaleSelectionIndex));b.onclick=()=>{whaleSelectionIndex=i;render()};whaleChoices.append(b)});
+  if(!hand.length)$('whaleProgress').textContent+='／手札なし（破棄せず進行）';
+ }
+ $('whaleAnswer').disabled=matchFinished||busy||(mine.hand.length>0&&(whaleSelectionIndex<0||whaleSelectionIndex>=mine.hand.length));
+ $('whaleChoice').hidden=matchFinished||!(whaleWaiting&&whalePending.target===uid);
  const pending=game.pendingCard||null;const awaiting=pending&&pending.status==='waiting';
  const cancelReady=!!(awaiting&&pending.actor===uid&&Number.isFinite(pending.createdAt)&&Date.now()-pending.createdAt>=120000);
- updatePeerPresence();$('counterCancel').hidden=!cancelReady;$('counterCancel').disabled=busy||!cancelReady;
+ updatePeerPresence();$('counterCancel').hidden=matchFinished||!cancelReady;$('counterCancel').disabled=busy||!cancelReady;
  if(!awaiting||pending.actor===uid){yakaPickerOpen=false;yakaSelected=[];}
  $('yakaPicker').hidden=!yakaPickerOpen;const resolving=pending&&pending.actor===uid&&pending.status!=='waiting';
- $('counterAccept').hidden=!(awaiting&&pending.actor!==uid);const counterOptions=availableCounters(mine.hand,game[side+'Life'],game.hostEffects,game.guestEffects);$('counterUse').hidden=!(awaiting&&pending.actor!==uid&&counterOptions.plan);$('counterResolve').hidden=!resolving;
+ $('counterAccept').hidden=matchFinished||!(awaiting&&pending.actor!==uid);const counterOptions=availableCounters(mine.hand,game[side+'Life'],game.hostEffects,game.guestEffects);$('counterUse').hidden=matchFinished||!(awaiting&&pending.actor!==uid&&counterOptions.plan);$('counterResolve').hidden=matchFinished||!resolving;
  const kaiiOn=!!(game.hostEffects?.kaii||game.guestEffects?.kaii);
  const yakaEligible=mine.hand.filter(n=>YAKA_COST_NAMES.has(n)&&n!=='やかましいわ'&&!kaiiOn).length;
  $('counterYaka').hidden=!(awaiting&&pending.actor!==uid&&counterOptions.yaka);
@@ -708,17 +964,19 @@ function render(){ if(spectator){renderSpectator();return;}
  $('oppEffects').textContent=effectLabels(theirEffects,game.round);
  $('turn').textContent=game.state==='finished'?(game.winner===uid?'🏆 勝利！':'敗北'):myTurn?'あなたのターン':'相手のターン';
  $('stats').textContent=`自分のライフ ${game[side+'Life']} ／ 相手のライフ ${game[opponent+'Life']}　|　山札 ${mine.deck.length}　|　手札 ${mine.hand.length}　|　USED ${mine.used.length}　|　相手の手札 ${game[opponent+'HandCount']}`;
- drawControl.disabled=busy||!needDraw||!!pending;
+ drawControl.disabled=matchFinished||busy||!needDraw||!!pending||whaleWaiting;
  const napBlocked=isNapRestricted(myEffects);
  const drawBlocked=!!(myEffects.blockPermanent||myEffects.blockUntil>=game.round);
- drawControl.textContent=napBlocked?'お昼寝：通常ドローをスキップ':drawBlocked?'ドロー封じ中（スキップ）':'1枚引く';$('play').disabled=busy||!!pending||!myTurn||!game.drawn||selected.length!==1||(selected.length===1&&!canPlayOnline(mine.hand[selected[0]],mine.hand.length));$('discard').disabled=busy||!!pending||!myTurn||!game.drawn||selected.length!==2||napBlocked||!!(myEffects.edoPermanent||myEffects.edoUntil>=game.round);$('pass').disabled=busy||!!pending||!myTurn||!game.drawn;
- if(pending)$('turn').textContent=pending.actor===uid?'相手のカウンター確認中':'カウンターの選択';
- if(awaiting&&pending.actor===uid){const seconds=Number.isFinite(pending.createdAt)?Math.max(0,Math.ceil((120000-(Date.now()-pending.createdAt))/1000)):null;$('stats').textContent='相手のカウンター回答待ち'+(seconds===null?'（旧形式の宣言は取消不可）':seconds>0?'／取消まであと'+seconds+'秒':'／応答なしなら宣言を取り消せます');}
+ drawControl.textContent=napBlocked?'お昼寝：通常ドローをスキップ':drawBlocked?'ドロー封じ中（スキップ）':'1枚引く';$('play').disabled=busy||!!pending||whaleWaiting||!myTurn||!game.drawn||selected.length!==1||(selected.length===1&&!canPlayOnline(mine.hand[selected[0]],mine.hand.length));$('discard').disabled=busy||!!pending||whaleWaiting||!myTurn||!game.drawn||selected.length!==2||napBlocked||!!(myEffects.edoPermanent||myEffects.edoUntil>=game.round);$('pass').disabled=busy||!!pending||whaleWaiting||!myTurn||!game.drawn;
+ if(pending&&!matchFinished)$('turn').textContent=pending.actor===uid?'相手のカウンター確認中':'カウンターの選択';
+ if(whaleWaiting&&!matchFinished)$('turn').textContent=whalePending.target===uid?'🐋 捨てるカードを選択してください':'🐋 相手の手札選択待ち';
+ if(awaiting&&!matchFinished&&pending.actor===uid){const seconds=Number.isFinite(pending.createdAt)?Math.max(0,Math.ceil((120000-(Date.now()-pending.createdAt))/1000)):null;$('stats').textContent='相手のカウンター回答待ち'+(seconds===null?'（旧形式の宣言は取消不可）':seconds>0?'／取消まであと'+seconds+'秒':'／応答なしなら宣言を取り消せます');}
  const playReason=!myTurn?'相手のターンです':!game.drawn?'ドロー処理を待っています':pending?'カウンター処理中です':selected.length!==1?'手札を1枚選択してください':!canPlayOnline(mine.hand[selected[0]],mine.hand.length)?'このカードは現在使用条件を満たしていません':'カードを使用できます';
  $('play').title=playReason;
  $('play').textContent=selected.length===1?'選択カードを使う：'+(kaiiOn?'ﾌﾞﾝﾁｮｳ':mine.hand[selected[0]]):'選択カードを使う';
  $('playHelp').textContent=needDraw?'自動ドロー中です。しばらくお待ちください。':playReason;
- $('hand').replaceChildren();mine.hand.forEach((name,i)=>{const b=document.createElement('button');const ci=ONLINE_CARDS.find(c=>c.name===name)?.id??-1;setCardTheme(b,ci);b.classList.remove('card-themed');b.classList.add('hand-themed');if(selected.includes(i))b.classList.add('selected-card');b.replaceChildren();const cardTitle=document.createElement('strong');cardTitle.className='online-hand-card-title';cardTitle.textContent=(kaiiOn?'ﾌﾞﾝﾁｮｳ':name);const description=document.createElement('small');description.className='online-hand-card-desc';description.textContent=ONLINE_CARDS.find(c=>c.name===name)?.desc||ONLINE_CARDS.find(c=>c.name===name)?.text||'';const marker=document.createElement('span');marker.className='online-hand-card-marker';marker.textContent=selected.includes(i)?'✓ 選択中':'タップで選択';b.append(cardTitle,description,marker);b.setAttribute('aria-pressed',String(selected.includes(i)));b.title=kaiiOn?'怪異発動中：元の効果は「'+name+'」のまま':name;b.onclick=()=>{if(game?.pendingCard)return;selected=selected.includes(i)?selected.filter(x=>x!==i):[...selected,i];render()};$('hand').append(b)});
+ $('hand').replaceChildren();mine.hand.forEach((name,i)=>{const b=document.createElement('button');const ci=ONLINE_CARDS.find(c=>c.name===name)?.id??-1;setCardTheme(b,ci);b.classList.remove('card-themed');b.classList.add('hand-themed');if(selected.includes(i))b.classList.add('selected-card');b.replaceChildren();const cardTitle=document.createElement('strong');cardTitle.className='online-hand-card-title';cardTitle.textContent=(kaiiOn?'ﾌﾞﾝﾁｮｳ':name);const description=document.createElement('small');description.className='online-hand-card-desc';description.textContent=ONLINE_CARDS.find(c=>c.name===name)?.desc||ONLINE_CARDS.find(c=>c.name===name)?.text||'';const marker=document.createElement('span');marker.className='online-hand-card-marker';marker.textContent=selected.includes(i)?'✓ 選択中':'タップで選択';b.append(cardTitle,description,marker);b.setAttribute('aria-pressed',String(selected.includes(i)));b.title=kaiiOn?'怪異発動中：元の効果は「'+name+'」のまま':name;b.onclick=()=>{if(game?.state!=='playing'||game?.pendingCard||game?.pendingWhale)return;selected=selected.includes(i)?selected.filter(x=>x!==i):[...selected,i];render()};$('hand').append(b)});
+ if(matchFinished){$('stats').textContent='対戦終了：'+(game.winner===uid?'勝利':'敗北')+' ／ '+(game.finishReason||'結果確定')+' ／ 盤面は閲覧専用です';$('playHelp').textContent='対戦は終了しました。ロビーに戻るか、盤面を確認してください。';}
  $('log').textContent=(game.log||[]).slice(-10).join('\n');
 }
 let previousLifeByRoom=null,fxTimer=null;
@@ -731,69 +989,6 @@ function updateBoard(){
 }
 
 
-// 第143段階：相手ターン中の虜を再判定し、連鎖中のライフ変化と初ダメージを整合させる。
-// Firestoreトランザクションで両プレイヤーの実際の手札・USEDを読み、
-// 同時操作による二重解除を防ぐ。兵士による確率防御がある場合は、
-// 既存のアクション処理に委ねて防御を無視しない。
-let torikoSyncBusy=false;
-let torikoSyncRetryAt=0;
-async function syncTorikoOutsideAction(){
- if(torikoSyncBusy||busy||!code||!uid||!side||!game||game.state!=='playing'||game.pendingCard||
-    !(game.hostEffects?.torikoActive||game.guestEffects?.torikoActive)||Date.now()<torikoSyncRetryAt)return;
- torikoSyncBusy=true;
- torikoSyncRetryAt=Date.now()+1600;
- try{
-  const battleRef=refGame();
-  const hostRef=doc(db,'testBattles',code,'players',game.host);
-  const guestRef=doc(db,'testBattles',code,'players',game.guest);
-  await runTransaction(db,async tx=>{
-   const [battleSnap,hostSnap,guestSnap]=await Promise.all([tx.get(battleRef),tx.get(hostRef),tx.get(guestRef)]);
-   if(!battleSnap.exists()||!hostSnap.exists()||!guestSnap.exists())return;
-   const b=battleSnap.data();
-   if(b.state!=='playing'||b.pendingCard||!(b.hostEffects?.torikoActive||b.guestEffects?.torikoActive))return;
-   // 手札の移動中は公開枚数と非公開枚数が一致しないため、次回まで待つ。
-   const players={host:hostSnap.data(),guest:guestSnap.data()};
-   if(['host','guest'].some(x=>!Array.isArray(players[x].hand)||!Array.isArray(players[x].used)||
-     b[x+'HandCount']!==players[x].hand.length))return;
-   const effects={host:{...(b.hostEffects||{})},guest:{...(b.guestEffects||{})}};
-   const lives={host:Number(b.hostLife),guest:Number(b.guestLife)};
-   const changes={};const log=[...(b.log||[])];const fx=[...(b.fxEvents||[])];
-   let dirty=false,finished=false,winner=null;
-   for(let pass=0;pass<8&&!finished;pass++){
-    let advanced=false;
-    for(const owner of ['host','guest']){
-     const eff=effects[owner];if(!eff.torikoActive||finished)continue;
-     const target=owner==='host'?'guest':'host';
-     const done=new Set(Array.isArray(eff.torikoDone)?eff.torikoDone:[]);
-     // 連鎖ダメージでライフが変わるため、各条件は解除直前に評価する。
-     // 特に「話の虜」は前の解除によって新たに成立することがある。
-     for(let i=0;i<4&&!finished;i++){
-      const qualifies=[players[owner].hand.length>=5,players[owner].used.length>=5,lives[owner]<=3,players[target].hand.length===0][i];
-      if(!qualifies||done.has(i+1))continue;
-      // 確率防御はこの同期処理で安全に再現できないため保留する。
-      if(Number(effects[target].soldier)>0)continue;
-      done.add(i+1);advanced=true;dirty=true;
-      const shield=Number(effects[target].shieldUntil||0)>=b.round;
-      const amount=shield?0:Math.min(Math.max(0,lives[target]),1); // 虜は元々1ダメージ。ダメージ上限も超えない
-      lives[target]-=amount;
-      if(amount>0&&!(changes[owner+'FirstDealt']??b[owner+'FirstDealt']))changes[owner+'FirstDealt']=true;
-      log.push('🎀 虜だｿﾞ～～：'+['声','姿','話','企画'][i]+'の虜を解除！ '+amount+'ダメージ');
-      fx.push({id:uid+':toriko:'+Date.now()+':'+owner+':'+i,type:'proc',actor:b[owner],title:'🎀 '+['声','姿','話','企画'][i]+'の虜',sub:'解除！ 相手に'+amount+'ダメージ'});
-      if(lives[target]<=0){finished=true;winner=b[owner]}
-     }
-     if([1,2,3,4].every(n=>done.has(n))){done.add(5);eff.torikoActive=false;advanced=true;dirty=true;log.push('🎀 虜だｿﾞ～～：全部の虜を解除！ リボン消滅')}
-     eff.torikoDone=[...done].sort((a,b)=>a-b);
-    }
-    if(!advanced)break;
-   }
-   if(!dirty)return;
-   tx.update(battleRef,{...changes,hostEffects:effects.host,guestEffects:effects.guest,
-     hostLife:lives.host,guestLife:lives.guest,...(finished?{state:'finished',winner}:{}),
-     log:log.slice(-30),fxEvents:fx.slice(-24)});
-  });
- }catch(e){console.warn('虜の自動判定を再試行します',e)}finally{torikoSyncBusy=false}
-}
-setInterval(()=>{if(!document.hidden)syncTorikoOutsideAction()},1800);
 // Firestoreの対戦状態が変わったときだけ演出を出す（再描画では繰り返さない）。
 let cinePrevious=null,cineTurnTimer=null,cineShownResult=null;
 function cineTurnEffect(isMine,round){
@@ -824,7 +1019,7 @@ function syncCinematic(){
  }
  if(!spectator&&game.state==='finished'&&game.winner&&cineShownResult!==key){
    cineShownResult=key;
-   const last=(game.log||[]).at(-1)||'対戦終了';
+   const last=game.finishReason||(game.log||[]).at(-1)||'対戦終了';
    cineResultEffect(game.winner===uid,(game.winner===uid?'勝利しました！ ':'敗北しました。 ')+last);
  }
  cinePrevious=current;
@@ -837,11 +1032,15 @@ let autoDrawRetryAfter=0;
 function scheduleAutoDraw(){
  clearTimeout(autoDrawTimer);
  if(!uid||!side||!game||!mine||game.state!=='playing'||
-    game.turn!==uid||game.drawn||game.pendingCard)return;
+    game.turn!==uid||game.drawn||game.pendingCard||game.pendingWhale||
+    (Array.isArray(game.pendingWhaleQueue)&&game.pendingWhaleQueue.length)||
+    !navigator.onLine||connectionError)return;
  const now=Date.now();
  autoDrawTimer=setTimeout(()=>{
    if(!busy&&game?.state==='playing'&&game.turn===uid&&!game.drawn&&
-      !game.pendingCard&&mine&&side){
+      !game.pendingCard&&!game.pendingWhale&&
+      !(Array.isArray(game.pendingWhaleQueue)&&game.pendingWhaleQueue.length)&&
+      navigator.onLine&&!connectionError&&mine&&side){
      autoDrawRetryAfter=Date.now()+1600;
      act('draw');
    }
@@ -867,10 +1066,40 @@ async function syncOwnPublicZones(){
   publicSyncKey=key;
  }catch(e){console.warn('公開カード情報の同期に失敗:',e)}finally{publicSyncBusy=false}
 }
-function watch(){pendingRecoverySeen='';pendingRecoveryReady=false;$('pendingRecovery').hidden=true;yakaPickerOpen=false;yakaSelected=[];peerPresenceInitialized=false;peerWasStale=false;clearTimeout(rejoinNoticeTimer);$('rejoinNotice').hidden=true;clearTimeout(autoDrawTimer);autoDrawRetryAfter=0;previousLifeByRoom=null;cinePrevious=null;cineShownResult=null;$('cineResult').classList.remove('visible');unsubs.forEach(fn=>fn());unsubs=[];publicSyncKey='';room=game=mine=null;selected=[];render();
- unsubs.push(onSnapshot(refRoom(),s=>{room=s.exists()?s.data():null;if(!room){$('status').textContent='ルームが見つかりません';return}side=spectator?null:room.host===uid?'host':room.guest===uid?'guest':null;$('status').textContent=`ルーム ${code} ／ ${spectator?'👁 観戦中':side==='host'?'ホスト':'ゲスト'}`;render();syncCinematic()},report));
- unsubs.push(onSnapshot(refGame(),s=>{game=s.exists()?s.data():null;render();if(!spectator){checkPeerReturn();sendPresence();syncCinematic();mbSyncCounterLog();scheduleAutoDraw();}mbSyncEvents();if(game){const events=(game.log||[]).filter(x=>x.startsWith('🗡️ 刺客の襲撃！'));if(!assassinLogReady){assassinSeen=new Set(events);assassinLogReady=true}else{for(const ev of events)if(!assassinSeen.has(ev)){showAssassinFx(ev.split(' | ')[0]);assassinSeen.add(ev)}}}},report));
- if(!spectator)unsubs.push(onSnapshot(refMine(),s=>{const nextMine=s.exists()?s.data():null;
+// オフライン中は対戦操作を禁止。通信復旧後はFirestoreの最新状態を再購読する。
+let connectionRetryTimer=null,connectionRetryCount=0,connectionError=false,watchGeneration=0;
+function updateConnectionAlert(){
+ const offline=!navigator.onLine;
+ const alert=$('connectionAlert');
+ alert.hidden=!offline&&!connectionError;
+ $('connectionAlertText').textContent=offline?'インターネット接続がありません。操作は停止しています。':
+  'Firestoreの購読が中断されました。再接続して最新の対戦状態を読み込みます。';
+ $('reconnectNow').disabled=offline;
+ // 対戦中の操作のみ停止し、再接続ボタンは使用可能にする。
+ const arena=document.querySelector('.arena');
+ if(arena){arena.style.pointerEvents=offline||connectionError?'none':'';arena.style.opacity=offline||connectionError?'.65':''}
+}
+function scheduleConnectionRetry(){
+ if(connectionRetryTimer||!code||!navigator.onLine)return;
+ const delay=Math.min(30000,1000*Math.pow(2,Math.min(connectionRetryCount++,5)));
+ connectionRetryTimer=setTimeout(()=>{connectionRetryTimer=null;if(code&&navigator.onLine)watch()},delay);
+}
+function subscriptionFailure(err,generation){
+ if(generation!==watchGeneration)return;
+ console.error('Firestoreの購読エラー',err);
+ connectionError=true;updateConnectionAlert();scheduleConnectionRetry();
+}
+$('reconnectNow').onclick=()=>{if(!navigator.onLine||!code)return;clearTimeout(connectionRetryTimer);connectionRetryTimer=null;watch()};
+window.addEventListener('offline',()=>{clearTimeout(connectionRetryTimer);connectionRetryTimer=null;updateConnectionAlert()});
+window.addEventListener('online',()=>{updateConnectionAlert();if(code)watch()});
+function watch(){
+ watchGeneration++;const generation=watchGeneration;
+ clearTimeout(connectionRetryTimer);connectionRetryTimer=null;
+ connectionError=false;updateConnectionAlert();
+ pendingRecoverySeen='';pendingRecoveryReady=false;$('pendingRecovery').hidden=true;yakaPickerOpen=false;yakaSelected=[];peerPresenceInitialized=false;peerWasStale=false;clearTimeout(rejoinNoticeTimer);$('rejoinNotice').hidden=true;clearTimeout(autoDrawTimer);autoDrawRetryAfter=0;previousLifeByRoom=null;cinePrevious=null;cineShownResult=null;$('cineResult').classList.remove('visible');unsubs.forEach(fn=>fn());unsubs=[];clearTimeout(integrityTimer);integrityIssues=[];integrityLastReported='';publicSyncKey='';room=game=mine=null;selected=[];render();
+ unsubs.push(onSnapshot(refRoom(),s=>{if(generation!==watchGeneration)return;connectionRetryCount=0;connectionError=false;updateConnectionAlert();room=s.exists()?s.data():null;if(!room){$('status').textContent='ルームが見つかりません';return}side=spectator?null:room.host===uid?'host':room.guest===uid?'guest':null;$('status').textContent=`ルーム ${code} ／ ${spectator?'👁 観戦中':side==='host'?'ホスト':'ゲスト'}`;render();syncCinematic()},e=>subscriptionFailure(e,generation)));
+ unsubs.push(onSnapshot(refGame(),s=>{if(generation!==watchGeneration)return;connectionRetryCount=0;connectionError=false;updateConnectionAlert();game=s.exists()?s.data():null;render();scheduleIntegrityCheck();if(!spectator){checkPeerReturn();sendPresence();syncCinematic();mbSyncCounterLog();scheduleAutoDraw();}mbSyncEvents();if(game){const events=(game.log||[]).filter(x=>x.startsWith('🗡️ 刺客の襲撃！'));if(!assassinLogReady){assassinSeen=new Set(events);assassinLogReady=true}else{for(const ev of events)if(!assassinSeen.has(ev)){showAssassinFx(ev.split(' | ')[0]);assassinSeen.add(ev)}}}},e=>subscriptionFailure(e,generation)));
+ if(!spectator)unsubs.push(onSnapshot(refMine(),s=>{if(generation!==watchGeneration)return;connectionRetryCount=0;connectionError=false;updateConnectionAlert();const nextMine=s.exists()?s.data():null;
 const oldSelectedNames=(mine?.hand||[]).filter((_,i)=>selected.includes(i));
 mine=nextMine;
 if(oldSelectedNames.length){
@@ -878,28 +1107,24 @@ if(oldSelectedNames.length){
  selected=[];
  for(const name of oldSelectedNames){const index=remaining.findIndex((n,i)=>n===name&&!selected.includes(i));if(index>=0)selected.push(index)}
 }
-render();scheduleAutoDraw();syncOwnPublicZones();mbSyncEvents()},report));
+render();scheduleAutoDraw();syncOwnPublicZones();scheduleIntegrityCheck();mbSyncEvents()},e=>subscriptionFailure(e,generation)));
 }
 onAuthStateChanged(auth,u=>{if(u){uid=u.uid;$('auth').textContent='匿名ログイン済み';$('enter').disabled=false;$('spectate').disabled=false;const requested=new URLSearchParams(location.search).get('room');if(requested&&/^\d{6}$/.test(requested)&&!code){$('code').value=requested;$('enter').click()}}else{$('auth').textContent='ログイン待機';$('enter').disabled=true}});
 signInAnonymously(auth).catch(report);
 $('enter').onclick=async()=>{try{const c=$('code').value.trim();if(!/^\d{6}$/.test(c))throw Error('6桁のルーム番号を入力してください');if(!uid)throw Error('ログイン完了までお待ちください');const r=await getDoc(doc(db,'rooms',c));if(!r.exists()||![r.data().host,r.data().guest].includes(uid))throw Error('この部屋に参加していません。先にロビーで参加してください');spectator=false;$('onlineDeckPanel').hidden=false;code=c;watch()}catch(e){report(e)}};
 $('spectate').onclick=async()=>{try{const c=$('code').value.trim();if(!/^\\d{6}$/.test(c))throw Error('6桁のルーム番号を入力してください');if(!uid)throw Error('ログイン完了までお待ちください');const r=await getDoc(doc(db,'rooms',c));if(!r.exists())throw Error('ルームが見つかりません');spectator=true;code=c;watch()}catch(e){report(e)}};
 $('start').onclick=async()=>{if(busy)return;busy=true;render();try{const r=await getDoc(refRoom());if(!r.exists())throw Error('ルームが見つかりません');const v=r.data();if(v.host!==uid||!v.guest||!v.hostReady||!v.guestReady)throw Error('ホストとゲスト両方の準備完了が必要です');
- await runTransaction(db,async tx=>{const s=await tx.get(refGame());if(s.exists())throw Error('この部屋には既に対戦があります。新しい部屋を作成してください');tx.set(refGame(),{host:v.host,guest:v.guest,turn:Math.random()<.5?v.host:v.guest,hostLife:7,guestLife:7,hostHandCount:0,guestHandCount:0,hostDeckCount:0,guestDeckCount:0,hostPublicUsed:[],guestPublicUsed:[],state:'setup',drawn:false,round:1,winner:null,log:['対戦準備中'],fxEvents:[]})});
+ const firstPlayer=Math.random()<.5?v.host:v.guest;
+ await runTransaction(db,async tx=>{const s=await tx.get(refGame());if(s.exists())throw Error('この部屋には既に対戦があります。新しい部屋を作成してください');tx.set(refGame(),{host:v.host,guest:v.guest,turn:firstPlayer,hostLife:7,guestLife:7,hostHandCount:0,guestHandCount:0,hostDeckCount:0,guestDeckCount:0,hostPublicUsed:[],guestPublicUsed:[],state:'setup',drawn:false,round:1,winner:null,log:['対戦準備中'],fxEvents:[]})});
 }catch(e){report(e)}finally{busy=false;render()}};
-async function initialize(){if(!game||!side||game.state!=='setup')return;const p=refMine(),s=await getDoc(p);if(!s.exists()){
- const d=deck(),h=d.splice(0,2);let toriko=false;
- let index=h.indexOf('虜だｿﾞ～～');if(index>=0){h.splice(index,1);toriko=true}else{index=d.indexOf('虜だｿﾞ～～');if(index>=0){d.splice(index,1);toriko=true}}
- // 自動設置カードはデッキから取り除く。盤面は公開の継続効果で表示する。
- await setDoc(p,{owner:uid,hand:h,deck:d,used:[],torikoInstalled:toriko});
- }await syncOwnPublicZones();}
+async function initialize(){if(!game||!side||game.state!=='setup')return;const p=refMine(),s=await getDoc(p);if(!s.exists()){const d=deck(),h=d.splice(0,2);await setDoc(p,{owner:uid,hand:h,deck:d,used:[]});}await syncOwnPublicZones();}
 setInterval(async()=>{if(!code||!game||!side||initializing||game.state!=='setup')return;initializing=true;try{await initialize();if(side==='host'){
  const refs=[doc(db,'testBattles',code,'players',game.host),doc(db,'testBattles',code,'players',game.guest)];
  const [hs,gs]=await Promise.all(refs.map(ref=>getDoc(ref)));
  if(hs.exists()&&gs.exists()&&Array.isArray(hs.data().hand)&&Array.isArray(gs.data().hand)){
   await runTransaction(db,async tx=>{
    const ref=refGame(),snap=await tx.get(ref);
-   if(snap.exists()&&snap.data().state==='setup')tx.update(ref,{state:'playing',drawn:true,hostHandCount:hs.data().hand.length,guestHandCount:gs.data().hand.length,hostEffects:hs.data().torikoInstalled?{torikoDone:[],torikoActive:true}: {},guestEffects:gs.data().torikoInstalled?{torikoDone:[],torikoActive:true}:{},log:['対戦開始！先攻の最初のターンはドローなし（以後の通常ドローは自動）']});
+   if(snap.exists()&&snap.data().state==='setup')tx.update(ref,{state:'playing',drawn:true,hostHandCount:hs.data().hand.length,guestHandCount:gs.data().hand.length,log:['対戦開始！先攻の最初のターンはドローなし（以後の通常ドローは自動）']});
   });
  }
 }}catch(e){report(e)}finally{initializing=false}},1400);
@@ -916,7 +1141,7 @@ async function answerCounter(use){
    if(use){
     const at=m.hand.indexOf('企画破壊');
     if(at<0||!availableCounters(m.hand,v[side+'Life'],v.hostEffects,v.guestEffects).plan)throw Error('企画破壊を使用できません（手札またはHPを確認）');
-    {moveHandToUsedInTransaction(m,at)}
+    {const rec=(m.externalInstances||[]).find(r=>r.zone==='hand'&&r.index===at);const [name]=m.hand.splice(at,1);(m.externalInstances||[]).forEach(r=>{if(r.zone==='hand'&&r.index>at)r.index--});m.used.push(name);if(rec){rec.zone='used';rec.index=m.used.length-1}}
     tx.set(own,m);
     tx.update(battle,{[side+'Life']:v[side+'Life']-2,[side+'HandCount']:m.hand.length,
       pendingCard:{...p,status:'countered'},
@@ -958,7 +1183,7 @@ $('yakaConfirm').onclick=async()=>{
    if(v.hostEffects?.kaii||v.guestEffects?.kaii)throw Error('怪異発動中は指定カード名を満たしません');
    const counterAt=m.hand.indexOf('やかましいわ');
    if(counterAt<0||ids.some(i=>!Number.isInteger(i)||i<0||i>=m.hand.length||!YAKA_COST_NAMES.has(m.hand[i])||m.hand[i]==='やかましいわ')||ids.includes(counterAt))throw Error('選択したカードが変更されました');
-   const costs=[counterAt,...ids].sort((a,b)=>b-a);for(const i of costs){moveHandToUsedInTransaction(m,i);}
+   const costs=[counterAt,...ids].sort((a,b)=>b-a);for(const i of costs){const rec=(m.externalInstances||[]).find(r=>r.zone==='hand'&&r.index===i);const [name]=m.hand.splice(i,1);(m.externalInstances||[]).forEach(r=>{if(r.zone==='hand'&&r.index>i)r.index--});m.used.push(name);if(rec){rec.zone='used';rec.index=m.used.length-1}}
    tx.set(own,m);
    tx.update(battle,{[side+'HandCount']:m.hand.length,pendingCard:{...q,status:'countered'},
     log:[...(v.log||[]),'⚡ やかましいわ！ 指定カード2枚と合わせて3枚をUSEDに送り「'+q.card+'」を無効化'].slice(-30),
@@ -987,9 +1212,12 @@ $('counterCancel').onclick=async()=>{
 };
 $('counterResolve').onclick=()=>act('resolve');
 async function act(kind){
- if(busy)return;busy=true;render();
+ recordDiagnostic('操作開始',({play:'カード使用',discard:'USED攻撃',pass:'パス',resolve:'効果確定'})[kind]||'操作');
+ if(busy||!navigator.onLine||connectionError)return;busy=true;render();
  try{
-  if(!game||!mine||game.turn!==uid||game.state!=='playing')return;
+  if(!game||!mine||game.pendingWhale||
+     (Array.isArray(game.pendingWhaleQueue)&&game.pendingWhaleQueue.length)||
+     game.turn!==uid||game.state!=='playing')return;
   const pending=game.pendingCard||null;
   if(pending&&kind!=='resolve')return;
   if(kind==='resolve'&&(!pending||pending.actor!==uid||pending.status==='waiting'))return;
@@ -1003,7 +1231,7 @@ async function act(kind){
    await runTransaction(db,async tx=>{
     const snap=await tx.get(refGame()),os=await tx.get(otherRef);
     if(!snap.exists()||!os.exists())throw Error('対戦データがありません');
-    const v=snap.data();if(v.pendingCard||v.turn!==uid||v.round!==game.round||!v.drawn)throw Error('対戦状態が更新されました');
+    const v=snap.data();if(v.pendingCard||v.pendingWhale||(v.pendingWhaleQueue||[]).length||v.turn!==uid||v.round!==game.round||!v.drawn)throw Error('対戦状態が更新されました');
     const other=side==='host'?'guest':'host';
     const options=availableCounters(os.data().hand,v[other+'Life'],v.hostEffects,v.guestEffects);
     canCounter=options.plan||options.yaka;
@@ -1018,10 +1246,10 @@ async function act(kind){
     const gs=await tx.get(refGame()),ps=await tx.get(refMine());
     if(!gs.exists()||!ps.exists())throw Error('対戦データがありません');
     const v=gs.data(),m=ps.data(),p=v.pendingCard;
-    if(!p||p.id!==pending.id||p.status!=='countered'||v.turn!==uid)throw Error('状態が更新されました');
+    if(!p||p.id!==pending.id||p.status!=='countered'||v.turn!==uid||v.round!==game.round||v.pendingWhale||(v.pendingWhaleQueue||[]).length)throw Error('状態が更新されました');
     const at=m.hand[p.index]===p.card?p.index:m.hand.indexOf(p.card);
     if(at<0)throw Error('発動カードが手札に見つかりません');
-    {moveHandToUsedInTransaction(m,at)}
+    {const rec=(m.externalInstances||[]).find(r=>r.zone==='hand'&&r.index===at);const [name]=m.hand.splice(at,1);(m.externalInstances||[]).forEach(r=>{if(r.zone==='hand'&&r.index>at)r.index--});m.used.push(name);if(rec){rec.zone='used';rec.index=m.used.length-1}}
     const other=side==='host'?'guest':'host';
     // 無効化されたカードは効果を発揮しない。ただしターンは終了し、
     // 次のターンで失効する一時効果は公開状態から取り除く。
@@ -1048,6 +1276,26 @@ async function act(kind){
   const m=structuredClone(mine),patch={},logs=[...(game.log||[])],fxEvents=[...(game.fxEvents||[])];const fxId=()=>uid+":"+Date.now()+":"+Math.random().toString(36).slice(2);
   const ownEffects={...(game[side+'Effects']||{})},enemyEffects={...(game[opponent+'Effects']||{})};
   let ownEffectsDirty=false,enemyEffectsDirty=false,extraTurn=false;
+  // 異世界放浪録：一度でも付与された継続効果の種類を履歴として保持する。
+  // 効果の回数・期限・内部管理フラグは種類として数えない。
+  const CONTINUOUS_EFFECT_TYPES=new Set([
+    'funfun','love','pikainu','chanceBonus','mochiProtectUntil',
+    'shieldUntil','blockUntil','edoUntil','napSkip','napDelay',
+    'kaii','tomato','microphone','fairyPending','starPending',
+    'idol','idolHeal','tide','protection','whaleProtection','ahahaWardUntil','ahahaPermanent'
+  ]);
+  const recordEffectHistory=(who,effects)=>{
+    const field=who+'EffectHistory';
+    const previous=Array.isArray(game[field])?game[field]:[];
+    const current=Object.keys(effects).filter(k=>CONTINUOUS_EFFECT_TYPES.has(k)&&Boolean(effects[k]));
+    const updated=[...new Set([...previous,...current])].sort();
+    if(updated.length!==previous.length)patch[field]=updated;
+    return updated;
+  };
+  // 過去の対戦データにも対応するため、現時点で有効な効果を履歴へ補完。
+  recordEffectHistory(side,ownEffects);
+  recordEffectHistory(opponent,enemyEffects);
+
   // 期限切れをFirestoreからも除去し、過去の状態が残り続けないようにする。
   for(const [effects,mark] of [[ownEffects,()=>{ownEffectsDirty=true}],[enemyEffects,()=>{enemyEffectsDirty=true}]]){
     for(const key of ['blockUntil','edoUntil','shieldUntil','mochiProtectUntil']){
@@ -1055,9 +1303,7 @@ async function act(kind){
     }
   }
   // 第50段階：特殊ダメージも同じ防御・上限・HP判定を通す。
-  let counterChainDepth=0;
-  const MAX_COUNTER_CHAIN_DEPTH=12;
-  const applyDamage=(target,amount,{ignoreShield=false,ignoreCap=false,source='効果',attackerSide=undefined}={})=>{
+  const applyDamage=(target,amount,{ignoreShield=false,ignoreCap=false,source='効果'}={})=>{
     if(patch.state==='finished'||!Number.isFinite(amount)||amount<=0)return 0;
     const effects=target===side?ownEffects:enemyEffects;
     const raw=Math.max(0,Math.floor(amount));
@@ -1074,17 +1320,10 @@ async function act(kind){
           defended--;logs.push('全力守護ソルジャー：1ダメージ軽減');
           if(Math.random()*100<Math.min(100,10+bonus)){
             const attacker=target===side?opponent:side;
-             // カウンターも通常の防御・ダメージ上限・勝敗判定を通す。相互反撃の無限再帰は制限する。
-            if(counterChainDepth<MAX_COUNTER_CHAIN_DEPTH){
-               counterChainDepth++;
-               try{
-                 const counterDealt=applyDamage(attacker,1,{source:'全力守護ソルジャー：カウンター',attackerSide:target});
-                logs.push('全力守護ソルジャー：カウンター'+counterDealt+'ダメージ');
-               }finally{counterChainDepth--}
-             }else{
-              logs.push('全力守護ソルジャー：連鎖上限に達したためカウンターを中断');
-             }
-            if(patch.state==='finished')return 0;
+            const attackerKey=attacker+'Life';
+            patch[attackerKey]=Math.max(0,(patch[attackerKey]??game[attackerKey])-1);
+            logs.push('全力守護ソルジャー：カウンター1ダメージ');
+            if(patch[attackerKey]===0){patch.state='finished';patch.winner=target===side?uid:opponentUid}
             if(Math.random()*100<Math.min(100,5+bonus)){effects.soldier=Math.max(0,Number(effects.soldier)-1);if(target===side)ownEffectsDirty=true;else enemyEffectsDirty=true;logs.push('全力守護ソルジャー：付与解除')}
           }
         }
@@ -1093,31 +1332,19 @@ async function act(kind){
     const dealt=!ignoreCap&&effects.damageCap?Math.min(1,defended):defended;
     const key=target+'Life',before=Math.max(0,Number(patch[key]??game[key])||0);
     patch[key]=Math.max(0,before-dealt);
-    const actual=Math.min(before,dealt);
-    // 第139段階：反撃やドロー誘発も含め、実際にダメージを与えた側の初回記録を統一する。
-    // 同一アクション内の二度目のダメージも初回扱いしないよう patch を参照する。
-    if(actual>0){
-      const attacker=attackerSide===undefined?(target===side?opponent:side):attackerSide;
-      const firstKey=attacker&&attacker+'FirstDealt';
-      if(firstKey&&!(patch[firstKey]??game[firstKey])){
-        patch[firstKey]=true;
-        logs.push('初ダメージ記録：'+(attacker==='host'?'ホスト':'ゲスト')+'（'+source+'）');
-      }
-    }
     if(before>0&&patch[key]===0){patch.state='finished';patch.winner=game[target===side?opponent:side]}
-    return actual;
+    return Math.min(before,dealt);
   };
   // 刺客は手札への追加イベント単位で処理する。手札の差分では見逃し・二重計上が生じる。
   const assassinOnDraw=(target,drawn,source)=>{
-    // 決着後はドロー誘発ダメージを再実行しない（勝者の上書きを防止）。
-    if(patch.state==='finished'||drawn!=='刺客'||isKaiiActive(ownEffects,enemyEffects))return;
-    const dealt=applyDamage(target,1,{source:'刺客',attackerSide:null});
+    if(drawn!=='刺客'||isKaiiActive(ownEffects,enemyEffects))return;
+    const dealt=applyDamage(target,1,{source:'刺客'});
     if(dealt){logs.push('🗡️ 刺客の襲撃！ '+(target==='host'?'ホスト':'ゲスト')+'が刺されて'+dealt+'ダメージ！ | '+Date.now()+'-'+Math.random());
       fxEvents.push({id:fxId(),type:'proc',actor:game[target],title:'刺客の襲撃！',sub:source+'：'+dealt+'ダメージ'});}
   };
   // ゲーム外から生成したカードは名前別に枚数を記録する。
   m.externalCards=m.externalCards||[];
-  let damage=0;let selfDamageEvents=0;let idolHealingRequested=0;
+  let damage=0;let selfDamageFromCard=false;let idolHealingRequested=0;
   // ゲーム外カードの生成履歴は所有者ごとに永続保存する。各カードに個別IDを付け、
   // 生成時のゾーン・位置を記録する。従来の名前だけの追跡情報も移行時に利用する。
   const externalRecord=(target,name,zone,index)=>{
@@ -1128,26 +1355,14 @@ async function act(kind){
   };
   // シャッフルはカード名だけでなく生成IDを同じ順序で移動する。
   const shuffleExternalDeck=(target)=>{
-    const slots=target.deck.map((name,i)=>({name,record:(target.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===i&&r.name===name)||null}));
-    // カード名と位置が一致した生成記録のみを移動させる。
-    // 不一致の旧記録はそのまま残し、後続の整合性検査で検出する。
+    const slots=target.deck.map((name,i)=>({name,record:(target.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===i)||null}));
     const mixed=shuffle(slots);
     target.deck=mixed.map(slot=>slot.name);
     mixed.forEach((slot,i)=>{if(slot.record){slot.record.zone='deck';slot.record.index=i}});
   };
   // 明示的なゾーン移動では生成IDをそのカードと一緒に移す。
   const transferExternal=(target,from,index,to,toIndex)=>{
-    if(!['hand','deck','used'].includes(from)||!['hand','deck','used'].includes(to))return null;
-    if(!Number.isInteger(index)||index<0||index>=target[from].length)return null;
-    // Reordering within the same zone must not splice and reinsert while treating
-    // the record as an ordinary cross-zone transfer: capture its identity first.
-    if(from===to){
-      const record=(target.externalInstances||[]).find(r=>r.zone===from&&r.index===index&&r.name===target[from][index])||null;
-      const name=removeTracked(target,from,index);
-      const at=toIndex===undefined?target[to].length:Math.max(0,Math.min(toIndex,target[to].length));
-      insertTracked(target,to,at,name,record);
-      return name;
-    }
+    if(index<0||index>=target[from].length)return null;
     const rec=(target.externalInstances||[]).find(r=>r.zone===from&&r.index===index&&r.name===target[from][index]);
     const [name]=target[from].splice(index,1);
     (target.externalInstances||[]).forEach(r=>{if(r.zone===from&&r.index>index)r.index--});
@@ -1157,58 +1372,8 @@ async function act(kind){
     if(rec){rec.zone=to;rec.index=insert}
     return name;
   };
-  const checkExternalTracking=(target)=>{
-    const issues=[],seen=new Set();
-    for(const rec of target.externalInstances||[]){
-      if(!rec||!rec.id){issues.push('IDがない生成カード記録');continue}
-      if(seen.has(rec.id))issues.push('個体ID重複: '+rec.id);
-      seen.add(rec.id);
-      if(rec.zone==='removed')continue;
-      if(!['hand','deck','used'].includes(rec.zone)||!Number.isInteger(rec.index)||target[rec.zone]?.[rec.index]!==rec.name){
-        issues.push('位置不整合: '+rec.id+' ('+rec.name+')');
-      }
-    }
-    return issues;
-  };
   const addExternal=(target,name)=>{target.hand.push(name);externalRecord(target,name,'hand',target.hand.length-1)};
   const addExternalUsed=(target,name)=>{target.used.push(name);externalRecord(target,name,'used',target.used.length-1)};
-  // うんコンボ：USEDの実カードは個体IDごと山札へ移す。
-  // 効果によって増えた刺客は別個体として新規生成し、元の刺客のIDを複製しない。
-  const resolveComboTracked=(target)=>{
-    const assassins=target.used.filter(name=>name==='刺客').length;
-    for(let i=0;i<assassins;i++){
-      target.deck.push('刺客');
-      externalRecord(target,'刺客','deck',target.deck.length-1);
-    }
-    while(target.used.length)transferExternal(target,'used',0,'deck');
-    shuffleExternalDeck(target);
-    return assassins;
-  };
-  // USEDを山札の底に移して、戻したカードだけを個体ID付きで混ぜる。
-  const returnUsedToDeckBottomTracked=(target)=>{
-    const count=target.used.length;
-    if(!count)return 0;
-    for(let j=0;j<count;j++)transferExternal(target,'used',0,'deck',0);
-    const slots=target.deck.slice(0,count).map((name,i)=>({
-      name,record:(target.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===i&&r.name===name)||null
-    }));
-    const mixed=shuffle(slots);
-    for(let i=0;i<count;i++)target.deck[i]=mixed[i].name;
-    mixed.forEach((slot,i)=>{if(slot.record){slot.record.zone='deck';slot.record.index=i}});
-    return count;
-  };
-  // プレイヤー間の移動でも生成カードのIDを発行し直さず引き継ぐ。
-  const transferBetweenPlayersTracked=(source,destination,from,index,to)=>{
-    if(!['hand','deck','used'].includes(from)||!['hand','deck','used'].includes(to)||index<0||index>=source[from].length)return null;
-    const name=source[from][index];
-    const rec=(source.externalInstances||[]).find(r=>r.zone===from&&r.index===index&&r.name===name)||null;
-    removeTracked(source,from,index);
-    if(rec){source.externalInstances=source.externalInstances.filter(r=>r!==rec);source.externalCards=source.externalCards||[];const old=source.externalCards.indexOf(name);if(old>=0)source.externalCards.splice(old,1)}
-    destination.externalInstances=destination.externalInstances||[];
-    insertTracked(destination,to,destination[to].length,name,rec);
-    if(rec){destination.externalInstances.push(rec);destination.externalCards=destination.externalCards||[];destination.externalCards.push(name)}
-    return name;
-  };
   const drawTracked=(target)=>transferExternal(target,'deck',target.deck.length-1,'hand');
   const moveRange=(target,from,start,count,to,toIndex)=>{
     if(!['hand','deck','used'].includes(from)||!['hand','deck','used'].includes(to))return [];
@@ -1232,7 +1397,7 @@ async function act(kind){
     return moved;
   };
   const shuffleZone=(target,zone)=>{
-    const slots=target[zone].map((name,i)=>({name,record:(target.externalInstances||[]).find(r=>r.zone===zone&&r.index===i&&r.name===name)||null}));
+    const slots=target[zone].map((name,i)=>({name,record:(target.externalInstances||[]).find(r=>r.zone===zone&&r.index===i)}));
     const shuffled=shuffle(slots);target[zone]=shuffled.map(x=>x.name);
     shuffled.forEach((x,i)=>{if(x.record){x.record.zone=zone;x.record.index=i}});
   };
@@ -1255,7 +1420,6 @@ async function act(kind){
   // 移動した場合は各ゾーンから同名の未割当カードを探索する。
   // 既存の名前のみの記録は旧版との互換性のため最後に処理する。
   const removeExternal=(target)=>{
-    for(const issue of checkExternalTracking(target))logs.push('個体追跡検査：'+issue);
     const zones=['hand','deck','used'];
     const taken=Object.fromEntries(zones.map(z=>[z,new Set()]));
     const unresolved=[];
@@ -1289,58 +1453,16 @@ async function act(kind){
   // 効果コピー用の共通処理。複雑なカードは安全のため未実装扱いにせず、ログに明示する。
   // コピー効果は元のカードを消費せずに実行。対象外の効果は明示して誤発動を防ぐ。
   const copyEffect=async(name)=>{
-    if(patch.state==='finished')return false;
     const info=ONLINE_CARDS.find(c=>c.name===name);if(!info)return false;
     const k=info.kind;
-    const drawCopied=(n)=>{for(let i=0;i<n;i++){if(patch.state==='finished')return;if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('コピー効果：ドロー禁止のためドローを中止');return}if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('コピー効果：山札切れで敗北');return}const c=drawTracked(m);assassinOnDraw(side,c,'コピー効果');if(patch.state==='finished')return}};
+    const drawCopied=(n)=>{for(let i=0;i<n;i++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;return}const c=drawTracked(m);assassinOnDraw(side,c,'コピー効果')}};
     const healCopied=(n)=>{patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+n)};
-    if(k==='buncho'){
-      damage++;
-      // コピー元は既に移動済みでも、手札のチェイン対象は個体IDを保持してUSEDへ送る。
-      const renamed=!!(ownEffects.kaii||enemyEffects.kaii);
-      const candidates=m.hand.map((card,index)=>({card,index})).filter(x=>effectiveName(x.card,renamed?{kaii:true}:{})==='ﾌﾞﾝﾁｮｳｱﾀｯｸ');
-      if(candidates.length&&confirm('コピーしたﾌﾞﾝﾁｮｳｱﾀｯｸ：手札の「ﾌﾞﾝﾁｮｳ」を1枚USEDへ送り、追加1ダメージを与えますか？')){
-        const choice=candidates.length===1?0:Number(prompt('追加でUSEDへ送るカードを選択\n'+candidates.map((x,i)=>(i+1)+'：'+x.card).join('\n'),'1'))-1;
-        if(Number.isInteger(choice)&&choice>=0&&choice<candidates.length){
-          const moved=moveOwnHandToUsed(candidates[choice].index);
-          if(moved!==null){
-            if(patch.state!=='finished')damage++;
-            logs.push('コピー効果：ﾌﾞﾝﾁｮｳチェインで「'+moved+'」をUSEDへ移動（個体ID追跡）');
-          }
-        }else logs.push('コピー効果：ﾌﾞﾝﾁｮｳチェインの選択を取り消しました');
-      }
-      return true;
-    }
-    if(['hit','mochi','otomo','hamster'].includes(k)){damage++;if(k==='mochi'){ownEffects.mochiProtectUntil=game.round+1;ownEffectsDirty=true}if(k==='hamster'){ownEffects.hamster=(ownEffects.hamster||0)+1;ownEffectsDirty=true}return true}
+    if(['hit','buncho','mochi','otomo','hamster'].includes(k)){damage++;if(k==='mochi'){ownEffects.mochiProtectUntil=game.round+1;ownEffectsDirty=true}if(k==='hamster'){ownEffects.hamster=(ownEffects.hamster||0)+1;ownEffectsDirty=true}return true}
     if(['draw','draw1'].includes(k)||['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ'].includes(name)){drawCopied(1);return true}
-    if(k==='deco'){const hit=onlineWeightedPick([30,40,17,10,3]);damage+=hit;logs.push('コピー効果：デコバットの一撃 '+hit+'ダメージ');return true}
-    if(k==='hurricane'){drawCopied(onlineWeightedPick([15,42,22,14,7]));return true}
     if(k==='chitose'){if(m.hand.length>=4)drawCopied(2);return true}
-    if(k==='northstar'){drawCopied(2);if(patch.state==='finished')return true;if(m.hand.length<=2)moveAllOwnHandToUsed();return true}
-    if(k==='snake'){if(m.deck.length)transferExternal(m,'deck',m.deck.length-1,'used');if(m.used.filter(x=>x!==name).length<=3){ownEffects.shieldUntil=game.round+1;ownEffectsDirty=true}return true}
-    if(k==='fairy'){enemyEffects.usedLocked=true;enemyEffectsDirty=true;ownEffects.fairyPending=true;ownEffectsDirty=true;return true}
-    if(k==='spring'){
-      const q=await getOpponentPrivate();
-      // 非同期で相手領域を取得している間に決着していた場合は、以降の移動を行わない。
-      if(patch.state==='finished')return true;
-      const level=q.used.length>=7?3:q.used.length>=5?2:q.used.length>=3?1:0;
-      damage+=level;drawCopied(level);
-      if(patch.state==='finished')return true;
-      if(enemyEffects.usedLocked){logs.push('コピー効果：相手USED固定により春風と木音の移動を阻止');return true}
-      returnUsedToDeckBottomTracked(q);
-      logs.push('コピー効果：春風と木音 '+level+'ダメージ／'+level+'枚ドロー、相手USEDを山札の底へ');return true;
-    }
-
-    if(k==='combo'){
-      const q=await getOpponentPrivate();
-      if(patch.state==='finished')return true;
-      if(enemyEffects.usedLocked){logs.push('コピー効果：相手USED固定により、うんコンボの移動を阻止');return true}
-      const count=resolveComboTracked(q);
-      logs.push('コピー効果：うんコンボで刺客'+count+'枚を生成し、相手USEDを山札へ戻した');
-      return true;
-    }
+    if(k==='northstar'){drawCopied(2);if(m.hand.length<=3)moveAllOwnHandToUsed();return true}
     if(k==='heal'){healCopied(1);return true}
-    if(k==='shino'){healCopied(1);if(m.deck.length){transferExternal(m,'deck',m.deck.length-1,'used');logs.push('コピー効果：しのみーらいぶで山札上1枚をUSEDへ（個体ID維持）')}else{logs.push('コピー効果：しのみーらいぶで移動する山札がない')}return true}
+    if(k==='shino'){healCopied(1);if(m.deck.length)transferExternal(m,'deck',m.deck.length-1,'used');if(!m.deck.length){patch.state='finished';patch.winner=opponentUid}return true}
     if(k==='funfun'){ownEffects.funfun=(ownEffects.funfun||0)+1;ownEffectsDirty=true;return true}
     if(k==='love'){ownEffects.love=(ownEffects.love||0)+1;ownEffectsDirty=true;return true}
     if(k==='pikainu'){ownEffects.pikainu=(ownEffects.pikainu||0)+1;ownEffectsDirty=true;return true}
@@ -1352,30 +1474,11 @@ async function act(kind){
     if(k==='microphone'){ownEffects.microphone=true;ownEffectsDirty=true;return true}
     if(k==='steam'){enemyEffects.shieldUntil=0;enemyEffects.invulnerable=false;enemyEffectsDirty=true;damage++;return true}
     if(k==='soldier'){ownEffects.soldier=(ownEffects.soldier||0)+1;ownEffectsDirty=true;return true}
-    if(k==='speed'){
-      if(patch.state==='finished')return true;
-      ownEffects.speed=(ownEffects.speed||0)+1;ownEffectsDirty=true;
-      drawCopied(ownEffects.speed);
-      if(patch.state==='finished')logs.push('コピー効果：60キロの爆速の追加ドローを決着により終了');
-      return true;
-    }
+    if(k==='speed'){ownEffects.speed=(ownEffects.speed||0)+1;ownEffectsDirty=true;drawCopied(ownEffects.speed);return true}
     if(k==='idol'){const n=['funfun','love','pikainu','soldier','speed','hamster','microphone'].filter(t=>Number(ownEffects[t])>0||ownEffects[t]===true).length;damage+=n;if(n>=3)idolHealingRequested+=n;return true}
     if(k==='block'){enemyEffects.blockUntil=game.round+1;enemyEffectsDirty=true;return true}
     if(k==='edo'){enemyEffects.edoUntil=game.round+1;enemyEffectsDirty=true;return true}
-    if(k==='punch'){
-      // 正論パンチ：自分に1ダメージ、相手に2ダメージ。コピーでも通常使用と同じ自傷処理を通す。
-      const copiedSelfDamage=applyDamage(side,1,{ignoreShield:true,ignoreCap:true,source:'正論パンチ（コピー）',attackerSide:null});
-      if(copiedSelfDamage>0)selfDamageEvents++;
-      if((patch[side+'Life']??game[side+'Life'])<=0){patch.state='finished';patch.winner=opponentUid;logs.push('コピー効果：正論パンチの自傷ダメージで敗北');return true}
-      damage+=2;
-      return true;
-    }
-    if(k==='special5'){
-      // 究極拳巫女パンチ：使用条件を満たす手札7枚以上のときだけ5ダメージ。
-      if(m.hand.length>=7){damage+=5;logs.push('コピー効果：究極拳巫女パンチ 5ダメージ')}
-      else logs.push('コピー効果：究極拳巫女パンチの手札7枚条件を満たさない');
-      return true;
-    }
+    if(k==='punch'){if(m.hand.length>=7)damage+=5;return true}
     if(k==='special3'){if(m.hand.length===0)damage+=3;return true}
     if(k==='fe'||k==='oru'||k==='assassin'||k==='tidal')return false;
     if(k==='blank')return true;
@@ -1387,11 +1490,8 @@ async function act(kind){
   // 手札→USEDを共通化。使用・通常2枚攻撃・効果による移動を同じ累計に反映する。
   const moveOwnHandToUsed=(index)=>{
     if(!m.hand.length)return null;
-    // 不正な選択番号を0番や末尾に丸めない。カード個体の取り違えを防ぐ。
-    if(!Number.isInteger(index)||index<0||index>=m.hand.length){logs.push('個体追跡：手札移動の不正な位置 '+String(index));return null}
-    const moved=transferExternal(m,'hand',index,'used');
-    if(moved!==null)recordHandToUsed();
-    return moved;
+    const at=Math.max(0,Math.min(m.hand.length-1,index));
+    const moved=transferExternal(m,'hand',at,'used');recordHandToUsed();return moved;
   };
   const moveAllOwnHandToUsed=()=>{while(m.hand.length)moveOwnHandToUsed(m.hand.length-1)};
   const ownHandStart=[...m.hand];
@@ -1400,8 +1500,6 @@ async function act(kind){
   const getOpponentPrivate=async()=>{if(!opponentPrivate){const snap=await getDoc(doc(db,'testBattles',code,'players',opponentUid));if(!snap.exists())throw Error('相手のカード情報を取得できません');opponentPrivateBefore=structuredClone(snap.data());opponentPrivate=structuredClone(opponentPrivateBefore);opponentUsedStart=opponentPrivate.used.length;opponentHandStart=[...opponentPrivate.hand]}return opponentPrivate};
   // 特殊効果は所有者ごと・種類ごとにドローとダメージ各1回まで。
   const specialUse=async(kind,ownerIsOpponent)=>{
-    // 同じカード追加イベントから複数の特殊効果が連鎖しても、決着後は停止する。
-    if(patch.state==='finished')return;
     const ownerSide=ownerIsOpponent?opponent:side,ownerUid=ownerIsOpponent?opponentUid:uid;
     const effects=ownerIsOpponent?enemyEffects:ownEffects;
     const usedKey=kind==='fe'?'feOnce':'oruOnce';
@@ -1429,8 +1527,8 @@ async function act(kind){
   const moveHandByOpponentEffect=async(targetIsOpponent,index,destination='used')=>{
     const target=targetIsOpponent?await getOpponentPrivate():m;
     if(!target.hand.length)return null;
-    if(!Number.isInteger(index)||index<0||index>=target.hand.length){logs.push('個体追跡：相手効果による手札移動の不正な位置 '+String(index));return null}
-    const moved=destination==='used'?transferExternal(target,'hand',index,'used'):removeTracked(target,'hand',index);
+    const safeIndex=Math.max(0,Math.min(target.hand.length-1,index));
+    const moved=destination==='used'?transferExternal(target,'hand',safeIndex,'used'):removeTracked(target,'hand',safeIndex);
     if(destination==='used'&&!targetIsOpponent)recordHandToUsed();
     // 相手の効果で手札を離れたカードそのものを、移動確定イベントとして両端末に通知。
     // actor はカードの持ち主なので、持ち主側では下、相手側では上に表示する。
@@ -1452,11 +1550,97 @@ async function act(kind){
     if(moved==='オル虐')await oruProc(targetIsOpponent);
     return moved;
   };
+  // 第3段階：同一アクション内で確定するドラゴン連打。
+  // D連打⑧→⑥→①など、参照元より小さい番号を持つ山札トップのみ使用。
+  // 未実装のD連打カードに遭遇した場合はカードを消費せず、ログに残して停止する。
+  const dragonImplemented=new Set(['ドラゴン•エール','袴袴袴袴袴褌袴袴','嬌言竜声','ホエール•スクリーム','冷静龍声','月民の隠れ家']);
+  // USEDからカードを戻すときも外部生成カードの個体追跡を維持する。
+  const resolveKyogen=()=>{
+    if(m.deck.length){const top=transferExternal(m,'deck',m.deck.length-1,'used');logs.push('嬌言竜声：山札トップ「'+top+'」をUSEDへ')}
+    const pool=m.used.map((name,i)=>({name,i}));
+    const raw=prompt('嬌言竜声：USEDから山札の上に戻すカードを最大2枚選択。番号をカンマで区切る（0で戻さない）\n'+pool.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'0');
+    const nums=[...new Set(String(raw||'0').split(',').map(x=>Number(x.trim())))].filter(n=>Number.isInteger(n)&&n>=1&&n<=pool.length).slice(0,2);
+    const chosen=nums.map(n=>pool[n-1]).sort((a,b)=>b.i-a.i);
+    const taken=chosen.map(x=>({name:x.name,rec:(m.externalInstances||[]).find(r=>r.zone==='used'&&r.index===x.i&&r.name===x.name)||null}));
+    for(const x of chosen)removeTracked(m,'used',x.i);
+    for(const x of shuffle(taken))insertTracked(m,'deck',m.deck.length,x.name,x.rec);
+    logs.push('嬌言竜声：USEDから'+taken.length+'枚をランダム順で山札の上へ');
+    fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'嬌言竜声',sub:'USEDから'+taken.length+'枚を山札上へ'});
+  };
+  const resolveWhale=()=>{
+    if(!m.deck.length){logs.push('ホエール•スクリーム：山札が空のため確認できません');return}
+    const top=m.deck[m.deck.length-1];
+    if(!confirm('ホエール•スクリーム：山札トップ「'+top+'」をUSEDに送りますか？\nOK：USEDへ／キャンセル：山札に残す')){
+      logs.push('ホエール•スクリーム：山札トップを残した');return;
+    }
+    const moved=transferExternal(m,'deck',m.deck.length-1,'used');
+    logs.push('ホエール•スクリーム：山札トップ「'+moved+'」をUSEDへ');
+    if(game[opponent+'HandCount']>0){
+      const request={id:fxId(),actor:uid,target:opponentUid,createdAt:Date.now(),source:'ホエール•スクリーム'};
+      if(!patch.pendingWhale)patch.pendingWhale=request;
+      else patch.pendingWhaleQueue=[...(patch.pendingWhaleQueue||[]),request];
+      logs.push('🐋 ホエール•スクリーム：相手が捨てる手札を選択待ち（'+(1+(patch.pendingWhaleQueue||[]).length)+'回分）');
+    }else logs.push('ホエール•スクリーム：相手の手札がないため破棄なし');
+  };
+  const resolveSelectDragon=()=>{
+    if(m.hand.length){const n=Number(prompt('冷静龍声：USEDへ送る手札を選択\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(n)&&n>=1&&n<=m.hand.length?n-1:0;moveOwnHandToUsed(at)}
+    const peek=m.deck.slice(-3);
+    if(peek.length){const n=Number(prompt('冷静龍声：山札上3枚から手札に加えるカードを選択\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(n)&&n>=1&&n<=peek.length?n-1:0;const base=m.deck.length-peek.length;const drawn=transferExternal(m,'deck',base+at,'hand');assassinOnDraw(side,drawn,'選択ドロー');for(let i=peek.length-1;i>=0;i--){if(i!==at)transferExternal(m,'deck',base+i,'used')}}
+    logs.push('冷静龍声：手札と山札上3枚の選択処理を実行');
+  };
+  const resolveHideoutDragon=()=>{
+    const current=m.used.length-1; // 今回発動したカード自身を選択候補から除く
+    const available=m.used.map((name,i)=>({name,i})).filter(x=>x.i!==current);
+    const response=prompt('月民の隠れ家：USEDから最大2枚選択（番号をカンマ区切り。0で選択なし）\n'+available.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'0');
+    const nums=[...new Set(String(response||'0').split(',').map(x=>Number(x.trim())))].filter(n=>Number.isInteger(n)&&n>=1&&n<=available.length).slice(0,2);
+    const indices=nums.map(n=>available[n-1].i).sort((a,b)=>b-a);
+    const chosen=indices.map(i=>({name:m.used[i],record:(m.externalInstances||[]).find(r=>r.zone==='used'&&r.index===i&&r.name===m.used[i])||null}));
+    for(const i of indices)removeTracked(m,'used',i);
+    if(chosen.length){const at=Math.floor(Math.random()*chosen.length);const toDeck=chosen.splice(at,1)[0];insertTracked(m,'deck',m.deck.length,toDeck.name,toDeck.record);shuffleZone(m,'deck');for(const item of chosen)insertTracked(m,'hand',m.hand.length,item.name,item.record);logs.push('月民の隠れ家：1枚を山札へ、'+chosen.length+'枚を手札へ')}
+    else logs.push('月民の隠れ家：カードを選択しなかった');
+  };
+  const resolveDragonChain=(origin)=>{
+    let source=origin,combo=0;
+    const visited=32; // ループ・改ざんデータ対策
+    for(let step=0;step<visited;step++){
+      if(patch.state||!m.deck.length)break;
+      const top=m.deck[m.deck.length-1];
+      if(!onlineDragonTargets(source,top))break;
+      if(!dragonImplemented.has(top)){
+        logs.push('🐉 D連打：'+top+'はオンライン効果未実装のため、山札に残して連鎖停止');break;
+      }
+      const used=transferExternal(m,'deck',m.deck.length-1,'used');
+      if(used!==top)throw Error('D連打：山札移動に失敗しました');
+      combo++;
+      fxEvents.push({id:fxId(),type:'card',actor:uid,name:used,dragonChain:true});
+      logs.push('🐉 D連打 '+combo+'回目：'+used+'を山札から使用してUSEDへ');
+      if(used==='袴袴袴袴袴褌袴袴')damage++;
+      if(used==='嬌言竜声')resolveKyogen();
+      if(used==='ホエール•スクリーム')resolveWhale();
+      if(used==='冷静龍声')resolveSelectDragon();
+      if(used==='月民の隠れ家')resolveHideoutDragon();
+      source=used;
+    }
+    if(combo){fxEvents.push({id:fxId(),type:'dragon-combo',actor:uid,count:combo});logs.push('🐉 ドラゴン連撃：連撃回数 × '+combo+'回')}
+  };
   if(kind==='draw'){
    if(game.drawn)return;
    if(isNapRestricted(ownEffects)){patch.drawn=true;logs.push('お昼寝：休止ターンのため通常ドローなし')}
    else if(isTurnEffectActive(ownEffects,'block',game.round)){patch.drawn=true;logs.push('ドロー封じ：通常ドローをスキップ')}
-   else {if(!m.deck.length){await updateDoc(g,{state:'finished',winner:opponentUid,log:[...logs,'山札切れで敗北']});return}
+   else {if(!m.deck.length){
+    // 山札切れの勝敗も他の操作と同じくトランザクションで確定する。
+    // 既に終了した対戦や、相手にターンが移った状態を上書きしない。
+    await runTransaction(db,async tx=>{
+      const latest=await tx.get(g),ownLatest=await tx.get(p);
+      if(!latest.exists()||!ownLatest.exists())throw Error('山札切れ判定：対戦情報がありません');
+      const v=latest.data(),actual=ownLatest.data();
+      if(v.state!=='playing'||v.turn!==uid||v.round!==game.round||v.drawn!==game.drawn||v.pendingCard||v.pendingWhale||(v.pendingWhaleQueue||[]).length)
+        throw Error('山札切れ判定の前に対戦状態が変更されました');
+      if(!Array.isArray(actual.deck)||actual.deck.length!==0)
+        throw Error('山札の状態が変更されました。再確認してください');
+      tx.update(g,{state:'finished',winner:opponentUid,finishReason:'通常ドロー時の山札切れ',finishedAt:Date.now(),drawn:true,pendingCard:null,pendingWhale:null,pendingWhaleQueue:[],extraTurn:false,log:[...(v.log||[]),'山札切れで敗北'].slice(-30)});
+    });
+    recordDiagnostic('勝敗確定','通常ドロー時の山札切れ：トランザクション確定');return} 
    (()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})();patch.drawn=true;logs.push('通常ドロー')}
    if((ownEffects.napDelay||0)>0){ownEffects.napDelay--;ownEffectsDirty=true;logs.push('お昼寝：休止開始まであと'+ownEffects.napDelay+'回の自分ターン')}
   }else{
@@ -1479,81 +1663,44 @@ async function act(kind){
      }
     }else if(['小森アタック','オトモアタック'].includes(card)){damage=repeats}
     else if(cardInfo?.kind==='mochi'){damage=repeats;ownEffects.mochiProtectUntil=game.round+1;ownEffectsDirty=true;logs.push('もち蔵アタック：相手の次ターン終了まで自分の山札→USED移動を防止');}
+    else if(cardInfo?.kind==='ahaha'){
+      const permanent=usedSBFF(m.used,isRenamed?{kaii:true}:ownEffects)>=3;
+      // 発動したターンをRとすると、相手ターンはR+1。R+2から失効。
+      ownEffects.ahahaWardUntil=game.round+1;
+      if(permanent)ownEffects.ahahaPermanent=true;
+      ownEffectsDirty=true;
+      logs.push('💜 ｱﾊﾊｯｽｩーｱﾊﾊﾊ：'+(permanent?'永続':'次の相手ターン終了まで')+'自分の手札・山札・USEDへの干渉を禁止');
+      fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'💜 ｱﾊﾊｯｽｩーｱﾊﾊﾊ',sub:permanent?'SBFF3枚：永続防御':'次の相手ターンまで干渉禁止'});
+    }
+    else if(cardInfo?.kind==='isekai'){
+      // 同名の効果を複数回付与しても1種類として計算する。
+      // 自分の継続効果のみ対象。解除・期限切れ後も履歴に残る。
+      const types=recordEffectHistory(side,ownEffects);
+      const points=types.length;
+      damage+=points*repeats;
+      logs.push('異世界放浪録：これまでに付与された継続効果'+points+'種類 → '+(points*repeats)+'ダメージ');
+      fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'異世界放浪録',sub:'継続効果 '+points+'種類 × '+repeats+'回'});
+    }
+    else if(cardInfo?.kind==='hakama'){damage+=repeats;resolveDragonChain(card)}
+    else if(cardInfo?.kind==='dragon'){resolveDragonChain(card)}
+    else if(cardInfo?.kind==='kyogen'){resolveKyogen();resolveDragonChain(card)}
+    else if(cardInfo?.kind==='whale'){resolveWhale();resolveDragonChain(card)}
+    else if(cardInfo?.kind==='hideout'){resolveHideoutDragon();resolveDragonChain(card)}
     else if(card==='必殺ファン●ション'){damage=3*repeats}
     else if(card==='究極拳巫女パンチ'){damage=5*repeats}
     else if(['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ'].includes(card)){
      for(let r=0;r<repeats;r++){if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じにより効果ドロー無効');break}if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('効果ドロー時に山札切れで敗北');break}
      (()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})()}
     }
-    else if(cardInfo?.kind==='deco'){
-      for(let r=0;r<repeats&&patch.state!=='finished';r++){const hit=onlineWeightedPick([30,40,17,10,3]);damage+=hit;logs.push('🏏 デコバットの一撃：'+hit+'ダメージ');}
-    }
-    else if(cardInfo?.kind==='hurricane'){
-      for(let r=0;r<repeats&&patch.state!=='finished';r++){
-        const n=onlineWeightedPick([15,42,22,14,7]);logs.push('🌀 電脳世界ハリケーン：'+n+'枚ドロー');
-        for(let i=0;i<n&&patch.state!=='finished';i++){
-          if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じ：ハリケーンを中断');break}
-          if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('ハリケーン：山札切れで敗北');break}
-          const drawn=drawTracked(m);assassinOnDraw(side,drawn,'電脳世界ハリケーン');
-        }
-      }
-    }
-    else if(cardInfo?.kind==='torikoDice'){
-      for(let r=0;r<repeats&&patch.state!=='finished';r++){
-        const n=1+Math.floor(Math.random()*6);logs.push('🎲 ガチャの虜：'+n+'の目');fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'🎲 ガチャの虜',sub:n+'の目！'});
-        if(n===3)damage+=2;
-        else if(n===4){applyDamage(side,1,{source:'ガチャの虜：自傷',attackerSide:null});if(patch.state==='finished')break}
-        else if(n===1||n===2){
-          const target=n===1?m:await getOpponentPrivate();const targetSide=n===1?side:opponent;
-          for(let i=0;i<(n===1?2:1)&&patch.state!=='finished';i++){
-            if(!target.deck.length){patch.state='finished';patch.winner=n===1?opponentUid:uid;logs.push('ガチャの虜：山札切れで敗北');break}
-            const drawn=drawTracked(target);assassinOnDraw(targetSide,drawn,'ガチャの虜');
-          }
-        }else if(n===5){const q=await getOpponentPrivate();for(let i=0;i<2&&q.hand.length&&patch.state!=='finished';i++){transferExternal(q,'hand',Math.floor(Math.random()*q.hand.length),'used');}logs.push('ガチャの虜：相手のランダム手札を最大2枚USEDへ');}
-        else if(n===6){while(m.hand.length&&patch.state!=='finished')moveOwnHandToUsed(0);logs.push('ガチャの虜：自分の手札を全てUSEDへ');}
-      }
-    }
     else if(cardInfo?.kind==='peek'){
       const peek=m.deck.slice(-3).reverse();
-      if(peek.length){
-        const requested=prompt('山札上から3枚の順番を入力（例 3,1,2）\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1,2,3');
-        const nums=(requested||'').split(',').map(x=>Number(x.trim()));
-        if(nums.length===peek.length&&new Set(nums).size===peek.length&&nums.every(n=>n>=1&&n<=peek.length)){
-          // peek is top-first, whereas deck storage is bottom-first.
-          const start=m.deck.length-peek.length;
-          const slots=Array.from({length:peek.length},(_,i)=>({name:m.deck[start+i],record:(m.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===start+i&&r.name===m.deck[start+i])||null}));
-          const reordered=nums.slice().reverse().map(n=>slots[slots.length-n]);
-          m.deck.splice(start,peek.length,...reordered.map(x=>x.name));
-          reordered.forEach((slot,i)=>{if(slot.record){slot.record.zone='deck';slot.record.index=start+i}});
-        }
-      }
+      if(peek.length){const order=prompt('山札上から3枚の順番を入力（例 3,1,2）\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1,2,3');const nums=(order||'').split(',').map(x=>Number(x.trim()));if(nums.length===peek.length&&new Set(nums).size===peek.length&&nums.every(n=>n>=1&&n<=peek.length)){{const start=m.deck.length-peek.length;const records=Array.from({length:peek.length},(_,i)=>(m.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===start+i)||null);const order=nums.reverse().map(n=>n-1);m.deck.splice(start,peek.length,...order.map(i=>peek[i]));order.forEach((i,j)=>{if(records[i])records[i].index=start+j})}}}
     }
     else if(cardInfo?.kind==='select'){
-      if(m.hand.length){const input=prompt('USEDへ送る手札を選択\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1');const num=input===null?NaN:Number(input);if(input!==null&&input.trim()!==''&&Number.isInteger(num)&&num>=1&&num<=m.hand.length)moveOwnHandToUsed(num-1);else logs.push('冷静竜声：手札の選択を取り消したため、誤ったカードの移動を防止');}
+      if(m.hand.length){const num=Number(prompt('USEDへ送る手札を選択\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(num)&&num>=1&&num<=m.hand.length?num-1:0;moveOwnHandToUsed(at);}
       const peek=m.deck.slice(-3);
-      if(peek.length){
-        const answer=prompt('山札上3枚から手札に加えるカードを選択\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1');
-        const num=answer===null||answer.trim()===''?NaN:Number(answer);
-        const at=Number.isInteger(num)&&num>=1&&num<=peek.length?num-1:-1;
-        if(at<0){
-          logs.push('冷静竜声：山札の選択を取り消したため、山札・手札・USEDを変更しない');
-        }else{
-        const base=m.deck.length-peek.length;
-        // Remove all selected cards from the original positions before reinsertion.
-        // This avoids shifting indices after the chosen card is taken.
-        const slots=[];
-        for(let i=peek.length-1;i>=0;i--){
-          const index=base+i;
-          const record=(m.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===index&&r.name===m.deck[index])||null;
-          const name=removeTracked(m,'deck',index);
-          slots.unshift({name,record});
-        }
-        const selected=slots[at];
-        insertTracked(m,'hand',m.hand.length,selected.name,selected.record);
-        assassinOnDraw(side,selected.name,'選択ドロー');
-        slots.forEach((slot,i)=>{if(i!==at)insertTracked(m,'used',m.used.length,slot.name,slot.record)});
-        }
-      }
+      if(peek.length){const num=Number(prompt('山札上3枚から手札に加えるカードを選択\n'+peek.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));const at=Number.isInteger(num)&&num>=1&&num<=peek.length?num-1:0;const base=m.deck.length-peek.length;const drawn=transferExternal(m,'deck',base+at,'hand');assassinOnDraw(side,drawn,'選択ドロー');for(let i=peek.length-1;i>=0;i--){if(i===at)continue;transferExternal(m,'deck',base+i,'used')}}
+      resolveDragonChain(card);
     }
     else if(cardInfo?.kind==='god'){logs.push('全知全能の神、弱そう：通常使用では効果なし（初回ダメージ時に手札から発動）')}
     else if(cardInfo?.kind==='nap'){
@@ -1576,10 +1723,10 @@ async function act(kind){
       }else logs.push('ガチナイス：ライフ条件を満たさず不発');
     }
     else if(cardInfo?.kind==='star'){
-      for(let j=0;j<2&&patch.state!=='finished';j++){
+      for(let j=0;j<2;j++){
         if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じ：北極星のドロー無効');break}
         if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('導く北極星：山札切れ');break}
-        const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー');if(patch.state==='finished'){logs.push('連続ドロー：刺客などで決着したため中止');break}
+        (()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})();
       }
       if(!patch.state&&m.hand.length<=2){moveAllOwnHandToUsed();logs.push('導く北極星：使用後の手札が2枚以下のためすべてUSEDへ')}
     }
@@ -1600,29 +1747,31 @@ async function act(kind){
       const count=q.used.length;
       const level=count>=7?3:count>=5?2:count>=3?1:0;
       damage+=level;
-      for(let j=0;j<level&&patch.state!=='finished';j++){
+      for(let j=0;j<level;j++){
         if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('ドロー封じ：春風と木音のドロー無効');break}
         if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('春風と木音：山札切れ');break}
-        const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー');if(patch.state==='finished'){logs.push('連続ドロー：刺客などで決着したため中止');break}
+        (()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})();
       }
-      if(patch.state!=='finished'&&!enemyEffects.usedLocked){returnUsedToDeckBottomTracked(q);logs.push('春風と木音：相手USEDを山札の底へ戻した')}
-      else if(patch.state!=='finished')logs.push('かすみ草の妖精：相手USEDの移動を阻止');
+      if(!enemyEffects.usedLocked){q.deck.unshift(...shuffle(q.used));q.used=[];logs.push('春風と木音：相手USEDを山札の底へ戻した')}
+      else logs.push('かすみ草の妖精：相手USEDの移動を阻止');
       logs.push('春風と木音：'+level+'ダメージ／'+level+'枚ドロー判定');
     }
     else if(cardInfo?.kind==='combo'){
       const q=await getOpponentPrivate();
       if(enemyEffects.usedLocked){logs.push('かすみ草の妖精：相手USEDの移動を阻止')}
       else {
-        const assassins=resolveComboTracked(q);
-        logs.push('うんコンボ：刺客'+assassins+'枚を新規生成し、相手USEDを個体IDごと山札へ戻した');
+        const assassins=q.used.filter(x=>x==='刺客').length;
+        q.used.push(...Array(assassins).fill('刺客'));
+        q.deck=shuffle([...q.deck,...q.used]);q.used=[];
+        logs.push('うんコンボ：刺客'+assassins+'枚追加、相手USEDを山札へ戻した');
       }
     }
     else if(cardInfo?.kind==='udon'){
       if(game.round!==1)throw Error('うどん。は先攻の最初のターンにしか使用できません');
-      for(let j=0;j<2&&patch.state!=='finished';j++){
+      for(let j=0;j<2;j++){
         if(isTurnEffectActive(ownEffects,'block',game.round))break;
         if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('うどん。：山札切れ');break}
-        const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー');if(patch.state==='finished'){logs.push('連続ドロー：刺客などで決着したため中止');break}
+        (()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})();
       }
       if(!patch.state){extraTurn=true;logs.push('うどん。：追加ターンを獲得')}
     }
@@ -1640,17 +1789,6 @@ async function act(kind){
         await moveHandByOpponentEffect(true,target,'used');
         fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'文化の勝利',sub:'相手の手札1枚をUSEDへ'});
       }else logs.push('文化の勝利：相手の手札がないため不発');
-    }
-    else if(cardInfo?.kind==='hideout'){
-      // 使用したこのカード以外のUSEDから最大2枚を選択する。
-      const available=m.used.map((name,i)=>({name,i})).filter(x=>x.i!==m.used.lastIndexOf(card));
-      const response=prompt('月民の隠れ家：USEDから最大2枚選択（番号をカンマ区切り。0で選択なし）\n'+available.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'0');
-      const nums=[...new Set((response||'').split(',').map(x=>Number(x.trim())))].filter(n=>Number.isInteger(n)&&n>=1&&n<=available.length).slice(0,2);
-      const indices=nums.map(n=>available[n-1].i).sort((a,b)=>b-a);
-      const chosen=indices.map(i=>({name:m.used[i],record:(m.externalInstances||[]).find(r=>r.zone==='used'&&r.index===i&&r.name===m.used[i])||null}));
-      for(const i of indices)removeTracked(m,'used',i);
-      if(chosen.length){const at=Math.floor(Math.random()*chosen.length);const toDeck=chosen.splice(at,1)[0];insertTracked(m,'deck',m.deck.length,toDeck.name,toDeck.record);shuffleZone(m,'deck');for(const item of chosen)insertTracked(m,'hand',m.hand.length,item.name,item.record);logs.push('月民の隠れ家：1枚を山札へ、'+chosen.length+'枚を手札へ')}
-      else logs.push('月民の隠れ家：カードを選択しなかった');
     }
     else if(cardInfo?.kind==='pikainu'){
       ownEffects.pikainu=(ownEffects.pikainu||0)+1;ownEffectsDirty=true;
@@ -1692,10 +1830,8 @@ async function act(kind){
       else if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('名言：山札切れで敗北')}
       else (()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})();
       if(!patch.state&&m.hand.length){
-        const input=prompt('名言：USEDへ送る手札を選んでください\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1');
-        const n=input===null?NaN:Number(input);
-        if(input!==null&&input.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=m.hand.length)moveOwnHandToUsed(n-1);
-        else logs.push('名言：選択がキャンセル・無効のため、先頭カードを勝手にUSEDへ送らず保留');
+        const n=Number(prompt('名言：USEDへ送る手札を選んでください\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));
+        moveOwnHandToUsed(Number.isInteger(n)&&n>=1&&n<=m.hand.length?n-1:0);
       }
     }
     else if(cardInfo?.kind==='aiya'){ownEffects.chanceBonus=(ownEffects.chanceBonus||0)+20;ownEffectsDirty=true;logs.push('藍白屋：確率判定＋20ポイント')}
@@ -1731,37 +1867,13 @@ async function act(kind){
       patch[side+'Effects']={...(game[side+'Effects']||{}),chain:true};
     }
     else if(cardInfo?.kind==='talk'){
-      if(m.hand.length){
-        const input=prompt('色を指定する手札番号（1～'+m.hand.length+'）\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1');
-        const n=input===null?NaN:Number(input);
-        if(input!==null&&input.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=m.hand.length){
-          const chosen=m.hand[n-1];
-          const theme=CARD_THEMES[ONLINE_CARDS.find(c=>c.name===chosen)?.id];
-          const pool=m.deck.map((name,index)=>({name,index})).filter(x=>CARD_THEMES[ONLINE_CARDS.find(c=>c.name===x.name)?.id]===theme);
-          if(pool.length){
-            const pick=pool[Math.floor(Math.random()*pool.length)];
-            const moved=transferExternal(m,'deck',pick.index,'hand');
-            if(moved!==null)assassinOnDraw(side,moved,'今日は推し談笑！！');
-          }else logs.push('今日は推し談笑！！：同色カードなし');
-        }else logs.push('今日は推し談笑！！：無効な手札選択のため効果を中止');
-      }
+      if(m.hand.length){const n=Number(prompt('色を指定する手札番号（1～'+m.hand.length+'）\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));const chosen=m.hand[Math.max(0,Math.min(m.hand.length-1,(n||1)-1))];const theme=CARD_THEMES[ONLINE_CARDS.find(c=>c.name===chosen)?.id];const pool=m.deck.filter(x=>CARD_THEMES[ONLINE_CARDS.find(c=>c.name===x)?.id]===theme);if(pool.length){const pick=pool[Math.floor(Math.random()*pool.length)];transferExternal(m,'deck',m.deck.indexOf(pick),'hand');assassinOnDraw(side,pick,'今日は推し談笑！！')}else logs.push('今日は推し談笑！！：同色カードなし')}
     }
     else if(cardInfo?.kind==='diver'){
-      if(m.used.length>1){
-        // 同名カードが複数ある場合も、表示した位置の個体を移動する。
-        const currentCardIndex=m.used.lastIndexOf(card);
-        const choices=m.used.map((name,index)=>({name,index})).filter(x=>x.index!==currentCardIndex);
-        if(choices.length){
-          const input=prompt('USEDから戻すカード番号\n'+choices.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'1');
-          const n=input===null?NaN:Number(input);
-          if(input!==null&&input.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=choices.length){
-            transferExternal(m,'used',choices[n-1].index,'hand');
-          }else logs.push('潜水効果：無効なUSED選択のため移動を中止');
-        }
-      }
+      if(m.used.length>1){const choices=m.used.filter((x,i)=>i!==m.used.lastIndexOf(card));const n=Number(prompt('USEDから戻すカード番号\n'+choices.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));const chosen=choices[Math.max(0,Math.min(choices.length-1,(n||1)-1))];if(chosen){transferExternal(m,'used',m.used.indexOf(chosen),'hand')}}
     }
     else if(cardInfo?.kind==='bookshop'){
-      const pool=shuffle(ONLINE_CARDS.filter(c=>['talk','tidal','diver'].includes(c.kind)||c.name.includes('書')).map(c=>c.name)).slice(0,3);if(pool.length){const input=prompt('ゲーム外カードを選択\n'+pool.map((x,i)=>(i+1)+'：'+x).join('\n'),'1');const n=Number(input);if(input!==null&&input.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=pool.length){const chosen=pool[n-1];addExternal(m,chosen);assassinOnDraw(side,chosen,'思い出の中の古本屋')}else logs.push('思い出の中の古本屋：選択を取り消したため生成しませんでした')}
+      const pool=shuffle(ONLINE_CARDS.filter(c=>['talk','tidal','diver'].includes(c.kind)||c.name.includes('書')).map(c=>c.name)).slice(0,3);if(pool.length){const n=Number(prompt('ゲーム外カードを選択\n'+pool.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));const chosen=pool[Math.max(0,Math.min(pool.length-1,(n||1)-1))];addExternal(m,chosen);assassinOnDraw(side,chosen,'思い出の中の古本屋')}
     }
     else if(cardInfo?.kind==='massage'){ownEffects.drowsy=true;ownEffectsDirty=true;patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+2*repeats)}
     else if(cardInfo?.kind==='nobook'){
@@ -1769,48 +1881,14 @@ async function act(kind){
     }
     else if(cardInfo?.kind==='dreammore'){ownEffects.drowsy=true;enemyEffects.drowsy=true;enemyEffects.ratePenalty=(enemyEffects.ratePenalty||0)+10;ownEffectsDirty=enemyEffectsDirty=true}
     else if(cardInfo?.kind==='shuffleall'){
-      // 全ゾーン混合時も、名前・位置の両方が一致する生成カードの個体だけを追跡する。
-      // 不一致の記録は別カードへ誤って割り当てず、整合性検査に残す。
-      const counts=[m.hand.length,m.deck.length,m.used.length];
-      const slots=['hand','deck','used'].flatMap(zone=>m[zone].map((name,i)=>({
-        name,rec:(m.externalInstances||[]).find(r=>r.zone===zone&&r.index===i&&r.name===name)||null
-      })));
-      const shuffled=shuffle(slots);
-      for(const [z,n] of [['hand',counts[0]],['deck',counts[1]],['used',counts[2]]]){
-        const picked=shuffled.splice(0,n);m[z]=picked.map(x=>x.name);
-        picked.forEach((x,i)=>{if(x.rec){x.rec.zone=z;x.rec.index=i}});
-      }
-      const issues=checkExternalTracking(m);
-      if(issues.length)logs.push('全ゾーン混合後の個体追跡に不整合 '+issues.length+' 件：'+issues.slice(0,3).join('／'));
+      const all=[...m.hand,...m.deck,...m.used];const counts=[m.hand.length,m.deck.length,m.used.length];const slots=[...['hand','deck','used'].flatMap(zone=>m[zone].map((name,i)=>({name,rec:(m.externalInstances||[]).find(r=>r.zone===zone&&r.index===i)||null})))];const shuffled=shuffle(slots);for(const [z,n] of [['hand',counts[0]],['deck',counts[1]],['used',counts[2]]]){const picked=shuffled.splice(0,n);m[z]=picked.map(x=>x.name);picked.forEach((x,i)=>{if(x.rec){x.rec.zone=z;x.rec.index=i}})}
     }
     else if(cardInfo?.kind==='npc'){
-      // 元の山札位置を先に確定し、同名カードも個体単位で回収する。
-      const hitNames=new Set(['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ']);
-      const indices=m.deck.map((name,index)=>hitNames.has(name)?index:-1).filter(index=>index>=0).sort((a,b)=>b-a);
-      for(const index of indices){
-        if(patch.state==='finished')break;
-        if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('NPC：ドロー禁止中のため回収を中止');break}
-        const card=transferExternal(m,'deck',index,'hand');
-        if(card!==null)assassinOnDraw(side,card,'NPC');
-        if(patch.state==='finished')break;
-      }
-      if(patch.state!=='finished'&&!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('NPC：山札切れで敗北')}
+      const hits=m.deck.filter(x=>['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ'].includes(x));for(const c of hits){transferExternal(m,'deck',m.deck.indexOf(c),'hand');assassinOnDraw(side,c,'NPC')}
     }
     else if(cardInfo?.kind==='parasite'){enemyEffects.parasite=true;enemyEffectsDirty=true}
     else if(cardInfo?.kind==='cheese'){
-      // 名前から indexOf で再検索すると同名の別個体を選ぶため、元の山札位置を保持する。
-      const pool=m.deck.map((name,index)=>({name,index})).filter(x=>['sbff','fe','oru','assassin','god','tidal'].includes(ONLINE_CARDS.find(c=>c.name===x.name)?.kind));
-      if(pool.length){
-        const answer=prompt('山札の上に置くカードを選択\n'+pool.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'1');
-        if(answer!==null){
-          const n=Number(answer.trim());
-          if(Number.isInteger(n)&&n>=1&&n<=pool.length){
-            const chosen=pool[n-1];
-            transferExternal(m,'deck',chosen.index,'deck');
-            logs.push('はいちーず！！：'+chosen.name+'を山札の上へ移動');
-          }else logs.push('はいちーず！！：無効な番号のため山札を変更しない');
-        }else logs.push('はいちーず！！：選択をキャンセル');
-      }
+      const pool=m.deck.filter(x=>['sbff','fe','oru','assassin','god','tidal'].includes(ONLINE_CARDS.find(c=>c.name===x)?.kind));if(pool.length){const n=Number(prompt('山札の上に置くカードを選択\n'+pool.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));const c=pool[Math.max(0,Math.min(pool.length-1,(n||1)-1))];transferExternal(m,'deck',m.deck.indexOf(c),'deck')}
     }
     else if(cardInfo?.kind==='adventurer'){
       for(let j=0;j<2*repeats;j++){const pool=ONLINE_CARDS.filter(c=>!['assassin','oru','tidal'].includes(c.kind));const c=pool[Math.floor(Math.random()*pool.length)].name;addExternal(m,c)}
@@ -1819,19 +1897,19 @@ async function act(kind){
     else if(cardInfo?.kind==='microphone'){ownEffects.microphone=true;ownEffectsDirty=true}
     else if(cardInfo?.kind==='steam'){enemyEffects.shieldUntil=0;enemyEffects.invulnerable=false;enemyEffectsDirty=true;damage+=repeats}
     else if(cardInfo?.kind==='meat'){
-      if(m.hand.length){const input=prompt('USEDに送る手札番号\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1');const n=input===null?NaN:Number(input);if(input!==null&&input.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=m.hand.length)moveOwnHandToUsed(n-1);else logs.push('肉好きメロドック：無効な手札選択のため移動を中止')}patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+Number(ownEffects.lastTurnDamage||0));
+      if(m.hand.length){const n=Number(prompt('USEDに送る手札番号\n'+m.hand.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));moveOwnHandToUsed(Math.max(0,Math.min(m.hand.length-1,(n||1)-1)))}patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+Number(ownEffects.lastTurnDamage||0));
     }
     else if(cardInfo?.kind==='mafia'){
       const q=await getOpponentPrivate();const top=[];for(let i=0;i<5&&q.deck.length;i++){const index=q.deck.length-1;const name=q.deck[index];const rec=(q.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===index);removeTracked(q,'deck',index);top.push({name,rec});}for(const slot of top){const k=ONLINE_CARDS.find(x=>x.name===slot.name)?.kind;const dest=['hit','buncho','mochi','special3','special5','punch','window','steam','hamster'].includes(k)?'deck':'used';const index=q[dest].length;insertTracked(q,dest,index,slot.name,slot.rec)}shuffleZone(q,'deck');
     }
     else if(cardInfo?.kind==='magicsong'){
-      const q=await getOpponentPrivate();for(let j=q.deck.length-1;j>=0;j--){const c=q.deck[j];if(c.includes('愛'))patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+1);if(c.includes('術')||c.includes('導')){transferBetweenPlayersTracked(q,m,'deck',j,'used')}else if(c.includes('法')){transferExternal(q,'deck',j,'hand');assassinOnDraw(opponent,c,'愛と魔法の歌')}}
+      const q=await getOpponentPrivate();for(let j=q.deck.length-1;j>=0;j--){const c=q.deck[j];if(c.includes('愛'))patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+1);if(c.includes('術')||c.includes('導')){(()=>{const rec=(q.externalInstances||[]).find(r=>r.zone==='deck'&&r.index===j);const name=removeTracked(q,'deck',j);m.used.push(name);if(rec){q.externalInstances=q.externalInstances.filter(r=>r!==rec);rec.zone='used';rec.index=m.used.length-1;m.externalInstances=m.externalInstances||[];m.externalInstances.push(rec);m.externalCards=m.externalCards||[];m.externalCards.push(name);q.externalCards=q.externalCards||[];const old=q.externalCards.indexOf(name);if(old>=0)q.externalCards.splice(old,1)}})()}else if(c.includes('法')){transferExternal(q,'deck',j,'hand');assassinOnDraw(opponent,c,'愛と魔法の歌')}}
     }
     else if(cardInfo?.kind==='library'){
       const pool=shuffle(ONLINE_CARDS.filter(c=>c.name.includes('魔')).map(c=>c.name)).slice(0,7);if(pool.length){const q=await getOpponentPrivate();addExternal(q,pool.shift());for(const name of pool)addExternalUsed(m,name)}
     }
     else if(cardInfo?.kind==='orcanis'){
-      const options=m.used.map((name,index)=>({name,index})).filter(x=>x.name!==card);if(options.length){const input=prompt('USEDから戻すカード番号\n'+options.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'1');const n=input===null?NaN:Number(input);if(input!==null&&input.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=options.length){const selected=options[n-1];const c=transferExternal(m,'used',selected.index,'hand');if(c!==null)for(let j=m.deck.length-1;j>=0;j--)if(m.deck[j]===c)transferExternal(m,'deck',j,'used')}else logs.push('魔術絵・オルカニス：選択を取り消したためカードを移動しませんでした')}
+      const options=m.used.filter(x=>x!==card);if(options.length){const n=Number(prompt('USEDから戻すカード番号\n'+options.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));const c=options[Math.max(0,Math.min(options.length-1,(n||1)-1))];transferExternal(m,'used',m.used.indexOf(c),'hand');for(let j=m.deck.length-1;j>=0;j--)if(m.deck[j]===c)transferExternal(m,'deck',j,'used')}
     }
     else if(cardInfo?.kind==='jasrac'){
       const n=Math.max(0,Math.min(m.hand.length,Number(prompt('USEDに送る枚数（0～'+m.hand.length+'）','1'))||0));for(let j=0;j<n;j++)moveOwnHandToUsed(0);if(n){ownEffects.shieldUntil=game.round+1;ownEffectsDirty=true}
@@ -1841,34 +1919,12 @@ async function act(kind){
       if(m.used.filter(x=>/[導星術]/.test(x)).length>=30)damage+=7*repeats;else logs.push('それは未来を読む占術：USEDの対象カード30枚未満')
     }
     else if(cardInfo?.kind==='secretbook'){
-      const q=await getOpponentPrivate();const copyableKinds=new Set(['hit','buncho','mochi','otomo','hamster','draw','draw1','chitose','northstar','heal','shino','funfun','love','pikainu','aiya','sleepmagic','massage','dreammore','parasite','microphone','steam','soldier','speed','idol','block','edo','punch','special5','special3','snake','fairy','spring','combo','deco','hurricane']);const options=q.used.map((name,index)=>({name,index})).filter(({name})=>copyableKinds.has(ONLINE_CARDS.find(c=>c.name===name)?.kind)||['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ'].includes(name));
-      if(options.length){
-        const input=prompt('相手USEDの対象カード\n'+options.map((x,i)=>(i+1)+'：'+x.name).join('\n'),'1');
-        if(input===null){logs.push('秘密のメカクレ魔導書：選択がキャンセルされたため対象を移動しませんでした')}
-        else{
-          const selected=Number(input);
-          if(!Number.isInteger(selected)||selected<1||selected>options.length){logs.push('秘密のメカクレ魔導書：選択番号が無効のため対象を移動しませんでした')}
-          else{
-            const {name:c,index:sourceIndex}=options[selected-1];
-            // 同名カードが複数ある場合も元のUSEDのインデックスで個体を指定する。
-            const moved=transferExternal(q,'used',sourceIndex,'deck',0);
-            if(moved!==c){logs.push('秘密のメカクレ魔導書：対象移動に失敗したためコピーを中止')}
-            else{const applied=await copyEffect(c);logs.push('秘密のメカクレ魔導書：'+c+'を相手山札の底へ'+(applied?'／コピー効果を発動':'／複雑なコピー効果は未実装'))}
-          }
-        }
-      }
+      const q=await getOpponentPrivate();const copyableKinds=new Set(['hit','buncho','mochi','otomo','hamster','draw','draw1','chitose','northstar','heal','shino','funfun','love','pikainu','aiya','sleepmagic','massage','dreammore','parasite','microphone','steam','soldier','speed','idol','block','edo','punch','special3']);const options=q.used.filter(x=>copyableKinds.has(ONLINE_CARDS.find(c=>c.name===x)?.kind)||['観測者の悪ノリ','うーんひらめいた！','星色の推し活','ﾎｯﾄ₍₍(ง˘ω˘)ว⁾⁾ﾄﾞｯｸ'].includes(x));if(options.length){const n=Number(prompt('相手USEDの対象カード\n'+options.map((x,i)=>(i+1)+'：'+x).join('\n'),'1'));const c=options[Math.max(0,Math.min(options.length-1,(n||1)-1))];transferExternal(q,'used',q.used.indexOf(c),'deck',0);const applied=await copyEffect(c);logs.push('秘密のメカクレ魔導書：'+c+'を相手山札の底へ'+(applied?'／コピー効果を発動':'／複雑なコピー効果は未実装'))}
     }
     else if(cardInfo?.kind==='catmagic'){
       const animal=/猫|犬|鳥|ハム|ﾌﾞﾝﾁｮｳ|オルカ|cat|dog|bird|hamster/i;
-      const catCopyKinds=new Set(['hit','buncho','mochi','otomo','hamster','draw','draw1','chitose','northstar','heal','shino','funfun','love','pikainu','aiya','sleepmagic','massage','dreammore','parasite','microphone','steam','soldier','speed','idol','block','edo','punch','special3','snake','fairy','spring','combo','deco','hurricane']);const pool=shuffle(ONLINE_CARDS.filter(c=>c.name!==card&&animal.test(c.name)&&catCopyKinds.has(c.kind))).slice(0,3);
-      if(!pool.length)logs.push('異世界猫の陰陽術：現在の実装でコピー可能な動物カードなし');
-      for(const c of pool){
-        if(patch.state==='finished'){logs.push('異世界猫の陰陽術：決着後のコピー効果を中止');break}
-        const applied=await copyEffect(c.name);
-        for(const issue of checkExternalTracking(m))logs.push('陰陽術コピー後・自分の個体追跡：'+issue);
-        if(opponentPrivate)for(const issue of checkExternalTracking(opponentPrivate))logs.push('陰陽術コピー後・相手の個体追跡：'+issue);
-        logs.push('異世界猫の陰陽術：'+c.name+(applied?'の効果を発動':'の複雑な効果は未実装'));
-      }
+      const catCopyKinds=new Set(['hit','buncho','mochi','otomo','hamster','draw','draw1','chitose','northstar','heal','shino','funfun','love','pikainu','aiya','sleepmagic','massage','dreammore','parasite','microphone','steam','soldier','speed','idol','block','edo','punch','special3']);const pool=shuffle(ONLINE_CARDS.filter(c=>c.name!==card&&animal.test(c.name)&&catCopyKinds.has(c.kind))).slice(0,3);
+      if(!pool.length)logs.push('異世界猫の陰陽術：コピー可能な動物カードなし');for(const c of pool){const applied=await copyEffect(c.name);logs.push('異世界猫の陰陽術：'+c.name+(applied?'の効果を発動':'の複雑な効果は未実装'));}
     }
     else if(cardInfo?.kind==='idol'){
       const n=['funfun','love','pikainu','soldier','speed','hamster','microphone'].filter(k=>Number(ownEffects[k])>0||ownEffects[k]===true).length;
@@ -1878,15 +1934,12 @@ async function act(kind){
     }
     else if(cardInfo?.kind==='speed'){
       for(let r=0;r<repeats;r++){
-        if(patch.state==='finished')break;
         ownEffects.speed=(ownEffects.speed||0)+1;
         const count=ownEffects.speed;
         for(let j=0;j<count;j++){
-          if(patch.state==='finished')break;
-          if(isTurnEffectActive(ownEffects,'block',game.round)){logs.push('60キロの爆速：ドロー禁止により停止');break}
+          if(isTurnEffectActive(ownEffects,'block',game.round))break;
           if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('60キロの爆速：山札切れ');break}
           const drawn=drawTracked(m);assassinOnDraw(side,drawn,'60キロの爆速');
-          if(patch.state==='finished')break;
         }
       }
       ownEffectsDirty=true;logs.push('60キロの爆速：速度'+ownEffects.speed+'段階');
@@ -1911,7 +1964,7 @@ async function act(kind){
     else if(cardInfo?.kind==='blank'){/* SBFF：何もしない */}
     else if(cardInfo?.kind==='heal'){patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+repeats)}
     else if(cardInfo?.kind==='chitose'){
-      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2*repeats)&&patch.state!=='finished';j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('連続ドロー：山札切れで敗北');break}const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー');if(patch.state==='finished'){logs.push('連続ドロー：刺客などで決着したため残りのドローを中止');break}}
+      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2*repeats);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}(()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})()}
     }
     else if(cardInfo?.kind==='shino'){
       patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+repeats);
@@ -1931,90 +1984,35 @@ async function act(kind){
       if(!q.deck.length){patch.state='finished';patch.winner=uid}}
     }
     else if(cardInfo?.kind==='drawdiscard'){
-      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2*repeats)&&patch.state!=='finished';j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('連続ドロー：山札切れで敗北');break}const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー');if(patch.state==='finished'){logs.push('連続ドロー：刺客などで決着したため残りのドローを中止');break}}
-      if(patch.state!=='finished'){
-        for(let j=0;j<2*repeats&&m.hand.length;j++){
-          // 必須の捨て札はキャンセルで踏み倒せない。失敗時は対戦状態を確定しない。
-          let chosen=-1;
-          for(let attempt=0;attempt<3;attempt++){
-            const answer=prompt('USEDへ送るカード番号（必須・1～'+m.hand.length+'、残り'+(3-attempt)+'回）\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1');
-            if(answer===null)break;
-            const raw=answer.trim(),n=raw===''?NaN:Number(raw);
-            if(Number.isInteger(n)&&n>=1&&n<=m.hand.length){chosen=n-1;break}
-          }
-          if(chosen<0)throw Error('必須の手札破棄が完了しなかったため、カードの使用を確定しませんでした。再度操作してください');
-          const discarded=moveOwnHandToUsed(chosen);
-          if(discarded===null)throw Error('必須の手札破棄に失敗したため、カードの使用を確定しませんでした');
-        }
-      }
+      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:2*repeats);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}(()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})()}
+      if(!patch.state){for(let j=0;j<2*repeats&&m.hand.length;j++){
+        const chosen=Number(prompt('USEDへ送るカード番号（1～'+m.hand.length+'）\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1'));
+        moveOwnHandToUsed(Number.isInteger(chosen)&&chosen>=1&&chosen<=m.hand.length?chosen-1:0);
+      }}
     }
-    else if(cardInfo?.kind==='punch'){
-      // 自傷は1回ずつ確定し、途中で決着したら残りの自傷と相手への攻撃を行わない。
-      // コピー等で先に蓄積された攻撃値を上書きしない。
-      for(let r=0;r<repeats;r++){
-        if(patch.state==='finished')break;
-        const actualSelfDamage=applyDamage(side,1,{ignoreShield:true,ignoreCap:true,source:'正論パンチ',attackerSide:null});
-        if(actualSelfDamage>0)selfDamageEvents++;
-        if(patch.state==='finished'){
-          logs.push('正論パンチ：自傷ダメージで決着したため残りの効果を中止');
-          break;
-        }
-        damage+=2;
-      }
-    }
+    else if(cardInfo?.kind==='punch'){selfDamageFromCard=true;for(let r=0;r<repeats;r++)applyDamage(side,1,{ignoreShield:true,ignoreCap:true,source:'正論パンチ'});damage=2*repeats;if(patch[side+'Life']===0&&!patch.state){patch.state='finished';patch.winner=opponentUid}}
     else if(cardInfo?.kind==='going'){
-      // 先に処理されたコピー効果などによる現在ライフを参照する。
-      const currentLife=Math.max(0,Number(patch[side+'Life']??game[side+'Life'])||0);
-      const max=Math.max(0,currentLife-1);
-      const input=prompt('減らすライフ（0～'+max+'）','1');
-      const parsed=input===null?0:Number(input);
-      const n=Number.isFinite(parsed)?Math.min(max,Math.max(0,Math.floor(parsed))):0;
-      const goingSelfDamage=applyDamage(side,n,{ignoreShield:true,ignoreCap:true,source:'行っちゃうの？',attackerSide:null});
-      if(goingSelfDamage>0)selfDamageEvents++; // 一度にライフを複数減らす効果は1回の減少イベント
-      // 刺客のドロー時ダメージなどで決着したら、残りのドローは行わない。
-      const drawCount=isTurnEffectActive(ownEffects,'block',game.round)?0:goingSelfDamage;
-      for(let j=0;j<drawCount&&patch.state!=='finished';j++){
-        if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('行っちゃうの？：山札切れで敗北');break}
-        const drawn=drawTracked(m);
-        assassinOnDraw(side,drawn,'行っちゃうの？');
-        if(patch.state==='finished'){logs.push('行っちゃうの？：ドロー中の決着により残りのドローを中止');break}
-      }
+      const max=Math.max(0,game[side+'Life']-1),n=Math.min(max,Math.max(0,Number(prompt('減らすライフ（0～'+max+'）','1'))||0));
+      applyDamage(side,n,{ignoreShield:true,ignoreCap:true,source:'行っちゃうの？'});if(n>0)selfDamageFromCard=true;
+      for(let j=0;j<(isTurnEffectActive(ownEffects,'block',game.round)?0:n);j++){if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;break}(()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})()}
     }
     // 効果による手札追加でフェッ!?を引いた場合に反応（通常ドローは対象外）。
     if(!patch.state){
       const addedFe=Math.max(0,m.hand.filter(x=>x==="( 'ω')ﾌｪｯ!?").length-ownHandStart.filter(x=>x==="( 'ω')ﾌｪｯ!?").length);
-      for(let f=0;f<addedFe&&patch.state!=='finished';f++)await specialUse('fe',false);
+      for(let f=0;f<addedFe;f++)await specialUse('fe',false);
     }
     if(!patch.state){
       const bonus=ownEffects.chanceBonus||0;
-      // 付与は同名でも各回独立判定。山札切れや刺客による決着後は
-      // 後続の確率効果を実行しない（ゲーム終了後のドロー・ダメージを防止）。
-      for(let i=0;i<(ownEffects.funfun||0)&&patch.state!=='finished';i++){
-        if(Math.random()*100<Math.min(100,30+bonus)){
-          damage+=1;logs.push('ﾌﾝﾌﾝ：追加1ダメージ');
-          fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'ﾌﾝﾌﾝ 発動！',sub:'追加1ダメージ'});
+      for(let i=0;i<(ownEffects.funfun||0);i++)if(Math.random()*100<Math.min(100,30+bonus)){damage+=1;logs.push('ﾌﾝﾌﾝ：追加1ダメージ');fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'ﾌﾝﾌﾝ 発動！',sub:'追加1ダメージ'})}
+      for(let i=0;i<(ownEffects.love||0);i++)if(Math.random()*100<Math.min(100,50+bonus)){
+        if(!isTurnEffectActive(ownEffects,'block',game.round)){
+          if(!m.deck.length){patch.state='finished';patch.winner=opponentUid;logs.push('限界愛：山札切れ')}
+          else {(()=>{const drawn=drawTracked(m);assassinOnDraw(side,drawn,'ドロー')})();logs.push('限界愛：1枚ドロー');fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'限界愛 発動！',sub:'カードを1枚ドロー'})}
         }
-      }
-      for(let i=0;i<(ownEffects.love||0)&&patch.state!=='finished';i++){
-        if(Math.random()*100>=Math.min(100,50+bonus))continue;
-        if(isTurnEffectActive(ownEffects,'block',game.round)){
-          logs.push('限界愛：ドロー禁止のため追加ドローなし');continue;
-        }
-        if(!m.deck.length){
-          patch.state='finished';patch.winner=opponentUid;logs.push('限界愛：山札切れで敗北');break;
-        }
-        const drawn=drawTracked(m);
-        assassinOnDraw(side,drawn,'限界愛');
-        if(patch.state==='finished'){
-          logs.push('限界愛：刺客などのドロー誘発効果で決着したため連鎖を中止');
-          break;
-        }
-        logs.push('限界愛：1枚ドロー');
-        fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'限界愛 発動！',sub:'カードを1枚ドロー'});
       }
     }
     if(!patch.state){
-      for(let i=0;i<(ownEffects.pikainu||0)&&patch.state!=='finished';i++){
+      for(let i=0;i<(ownEffects.pikainu||0);i++){
         if(Math.random()*100<Math.min(100,1+(ownEffects.chanceBonus||0))){
           extraTurn=true;logs.push('ピカ犬：追加ターンを獲得！');
           fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'ピカ犬 発動！',sub:'追加ターンを獲得'});
@@ -2022,8 +2020,8 @@ async function act(kind){
       }
     }
     if(false&&ownEffects.starPending&&cardInfo?.kind!=='star'&&cardInfo?.kind!=='needle'){
-      if(m.hand.length<=2){moveAllOwnHandToUsed();logs.push('導く北極星：手札が2枚以下のためすべてUSEDへ')}
-      else logs.push('導く北極星：手札3枚以上のため破棄なし');
+      if(m.hand.length<=3){moveAllOwnHandToUsed();logs.push('導く北極星：手札が3枚以下のためすべてUSEDへ')}
+      else logs.push('導く北極星：手札4枚以上のため破棄なし');
       ownEffects.starPending=false;ownEffectsDirty=true;
     }
     if(ownEffects.fairyPending&&cardInfo?.kind!=='fairy'&&cardInfo?.kind!=='needle'){
@@ -2051,26 +2049,13 @@ async function act(kind){
        const choice=enemyEffects.haionChoice||1;
        if(choice===2){
          if(m.hand.length){
-           // 必須選択は無効な入力で先頭カードへフォールバックさせず、再入力を求める。
-           // キャンセル時はその連鎖分の捨て札を実行せず、誤移動を防ぐ。
-           let at=-1;
-           for(let attempt=0;attempt<3;attempt++){
-             const response=prompt('相手の「這音嘗血」が発動！ USEDへ送る手札を選んでください（必須・最大3回）\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1');
-             if(response===null){logs.push('這音嘗血：必須選択をキャンセルしたため捨て札を中止');break}
-             const raw=response.trim(),n=raw===''?NaN:Number(raw);
-             if(Number.isInteger(n)&&n>=1&&n<=m.hand.length){at=n-1;break}
-             logs.push('這音嘗血：無効な手札番号のため再選択');
-           }
-           if(at>=0){
-             const discarded=await moveHandByOpponentEffect(false,at,'used');
-             if(discarded===null)throw Error('這音嘗血の手札移動に失敗したため、今回の操作を確定しませんでした');
-             if(discarded!==null){
-               logs.push('這音嘗血：'+(side==='host'?'ホスト':'ゲスト')+'が「'+discarded+'」をUSEDへ');
-               // 実際にUSEDへ移動したときだけ連鎖カウントを進める。
-               enemyEffects.haionCount++;
-               if(enemyEffects.haionCount>=3){enemyEffects.haionCount-=3;activations++;logs.push('這音嘗血：連鎖条件を達成')}
-             }
-           }else throw Error('這音嘗血の必須選択が完了しなかったため、今回の操作を確定しませんでした。再度操作してください');
+           const response=prompt('相手の「這音嘗血」が発動！ USEDへ送る手札を選んでください\n'+m.hand.map((c,i)=>(i+1)+'：'+c).join('\n'),'1');
+           const n=Number(response),at=Number.isInteger(n)&&n>=1&&n<=m.hand.length?n-1:0;
+           const discarded=await moveHandByOpponentEffect(false,at,'used');
+           logs.push('這音嘗血：'+(side==='host'?'ホスト':'ゲスト')+'が手札1枚を選んでUSEDへ');
+           // 効果で捨てた1枚も、這音嘗血の累計に含める。
+           enemyEffects.haionCount++;
+           if(enemyEffects.haionCount>=3){enemyEffects.haionCount-=3;activations++;logs.push('這音嘗血：連鎖条件を達成')}
          }else logs.push('這音嘗血：対象の手札がないため捨て札なし');
          fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'這音嘗血 発動！',sub:'相手が手札1枚をUSEDへ'});
        }else if(choice===3){
@@ -2109,79 +2094,33 @@ async function act(kind){
        fxEvents.push({id:fxId(),type:'proc',actor:opponentUid,title:'這音嘗血：連鎖保留',sub:'残り'+remaining+'回分を保持'});
      }
    }
-   if(selfDamageEvents>0&&ownEffects.chain&&!patch.state){
-     // 減少したライフの点数ではなく、ライフが減少したイベントの回数で判定する。
-     damage+=selfDamageEvents;
-     logs.push('ハートのチェーン：自傷'+selfDamageEvents+'回により追加'+selfDamageEvents+'ダメージ');
-   }
+   if(selfDamageFromCard&&ownEffects.chain&&!patch.state){damage+=1;logs.push('ハートのチェーン：追加1ダメージ')}
    if(damage&&!patch.state && ((enemyEffects.shieldUntil||0)>=game.round||enemyEffects.invulnerable===true)){
      if(cardInfo?.kind==='future'&&m.used.filter(x=>/[導星術]/.test(x)).length>=30){patch.state='finished';patch.winner=uid;patch.futureSpecialWinner=uid;logs.push('それは未来を読む占術：無効化されたため特殊勝利')}
      else logs.push('防御効果：ダメージを防御');damage=0
    }
    if(damage&&!patch.state&&enemyEffects.damageCap)damage=Math.min(1,damage);
-   // 防御・ソルジャーの軽減を解決してから「初ダメージ」を確定する。
-   // 軽減で0になった攻撃は初ダメージとして消費せず、神も発動しない。
-   let actualDealt=0;
-   if(damage>0&&!patch.state){
-     // applyDamage が初回記録を付けるため、発動可否はダメージ確定前の状態で判定する。
-     const wasFirstDealt=Boolean(patch[side+'FirstDealt']??game[side+'FirstDealt']);
-     actualDealt=applyDamage(opponent,damage,{ignoreShield:false,ignoreCap:true,source:'カード攻撃'});
-     if(actualDealt>0&&patch.state!=='finished'&&!wasFirstDealt){
-       const godIndex=m.hand.indexOf('全知全能の神、弱そう');
-       if(godIndex>=0&&!enemyEffects.damageCap&&confirm('初めて相手にダメージを与えました。\n「全知全能の神、弱そう」を手札からUSEDへ送り、追加1ダメージを与えますか？')){
-         moveOwnHandToUsed(godIndex);
-         if(patch.state!=='finished'){
-           const godDealt=applyDamage(opponent,1,{source:'全知全能の神、弱そう'});
-           actualDealt+=godDealt;
-           logs.push('全知全能の神、弱そう：手札からUSEDへ。追加'+godDealt+'ダメージ');
-           fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'全知全能の神、弱そう',sub:'追加'+godDealt+'ダメージ'});
-         }
-       }
-     }else if(actualDealt>0&&!wasFirstDealt){
-       // 初ダメージで決着した場合も初回発動済みフラグは記録する。
-       patch[side+'FirstDealt']=true;
-     }
-     if(idolHealingRequested>=3&&actualDealt>0&&patch.state!=='finished'){
-       const heal=Math.min(actualDealt,idolHealingRequested);
-       patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+heal);
-       logs.push('星色道産子アイドル：実際に与えた'+heal+'ダメージ分回復');
+   // 初めて相手にダメージを与えたときのみ、手札の神を任意でUSEDに送って追加1ダメージ。
+   // カード効果・2枚攻撃の両方を対象とし、防御で0になった場合は発動しない。
+   if(damage>0&&!patch.state&&!game[side+'FirstDealt']){
+     patch[side+'FirstDealt']=true;
+     const godIndex=m.hand.indexOf('全知全能の神、弱そう');
+     if(godIndex>=0&&!enemyEffects.damageCap&&confirm('初めて相手にダメージを与えました。\n「全知全能の神、弱そう」を手札からUSEDへ送り、追加1ダメージを与えますか？')){
+       moveOwnHandToUsed(godIndex);
+       // 追加ダメージも腐白蛇などのダメージ上限を超えないように扱う。
+       const godBonus=enemyEffects.damageCap?0:1;
+       damage+=godBonus;
+       logs.push('全知全能の神、弱そう：手札からUSEDへ。'+(godBonus?'追加1ダメージ':'ダメージ上限により追加ダメージなし'));
+       fxEvents.push({id:fxId(),type:'proc',actor:uid,title:'全知全能の神、弱そう',sub:godBonus?'追加1ダメージ！':'ダメージ上限により追加0'});
      }
    }
+   if(damage&&!patch.state){const actual=applyDamage(opponent,damage,{ignoreShield:false,ignoreCap:true,source:'カード攻撃'});if(idolHealingRequested>=3&&actual>0){const heal=Math.min(actual,idolHealingRequested);patch[side+'Life']=Math.min(7,(patch[side+'Life']??game[side+'Life'])+heal);logs.push('星色道産子アイドル：実際に与えた'+heal+'ダメージ分回復')}}
    if(!patch.state){patch.turn=extraTurn?uid:opponentUid;patch.drawn=false;patch.round=game.round+1;if(extraTurn)logs.push('追加ターン：もう一度自分のターン')}
   }
-  // 第141段階：虜の解除を連鎖解決する。ダメージで相手のライフが3以下に
-  // なった場合も同じアクション中に再評価する。解除済み番号は重複実行しない。
-  if((ownEffects.torikoActive||enemyEffects.torikoActive)&&patch.state!=='finished'){
-    const q=await getOpponentPrivate();
-    const checkToriko=(owner,eff,ownerHand,ownerUsed,otherHand)=>{
-      if(!eff.torikoActive||patch.state==='finished')return false;
-      const done=new Set(Array.isArray(eff.torikoDone)?eff.torikoDone:[]);
-      const ownerLife=Number(patch[owner+'Life']??game[owner+'Life']);
-      const conditions=[ownerHand.length>=5,ownerUsed.length>=5,ownerLife<=3,otherHand.length===0];
-      let changed=false;
-      for(let i=0;i<4;i++){
-        if(!conditions[i]||done.has(i+1)||patch.state==='finished')continue;
-        done.add(i+1);changed=true;
-        const victim=owner==='host'?'guest':'host';
-        const dealt=applyDamage(victim,1,{source:'虜だｿﾞ～～：'+['声','姿','話','企画'][i]+'の虜',attackerSide:owner});
-        logs.push('🎀 虜だｿﾞ～～：'+['声','姿','話','企画'][i]+'の虜を解除！ '+dealt+'ダメージ');
-        fxEvents.push({id:fxId(),type:'proc',actor:game[owner],title:'🎀 '+['声','姿','話','企画'][i]+'の虜',sub:'解除！ 相手に'+dealt+'ダメージ'});
-      }
-      // 4条件が全て解除済みなら⑤を解除し、設置表示を終了する。
-      if([1,2,3,4].every(n=>done.has(n))){done.add(5);eff.torikoActive=false;changed=true;logs.push('🎀 虜だｿﾞ～～：全部の虜を解除！ リボン消滅');fxEvents.push({id:fxId(),type:'proc',actor:game[owner],title:'🎀 全部の虜',sub:'5つの虜を解除！'});}
-      if(changed)eff.torikoDone=[...done].sort((a,b)=>a-b);
-      return changed;
-    };
-    // 各側の4条件は最大1回ずつ。相互の解除ダメージによる連鎖を
-    // 最大8回の再評価で収束させる（途中で決着したら直ちに停止）。
-    for(let pass=0;pass<8&&patch.state!=='finished';pass++){
-      let changed=false;
-      if(checkToriko(side,ownEffects,m.hand,m.used,q.hand)){ownEffectsDirty=true;changed=true;}
-      if(patch.state!=='finished'&&checkToriko(opponent,enemyEffects,q.hand,q.used,m.hand)){enemyEffectsDirty=true;changed=true;}
-      if(!changed)break;
-    }
-  }
   // 刺客の自傷はドローした瞬間に処理する（差分による二重計上を防止）。
+  // このアクションで新たに付与された効果も確定時に履歴へ追加。
+  recordEffectHistory(side,ownEffects);
+  recordEffectHistory(opponent,enemyEffects);
   if(ownEffectsDirty)patch[side+'Effects']=ownEffects;if(enemyEffectsDirty)patch[opponent+'Effects']=enemyEffects;
   if(kind==='resolve')patch.pendingCard=null;
   patch[side+'HandCount']=m.hand.length;if(opponentPrivate)patch[opponent+'HandCount']=opponentPrivate.hand.length;patch.log=logs.slice(-30);patch.fxEvents=fxEvents.slice(-24);
@@ -2194,11 +2133,16 @@ async function act(kind){
    const opponentLatest=await tx.get(opponentRef);
    if(!latest.exists()||!ownLatest.exists())throw Error('対戦情報が更新されました。再読み込みしてください');
    const v=latest.data();
-   if(v.state!=='playing'||v.turn!==uid||v.round!==game.round||v.drawn!==game.drawn||
+   if(v.state!=='playing'||v.pendingWhale||!Array.isArray(v.pendingWhaleQueue||[])||((v.pendingWhaleQueue||[]).length>0)||v.turn!==uid||v.round!==game.round||v.drawn!==game.drawn||
       (kind==='resolve'?(v.pendingCard?.id!==pending.id||v.pendingCard?.status!=='allowed'):!!v.pendingCard))
       throw Error('別の操作が先に確定しました。最新の画面で確認してください');
    if(JSON.stringify(ownLatest.data())!==JSON.stringify(mine))
       throw Error('自分の手札が更新されました。画面の更新を待ってください');
+   for(const key of ['pendingWhaleQueue','hostLife','guestLife','hostEffects','guestEffects','hostHandCount','guestHandCount','hostDeckCount','guestDeckCount','hostPublicUsed','guestPublicUsed','hostEffectHistory','guestEffectHistory']){
+     if(JSON.stringify(v[key]??null)!==JSON.stringify(game[key]??null))throw Error('対戦中に公開状態が変更されました。最新の状態でやり直してください');
+   }
+   if((kind==='play'||kind==='resolve')&&onlineAhahaBlocked(mine.hand[selected[0]]||pending?.card))
+     throw Error('アハハの防御により、このカードは使用できません');
    if(kind==='play'){
      if(!opponentLatest.exists())throw Error('相手のカード情報を確認できません');
      const other=availableCounters(opponentLatest.data().hand,v[opponent+'Life'],v.hostEffects,v.guestEffects);
@@ -2206,13 +2150,30 @@ async function act(kind){
    }
    if(opponentPrivate&&(!opponentLatest?.exists()||JSON.stringify(opponentLatest.data())!==JSON.stringify(opponentPrivateBefore)))
       throw Error('相手のカード情報が変更されました。再度操作してください');
+   // 勝敗状態の基本検証。勝者IDとライフを不正な値で確定しない。
+   if(patch.state==='finished'){
+     if(![uid,opponentUid].includes(patch.winner))throw Error('勝敗判定：勝者IDが不正です');
+     for(const playerSide of ['host','guest']){
+       const life=patch[playerSide+'Life']??v[playerSide+'Life'];
+       if(!Number.isFinite(life)||life<0||life>7)throw Error('勝敗判定：ライフが不正です');
+     }
+     // 対戦終了後に選択待ち・追加ターンを残さない。
+     patch.drawn=true;
+     patch.pendingCard=null;
+     patch.pendingWhale=null;
+     patch.pendingWhaleQueue=[];
+     patch.extraTurn=false;
+     patch.finishedAt=Date.now();
+     patch.finishReason=patch.futureSpecialWinner?'特殊勝利：それは未来を読む占術':(logs.findLast?.(line=>/山札切れ|特殊勝利|敗北|勝利/.test(line))||((patch.hostLife??v.hostLife)===0||(patch.guestLife??v.guestLife)===0?'ライフが0になりました':'カード効果による決着'));
+   }
    tx.set(p,m);
    if(opponentPrivate)tx.set(opponentRef,opponentPrivate);
    tx.update(g,patch);
-  });selected=[];
+  });selected=[];recordDiagnostic('操作確定','Firebaseへの書き込みが完了しました');
  }catch(e){report(e)}finally{busy=false;render();scheduleAutoDraw()}
 }
 setInterval(()=>{if(game?.pendingCard?.status==='waiting'&&game.pendingCard.actor===uid&&!busy)render()},1000);
+$('whaleAnswer').onclick=answerWhaleDiscard;
 $('play').onclick=()=>act('play');$('discard').onclick=()=>act('discard');$('pass').onclick=()=>act('pass');
 setInterval(updateBoard,350);
 </script></body></html>
