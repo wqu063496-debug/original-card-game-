@@ -1260,13 +1260,120 @@ function renderTutorial(){const t=TUTORIAL_STEPS[tutorialIndex];const set=(id,v)
 document.addEventListener('DOMContentLoaded',renderStreakStarts);
 </script><div id="cosmeticModal" class="cosmetic-modal hidden" role="dialog" aria-modal="true" aria-label="壁紙とショップ"><div class="cosmetic-box"><div class="row" style="justify-content:space-between;align-items:center"><h2 id="cosmeticTitle">壁紙</h2><button class="secondary" onclick="closeCosmeticPanel()">✕ 閉じる</button></div><p id="cosmeticBalance"></p><div id="cosmeticContent"></div></div></div><script id="home-implementation">
 const HOME_MEMO_KEY='ocbPurchasedCreatorMemo1';
+const HOME_MEMO2_KEY='ocbPurchasedCreatorMemo2';
+const HOME_MEMO3_KEY='ocbPurchasedCreatorMemo3';
+const HOME_MEMO4_KEY='ocbPurchasedCreatorMemo4';
+function homeMemo3Owned(){return localStorage.getItem(HOME_MEMO3_KEY)==='yes'}
+function homeMemo4Owned(){return localStorage.getItem(HOME_MEMO4_KEY)==='yes'}
+function homeMemo2Owned(){return localStorage.getItem(HOME_MEMO2_KEY)==='yes'}
 function homeMemoOwned(){return localStorage.getItem(HOME_MEMO_KEY)==='yes'}
-function homeRefresh(){const p=progressState();const c=document.getElementById('homeCoins');if(c)c.textContent='🪙 コイン '+p.coins;const nav=document.getElementById('homeMemoNav');if(nav)nav.style.display=homeMemoOwned()?'':'none'}
+function homeRefresh(){const p=progressState();const c=document.getElementById('homeCoins');if(c)c.textContent='🪙 コイン '+p.coins;const nav=document.getElementById('homeMemoNav');if(nav)nav.style.display=(homeMemoOwned()||homeMemo2Owned()||homeMemo3Owned()||homeMemo4Owned())?'':'none'}
 function homeShow(){if(game&&!game.over&&!confirm('対戦を終了してホームに戻りますか？'))return;game=null;pending=null;lock=false;document.body.classList.add('home-active');document.getElementById('homeScreen').classList.remove('hidden');document.getElementById('builder').classList.add('hidden');document.getElementById('game').classList.add('hidden');homeRefresh();homeShopTab('wall');window.scrollTo(0,0)}
-function homeNavigate(dest){homeRefresh();if(dest==='home')return homeShow();if(dest==='shop'){document.getElementById('homeShopPanel').scrollIntoView({behavior:'smooth'});return}if(dest==='memo'){if(homeMemoOwned())homeReadMemo();else{homeShopTab('memo');document.getElementById('homeShopPanel').scrollIntoView({behavior:'smooth'})}return}if(dest==='daily'){openProgressTab('daily');return}if(dest==='settings'){openWallpaperPanel();return}if(dest==='streak'){document.body.classList.remove('home-active');document.getElementById('homeScreen').classList.add('hidden');showBuilder();startGauntlet();return}document.body.classList.remove('home-active');document.getElementById('homeScreen').classList.add('hidden');showBuilder();if(dest==='battle'){document.getElementById('builder').scrollIntoView();return}if(dest==='catalog'){document.getElementById('catalog').scrollIntoView();return}}
+function homeNavigate(dest){homeRefresh();if(dest==='home')return homeShow();if(dest==='shop'){document.getElementById('homeShopPanel').scrollIntoView({behavior:'smooth'});return}if(dest==='memo'){if(homeMemoOwned())homeReadMemo();else if(homeMemo2Owned())homeReadMemo2();else if(homeMemo3Owned())homeReadMemo3();else if(homeMemo4Owned())homeReadMemo4();else{homeShopTab('memo');document.getElementById('homeShopPanel').scrollIntoView({behavior:'smooth'})}return}if(dest==='daily'){openProgressTab('daily');return}if(dest==='settings'){openWallpaperPanel();return}if(dest==='streak'){document.body.classList.remove('home-active');document.getElementById('homeScreen').classList.add('hidden');showBuilder();startGauntlet();return}document.body.classList.remove('home-active');document.getElementById('homeScreen').classList.add('hidden');showBuilder();if(dest==='battle'){document.getElementById('builder').scrollIntoView();return}if(dest==='catalog'){document.getElementById('catalog').scrollIntoView();return}}
 function homeDrawGacha(){openRoyalGacha()}
-function homeShopTab(tab){const root=document.getElementById('homeShopContent');if(!root)return;document.getElementById('homeTabWall').classList.toggle('selected',tab==='wall');document.getElementById('homeTabMemo').classList.toggle('selected',tab==='memo');root.replaceChildren();homeRefresh();if(tab==='memo'){const card=document.createElement('div');card.className='home-memo';const title=document.createElement('h3');title.textContent='📖 作成者メモ①：特殊能力の使い方';const desc=document.createElement('p');desc.textContent='D連打や付与能力、名前のついた特殊能力を図解で学べます。購入するとホームからいつでも読めます。';const btn=document.createElement('button');btn.textContent=homeMemoOwned()?'📖 メモを読む':'🪙 30コインで購入';btn.onclick=()=>{if(homeMemoOwned()){homeReadMemo();return}const p=progressState();if(p.coins<30){alert('30コイン必要です');return}if(!confirm('作成者メモ①を30コインで購入しますか？'))return;p.coins-=30;saveProgress(p);localStorage.setItem(HOME_MEMO_KEY,'yes');homeRefresh();homeShopTab('memo');homeReadMemo()};card.append(title,desc,btn);root.append(card);return}const grid=document.createElement('div');grid.className='home-wall-grid';const w=wallpaperState();BOT_WALLPAPERS.forEach((entry,i)=>{const card=document.createElement('div');card.className='home-wall-item';const img=document.createElement('img');img.src=entry.src;img.alt=entry.name;img.loading='lazy';const label=document.createElement('strong');label.textContent=entry.name;const cost=document.createElement('small');cost.textContent=w.owned.includes(i)?'購入済み':'🪙 '+entry.price;const btn=document.createElement('button');btn.textContent=w.owned.includes(i)?(w.selected===i?'選択中':'設定する'):'購入';btn.onclick=()=>{const state=wallpaperState();if(state.owned.includes(i)){state.selected=i;saveWallpaper(state);applyBotWallpaper();homeShopTab('wall');return}const p=progressState();if(p.coins<entry.price){alert('コインが足りません');return}if(!confirm(entry.name+'を'+entry.price+'コインで購入しますか？'))return;p.coins-=entry.price;saveProgress(p);state.owned.push(i);saveWallpaper(state);homeShopTab('wall')};card.append(img,label,cost,btn);grid.append(card)});root.append(grid)}
+function homeShopTab(tab){const root=document.getElementById('homeShopContent');if(!root)return;document.getElementById('homeTabWall').classList.toggle('selected',tab==='wall');document.getElementById('homeTabMemo').classList.toggle('selected',tab==='memo');root.replaceChildren();homeRefresh();if(tab==='memo'){const card=document.createElement('div');card.className='home-memo';const title=document.createElement('h3');title.textContent='📖 作成者メモ①：特殊能力の使い方';const desc=document.createElement('p');desc.textContent='D連打や付与能力、名前のついた特殊能力を図解で学べます。購入するとホームからいつでも読めます。';const btn=document.createElement('button');btn.textContent=homeMemoOwned()?'📖 メモを読む':'🪙 30コインで購入';btn.onclick=()=>{if(homeMemoOwned()){homeReadMemo();return}const p=progressState();if(p.coins<30){alert('30コイン必要です');return}if(!confirm('作成者メモ①を30コインで購入しますか？'))return;p.coins-=30;saveProgress(p);localStorage.setItem(HOME_MEMO_KEY,'yes');homeRefresh();homeShopTab('memo');homeReadMemo()};card.append(title,desc,btn);root.append(card);
+const card2=document.createElement('div');card2.className='home-memo';
+const title2=document.createElement('h3');title2.textContent='📖 作成者メモ②：カードシナジー';
+const desc2=document.createElement('p');desc2.textContent='複数のカードを組み合わせて強みを生む「シナジー」を、具体例と図解で解説。';
+const btn2=document.createElement('button');btn2.textContent=homeMemo2Owned()?'📖 メモ②を読む':'🪙 100コインで購入';
+btn2.onclick=()=>{if(homeMemo2Owned()){homeReadMemo2();return}const p=progressState();if(p.coins<100){alert('作成者メモ②の購入には100コイン必要です');return}if(!confirm('作成者メモ②を100コインで購入しますか？'))return;p.coins-=100;saveProgress(p);localStorage.setItem(HOME_MEMO2_KEY,'yes');homeRefresh();homeShopTab('memo');homeReadMemo2()};
+card2.append(title2,desc2,btn2);root.append(card2);
+for(const spec of [
+ {number:3,title:'作成者メモ③：カードを作るための試行錯誤',price:300,owned:homeMemo3Owned,key:HOME_MEMO3_KEY,read:homeReadMemo3,description:'カードのアイデア、効果の調整、デッキ構築、対戦テストなど、制作過程を振り返る読み物。'},
+ {number:4,title:'作成者メモ④：【ネタバレあり】色分け全カードリスト＋各入手方法',price:1000,owned:homeMemo4Owned,key:HOME_MEMO4_KEY,read:homeReadMemo4,description:'収録カードを色ごとに全公開。効果と入手方法も掲載する完全ネタバレ資料。'}
+]){
+ const item=document.createElement('div');item.className='home-memo';
+ const h=document.createElement('h3');h.textContent='📖 '+spec.title;
+ const d=document.createElement('p');d.textContent=spec.description;
+ const b=document.createElement('button');b.textContent=spec.owned()?'📖 メモ'+spec.number+'を読む':'🪙 '+spec.price+'コインで購入';
+ b.onclick=()=>{if(spec.owned()){spec.read();return}const p=progressState();if(p.coins<spec.price){alert('作成者メモ'+spec.number+'の購入には'+spec.price+'コイン必要です');return}if(!confirm('作成者メモ'+spec.number+'を'+spec.price+'コインで購入しますか？'))return;p.coins-=spec.price;saveProgress(p);localStorage.setItem(spec.key,'yes');homeRefresh();homeShopTab('memo');spec.read()};
+ item.append(h,d,b);root.append(item);
+}
+return}const grid=document.createElement('div');grid.className='home-wall-grid';const w=wallpaperState();BOT_WALLPAPERS.forEach((entry,i)=>{const card=document.createElement('div');card.className='home-wall-item';const img=document.createElement('img');img.src=entry.src;img.alt=entry.name;img.loading='lazy';const label=document.createElement('strong');label.textContent=entry.name;const cost=document.createElement('small');cost.textContent=w.owned.includes(i)?'購入済み':'🪙 '+entry.price;const btn=document.createElement('button');btn.textContent=w.owned.includes(i)?(w.selected===i?'選択中':'設定する'):'購入';btn.onclick=()=>{const state=wallpaperState();if(state.owned.includes(i)){state.selected=i;saveWallpaper(state);applyBotWallpaper();homeShopTab('wall');return}const p=progressState();if(p.coins<entry.price){alert('コインが足りません');return}if(!confirm(entry.name+'を'+entry.price+'コインで購入しますか？'))return;p.coins-=entry.price;saveProgress(p);state.owned.push(i);saveWallpaper(state);homeShopTab('wall')};card.append(img,label,cost,btn);grid.append(card)});root.append(grid)}
 function homeReadMemo(){document.getElementById('homeMemoOverlay')?.remove();if(!homeMemoOwned()){homeShopTab('memo');return}const modal=document.createElement('div');modal.className='cosmetic-modal';modal.id='homeMemoOverlay';const box=document.createElement('div');box.className='cosmetic-box';const h=document.createElement('h2');h.textContent='📖 作成者メモ①｜能力の使い方';const close=document.createElement('button');close.textContent='✕ 閉じる';close.onclick=()=>modal.remove();box.append(h,close);const parts=[['🐉 D連打（ドラゴン連打）','例：D連打④ → 山札の一番上が D連打③ なら、そのカードを使用してUSEDへ。','【山札の一番上：D連打③】 → 【D連打④で使用】 → 【USED】','D連打⑧は⑦以下を参照。D連打①は０以下が存在しないので通常は発動しません。'],['✨ 付与能力','カードを使うと、その後も条件を満たすたびに効果が働く能力です。','【カードを使う】 → 【効果を付与】 → 【以後のカード使用時に判定】','例：(･ω･三･ω･)ﾌﾝﾌﾝ は以後カードを使用するたび30%で相手に1ダメージ。複数付与はそれぞれ独立して判定します。'],['🛡️ ダメージ無効・防御','効果で指定された期間は、相手からのダメージを防ぎます。','【防御カード】 → 【防御効果を付与】 → 【相手の攻撃を防ぐ】','カードごとに防げる条件や期間は異なります。'],['🃏 USEDゾーン','使用したカードや捨てたカードが置かれる場所です。','【手札】 → 【カード使用・捨てる】 → 【USED】','USEDから手札や山札に戻す能力もあります。'],['🎲 確率能力','記載された確率で、条件を満たした際に効果が発動します。','【カード使用】 → 【確率判定】 → 【成功なら効果発動】','なんでもござれの藍白屋による確率上昇は後から付与する能力にも適用されます（最大100%）。']];parts.forEach(([title,intro,diagram,detail])=>{const sec=document.createElement('section');sec.style.cssText='background:#0d1c32;border:1px solid #5c7ba9;border-radius:12px;padding:15px;margin:12px 0';const heading=document.createElement('h3');heading.textContent=title;const p=document.createElement('p');p.textContent=intro;const pic=document.createElement('div');pic.style.cssText='background:#dcecff;color:#102440;border-radius:10px;padding:16px;text-align:center;font-weight:900;line-height:2';pic.textContent=diagram;pic.style.fontSize='clamp(15px,2vw,20px)';pic.style.border='2px solid #79a4db';const more=document.createElement('p');more.textContent=detail;sec.append(heading,p,pic,more);box.append(sec)});modal.append(box);document.body.append(modal)}
+function homeReadMemo2(){
+ document.getElementById('homeMemoOverlay')?.remove();
+ if(!homeMemo2Owned()){homeShopTab('memo');return}
+ const modal=document.createElement('div');modal.className='cosmetic-modal';modal.id='homeMemoOverlay';
+ const box=document.createElement('div');box.className='cosmetic-box';
+ const h=document.createElement('h2');h.textContent='📖 作成者メモ②｜カードシナジー';
+ const close=document.createElement('button');close.className='secondary';close.textContent='✕ 閉じる';close.onclick=()=>modal.remove();box.append(h,close);
+ const lead=document.createElement('p');lead.textContent='カードシナジーとは、2枚以上のカードを組み合わせることで、それぞれ単独よりも強い動きを作ること。デッキ20枚の中で、組み合わせを引ける確率とカードを使う順番を考えよう。';box.append(lead);
+ const entries=[
+ ['🎲 確率付与 × 確率強化','(･ω･三･ω･)ﾌﾝﾌﾝ ＋ なんでもござれの藍白屋','30%の追加ダメージ判定を、藍白屋の強化で50%に上げる。','【30%の付与】＋【確率+20%】→【以後のカード使用で50%判定】','同じ確率付与を複数持つ場合は、まとめて1回ではなく、それぞれ独立して判定する。'],
+ ['🃏 手札を増やす × 大技','チトセニウム ＋ 究極拳巫女パンチ','手札4枚以上でチトセニウムを使い2枚ドローし、手札7枚以上の究極拳巫女パンチを目指す。','【手札を増やす】→【7枚以上を確保】→【5ダメージを狙う】','手札が増える前にパンチを使ってしまわないよう、カードの順番に注意。'],
+ ['🐉 山札の並び替え × D連打','深夜の大人の勉強会 ＋ ドラゴン•エール','山札上3枚の順序を調整して、D連打でめくれるカードの組み合わせを狙う。','【山札上を確認・並べ替え】→【D連打】→【連鎖を狙う】','D連打は数字の大小関係が重要。実際に発動できるか、カードのD連打数を確認しよう。'],
+ ['🛡️ 防御 × 準備','腐白蛇 ＋ 手札を整えるカード','防御で相手の攻撃をしのぐ間に、次のターンのコンボに必要な手札を準備する。','【ダメージを防ぐ】→【手札を準備】→【次のターンに攻める】','腐白蛇はUSED枚数などの発動条件を満たす必要がある。'],
+ ['🔁 USEDの活用 × 再利用','ガチナイス ＋ USEDへ送る効果','条件を満たすとガチナイスがUSEDから手札に戻る性質を活かし、手札の再確保を狙う。','【USEDへ移動】→【条件成立】→【手札へ戻る】','戻る条件はカード本文を確認。どんな場合でも必ず戻るわけではない。'],
+ ['📚 デッキ構築の考え方','主役カード ＋ 補助カード','大技だけを詰め込まず、主役を引く・条件を満たす・守るためのカードを組み合わせる。','【主役を決める】＋【条件を整える】＋【守る】','20枚デッキでは、単独で役立つカードとコンボ専用カードの比率も大切。']
+ ];
+ entries.forEach(([title,combo,explain,diagram,note])=>{const sec=document.createElement('section');sec.style.cssText='background:#0d1c32;border:1px solid #5c7ba9;border-radius:12px;padding:15px;margin:12px 0';const head=document.createElement('h3');head.textContent=title;const comboEl=document.createElement('strong');comboEl.textContent=combo;const p=document.createElement('p');p.textContent=explain;const pic=document.createElement('div');pic.style.cssText='background:#dcecff;color:#102440;border-radius:10px;padding:16px;text-align:center;font-weight:900;line-height:2;border:2px solid #79a4db';pic.textContent=diagram;const detail=document.createElement('p');detail.textContent='💡 '+note;sec.append(head,comboEl,p,pic,detail);box.append(sec)});
+ modal.append(box);document.body.append(modal);
+}
+function homeMemoModal(title){
+ document.getElementById('homeMemoOverlay')?.remove();
+ const modal=document.createElement('div');modal.className='cosmetic-modal';modal.id='homeMemoOverlay';
+ const box=document.createElement('div');box.className='cosmetic-box';box.style.maxWidth='920px';
+ const h=document.createElement('h2');h.textContent=title;
+ const close=document.createElement('button');close.className='secondary';close.textContent='✕ 閉じる';close.onclick=()=>modal.remove();
+ box.append(h,close);modal.append(box);document.body.append(modal);return box;
+}
+function memoSection(box,title,paragraphs){
+ const section=document.createElement('section');section.style.cssText='background:#0d1c32;border:1px solid #5c7ba9;border-radius:12px;padding:16px;margin:12px 0';
+ const h=document.createElement('h3');h.textContent=title;section.append(h);
+ for(const text of paragraphs){const p=document.createElement('p');p.textContent=text;section.append(p)}box.append(section);
+}
+function homeReadMemo3(){
+ if(!homeMemo3Owned()){homeShopTab('memo');return}
+ const box=homeMemoModal('📖 作成者メモ③｜カードを作るための試行錯誤');
+ const intro=document.createElement('p');intro.textContent='このメモは、現在のカードルールや改定履歴から読み取れる「制作中に考えたこと」をまとめたものです。実際の作者の発言を再現した記録ではなく、ゲームの仕様変更をもとにした制作過程の解説です。';box.append(intro);
+ const chapters=[
+ ['01｜最初に決めた「20枚・ライフ7」の形',['デッキは20枚、ライフは7。短い試合の中で、カードを使うか、手札をUSEDに送って攻撃するかの判断が生まれる設計。','カードの使用を1ターン1回にすると、強力なカードほど「いつ使うか」が重要になる。']],
+ ['02｜手札を増やすカードと大ダメージの調整',['チトセニウムは「手札4枚以上なら2枚ドロー」という条件に変更された。条件を満たす準備と、使った後の手札枚数の両方が大切。','究極拳巫女パンチは手札7枚以上で5ダメージ。強さだけでなく、そこへ至るまでのターン数もデッキの特徴になる。']],
+ ['03｜「導く北極星」の条件を見直す',['2枚ドロー後に手札をUSEDへ送る条件は、以前の「ちょうど3枚」から「3枚以下」、さらに「2枚以下」へ変更された。','わずか1枚の差でも使い勝手が変わる。条件の数字を調整することで、手札補充とリスクのバランスを取れる。']],
+ ['04｜確率効果は重ね掛けしても独立判定',['ﾌﾝﾌﾝはカード使用ごとに30%で1ダメージ、限界愛は50%で1ドロー、ピカ犬は1%で追加ターン。','同じ効果を複数付与した場合、確率を合計するのではなく、それぞれ判定する仕様。藍白屋の+20%は後から付与した効果にも適用される。']],
+ ['05｜USEDを「捨て場」だけにしない',['ガチナイスの回収、腐白蛇の枚数条件、USEDから山札へ戻す効果などで、USEDは単なる墓地ではなく戦略上の資源になる。','カードがUSEDに置かれた後まで考えると、デッキの動かし方が大きく変わる。']],
+ ['06｜D連打の連鎖を成立させる',['ドラゴン•エールのD連打①・⑧、袴袴袴袴袴褌袴袴のD連打⑥、嬌言竜声のD連打③など、数字の大小で連鎖が変わる。','山札の並び順、USEDへ移す順番、連鎖中の追加効果が絡むため、通常カードより実装とテストが難しい。']],
+ ['07｜オンライン対戦で増えた難しさ',['BOT戦では端末内で処理できても、対人戦では「相手が自分の手札から選ぶ」などの操作をFirebaseで同期する必要がある。','ホエール•スクリームの選択待ち、通信切断時の再接続、二重発動の防止など、カードの面白さを保つためにシステム面の工夫が必要になる。']],
+ ['08｜今後の調整で確認したいこと',['先攻・後攻の勝率、山札切れの頻度、特定のコンボが決まりすぎないか、使われないカードがないかを実戦で確認したい。','このメモは完成した歴史の断定ではなく、現行ルールと確認できる変更点をもとにした「試行錯誤の読み物」。']]
+ ];
+ for(const [title,parts] of chapters)memoSection(box,title,parts);
+}
+function memo4Acquisition(card){
+ const name=card[0],type=card[2];
+ if(['isekai','hakama','kyogen','whale','dragon','ahaha'].includes(type))return 'ロイヤルガチャ（10コイン／回）';
+ if(type==='assassin')return '通常のデッキ選択不可／カード効果でゲーム中に追加';
+ if(type==='oru')return '通常プレイ不可（デッキへの投入制限あり）';
+ if(UR_TYPES.has(type))return '連勝チャレンジ10連勝：URサーチ解放';
+ const reward=NEW_REWARDS.find(x=>x[0]===name);
+ if(reward){if(reward[1]===0)return '初期追加カード（通常のカード一覧から使用可能）';return '連勝チャレンジ '+reward[1]+'連勝で解放'}
+ if(['虜だｿﾞ～～','ガチャの虜','デコバットの一撃','電脳世界ハリケーン'].includes(name))return '初心者チャレンジの報酬／ラッキーパンチデッキ';
+ return '通常カード（最初からカード一覧で使用可能）';
+}
+function homeReadMemo4(){
+ if(!homeMemo4Owned()){homeShopTab('memo');return}
+ const box=homeMemoModal('📖 作成者メモ④｜全カードリスト【ネタバレあり】');
+ const notice=document.createElement('p');notice.textContent='⚠️ ネタバレ注意：未入手カードの名前・効果・入手方法をすべて表示します。色はゲーム内カードの設定色を使用。複数色のカードはグラデーションとして表示します。';box.append(notice);
+ const counter=document.createElement('p');counter.textContent='収録カード：'+CARDS.length+'種類（現在のゲーム本体に登録されているカードを自動集計）';box.append(counter);
+ const filter=document.createElement('input');filter.type='search';filter.placeholder='カード名・色・入手方法で検索';filter.style.cssText='width:100%;padding:12px;border-radius:9px;margin:8px 0;color:#142038;background:#fff';box.append(filter);
+ const summary=document.createElement('p');box.append(summary);
+ const list=document.createElement('div');box.append(list);
+ const all=CARDS.map((c,i)=>({c,i,color:catalogColorName(catalogColorKey(i)),bg:catalogColorKey(i),acquisition:memo4Acquisition(c)}));
+ const render=()=>{
+  list.replaceChildren();const term=filter.value.trim().toLowerCase();const matches=all.filter(x=>[x.c[0],x.c[1],x.color,x.acquisition].some(v=>String(v).toLowerCase().includes(term)));
+  summary.textContent='表示：'+matches.length+' / '+all.length+'種類';
+  const groups=new Map();for(const entry of matches){if(!groups.has(entry.color))groups.set(entry.color,[]);groups.get(entry.color).push(entry)}
+  for(const [color,entries] of [...groups].sort((a,b)=>a[0].localeCompare(b[0],'ja'))){
+   const section=document.createElement('section');section.style.cssText='margin:16px 0;padding:12px;border:1px solid #6b82a6;border-radius:12px;background:#0d1c32';
+   const heading=document.createElement('h3');heading.textContent='🎨 '+color+'（'+entries.length+'種類）';section.append(heading);
+   for(const x of entries){const item=document.createElement('article');item.style.cssText='margin:8px 0;padding:12px;border:1px solid #647b9e;border-radius:9px;background:#17263d';
+    const name=document.createElement('div');name.style.cssText='padding:10px;border-radius:8px;font-weight:900;margin-bottom:7px;background:'+x.bg+';color:'+ (CARD_TEXT_COLORS[x.i]||'#fff');name.textContent='No.'+(x.i+1)+'　'+x.c[0];
+    const effect=document.createElement('p');effect.textContent='効果：'+x.c[1];
+    const acquire=document.createElement('p');acquire.textContent='入手方法：'+x.acquisition;
+    item.append(name,effect,acquire);section.append(item)}list.append(section)
+  }
+ };filter.addEventListener('input',render);render();
+}
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('homeScreen').classList.remove('hidden');document.getElementById('builder').classList.add('hidden');document.body.classList.add('home-active');homeRefresh();homeShopTab('wall');const header=document.querySelector('body>header');if(header){const b=document.createElement('button');b.textContent='🏠 ホームへ';b.className='secondary';b.onclick=homeShow;header.querySelector('.row')?.prepend(b)}});
 </script>
 
