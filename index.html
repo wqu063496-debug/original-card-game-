@@ -38,6 +38,39 @@
 @keyframes resultRise{from{opacity:0;transform:scale(.75) translateY(35px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @media(prefers-reduced-motion:reduce){.resultPanel,.resultSpark span{animation:none}}
 </style><style>
+
+/* 壁紙を単なる背景ではなく、選択したモチーフの対戦フィールドとして反映 */
+#game.wallpaper-active .arena-board{
+ background-image:linear-gradient(180deg,rgba(5,9,18,.12),rgba(5,9,18,.38)),var(--bot-wallpaper)!important;
+ background-position:center center!important;background-size:cover!important;
+ border:5px ridge var(--field-accent)!important;
+ box-shadow:inset 0 0 0 2px var(--field-light),inset 0 0 65px #0008,0 20px 45px #0008!important;
+}
+#game.wallpaper-active .arena-board:before{opacity:.08!important}
+#game.wallpaper-active .fighter-profile,#game.wallpaper-active .battle-zone,#game.wallpaper-active .deck-zone{
+ background:linear-gradient(145deg,rgba(9,16,30,.76),rgba(9,16,30,.61))!important;
+ border-color:var(--field-accent)!important;backdrop-filter:blur(3px);
+}
+#game.wallpaper-active .board-center{
+ background:linear-gradient(90deg,var(--field-dark),rgba(10,18,31,.84),var(--field-dark))!important;
+ border-color:var(--field-accent)!important;
+}
+#game.wallpaper-active .board-actions,#game.wallpaper-active .board-hand{
+ background:rgba(8,14,26,.74)!important;border-color:var(--field-accent)!important;
+ backdrop-filter:blur(4px);
+}
+#game.wallpaper-active .board-hand h3,#game.wallpaper-active .battle-zone>b,#game.wallpaper-active .deck-zone>b{
+ color:var(--field-light)!important;
+}
+#game.wallpaper-active .deck-back{
+ border-color:var(--field-light)!important;
+ background:linear-gradient(140deg,var(--field-dark),var(--field-accent),var(--field-dark))!important;
+}
+#game.wallpaper-active .field-info .panel{
+ border-color:var(--field-accent)!important;
+ background:linear-gradient(145deg,var(--field-dark),#101725)!important;
+}
+
 /* ボード型BOT対戦：元の32種の対戦ロジックを保持 */
 body{background:#0b0b12;background-image:radial-gradient(ellipse at 50% 0%,#40301d 0%,transparent 65%)}
 .wrap{max-width:1280px}.bot-field{position:relative}.arena-board{position:relative;overflow:hidden;border:5px ridge #9a7442;border-radius:18px;background:radial-gradient(ellipse at center,#534737 0%,#251e1d 52%,#100e13 100%);box-shadow:inset 0 0 0 3px #1d1714,inset 0 0 70px #000,0 22px 55px #0009;padding:15px;isolation:isolate}
@@ -895,28 +928,63 @@ function showDragonCombo(count){
  fx.classList.add('show');
  dragonComboFxTimer=setTimeout(()=>fx.classList.remove('show'),2200);
 }
+// D連打の選択待ちをまたいで残りの効果を順番に再開する。
+let dragonContinuations=[];
+let dragonResuming=false;
+function resumeDragonContinuations(){
+ if(dragonResuming||pending||!game||game.over)return;
+ dragonResuming=true;
+ try{
+  let safety=0;
+  while(!pending&&!game.over&&dragonContinuations.length){
+   if(++safety>200){console.error('D連打の再開回数が上限を超えました');dragonContinuations.length=0;pending=null;log('D連打の安全上限に達したため連鎖を終了しました');break}
+   dragonContinuations.pop()();
+  }
+ }catch(err){console.error('D連打の再開に失敗',err);dragonContinuations.length=0;pending=null;log('D連打の処理でエラーが発生しました。操作を再開できます');}
+ finally{dragonResuming=false;if(!pending&&game&&!game.over)render();}
+}
 function resolveEffect(who,id){
  const dragonComboRoot=dragonComboDepth===0;
- if(dragonComboRoot)dragonComboCount=0;
+ if(dragonComboRoot){dragonComboCount=0;dragonContinuations.length=0;}
  dragonComboDepth++;
  try{
- if(game.over)return;
- const p=game.players[who];
- const qualifies=p.tomato>0&&CARDS[id][2]!=='tomato'&&effectiveCardName(id).includes('ﾌﾞﾝﾁｮｳ');
- if(qualifies){p.tomato=0;tomatoRepeat={who,id};log('🍅 トマト倍々発生が発動！');}
- const dNums={hideout:[2],select:[3],kyogen:[3],whale:[4],hakama:[6],dragon:[1,8]};
- const numbers=dNums[CARDS[id][2]]||[];
- const tryD=(n)=>{if(n<=1||game.over)return;const top=p.deck[p.deck.length-1];if(top===undefined)return;
-  const matches=(dNums[CARDS[top][2]]||[]).some(x=>x<n);
-  if(matches){p.deck.pop();putUsed(who,top);dragonComboCount++;log('🐉 D連打'+n+'：'+CARDS[top][0]+'を使用');resolveEffect(who,top)}
- };
- for(const n of numbers.slice().sort((a,b)=>b-a))tryD(n);
- if(!game.over)resolveEffectCore(who,id);
- if(qualifies&&!pending&&!game.over)tomatoContinue();
+  if(game.over)return;
+  const p=game.players[who];
+  const qualifies=p.tomato>0&&CARDS[id][2]!=='tomato'&&effectiveCardName(id).includes('ﾌﾞﾝﾁｮｳ');
+  if(qualifies){p.tomato=0;tomatoRepeat={who,id};log('🍅 トマト倍々発生が発動！');}
+  const dNums={hideout:[2],select:[3],kyogen:[3],whale:[4],hakama:[6],dragon:[1,8]};
+  const numbers=(dNums[CARDS[id][2]]||[]).slice().sort((a,b)=>b-a);
+  let next=0;
+  const continueEffect=()=>{
+   if(game.over)return;
+   while(next<numbers.length){
+    const n=numbers[next++];
+    if(n<=1)continue;
+    const top=p.deck[p.deck.length-1];
+    if(top===undefined)continue;
+    const matches=(dNums[CARDS[top][2]]||[]).some(x=>x<n);
+    if(matches){
+     p.deck.pop();putUsed(who,top);dragonComboCount++;
+     log('🐉 D連打'+n+'：'+CARDS[top][0]+'を使用');
+     // 子の選択処理が終わるまで親の残りを保留する。
+     dragonContinuations.push(continueEffect);
+     resolveEffect(who,top);
+     if(pending)return;
+     // 同期的に完了した場合、積んだ親の再開処理を取り除く。
+     if(dragonContinuations[dragonContinuations.length-1]===continueEffect)dragonContinuations.pop();
+    }
+   }
+   if(!game.over)resolveEffectCore(who,id);
+   if(qualifies&&!pending&&!game.over)tomatoContinue();
+  };
+  continueEffect();
+ }catch(err){
+  console.error('カード効果の処理に失敗',err);
+  dragonContinuations.length=0;pending=null;
+  log('カード効果のエラーを検出しました。操作を再開できます');
  }finally{
   dragonComboDepth--;
   if(dragonComboRoot&&dragonComboCount>0)showDragonCombo(dragonComboCount);
-  // 操作したターン中に盤面を確定描画。ターン終了まで効果表示を保留しない。
   if(dragonComboRoot&&game&&!game.over)render();
  }
 }
@@ -1125,7 +1193,7 @@ function reorderTop(){let q=pending;if(!q||q.type!=='reorder')return;if(!q.top.l
 function completeRecycle(){if(!pending)return;shuffle(game.players[0].deck);pending=null;render()}
 function chooseHand(title,who,done){let p=game.players[who];showOptions(title,p.hand.map((id,i)=>({label:effectiveCardName(id),fn:()=>{moveHandUsed(who,i);if(pending.type==='selectDiscard'){pending=null;done()}else if(pending.type==='quoteDiscard'){pending=null;render()}else if(--pending.remaining===0||!p.hand.length){pending=null;render()}else chooseHand(title,who,done)}})))}
 function chooseUsed(title,who,done){let p=game.players[who],excluded=p.used.lastIndexOf(5),opts=p.used.map((id,i)=>i===excluded?null:({label:effectiveCardName(id),fn:()=>{p.deck.push(p.used.splice(i,1)[0]);if(--pending.remaining===0)done();else chooseUsed(title,who,done)}})).filter(Boolean);opts.push({label:'これで終了',fn:done});showOptions(title,opts)}
-function showOptions(title,options){$('choices').replaceChildren();let label=document.createElement('strong');label.textContent=title;$('choices').append(label);for(let o of options){let b=document.createElement('button');b.className='secondary';b.textContent=o.label;b.onclick=o.fn;$('choices').append(b)}render(false)}
+function showOptions(title,options){$('choices').replaceChildren();let label=document.createElement('strong');label.textContent=title;$('choices').append(label);for(let o of options){let b=document.createElement('button');b.className='secondary';b.textContent=o.label;b.onclick=()=>{try{o.fn()}catch(err){console.error('カード選択中のエラー',err);pending=null;dragonContinuations.length=0;log('選択処理のエラーを検出しました');render()}if(!pending&&dragonContinuations.length)resumeDragonContinuations()};$('choices').append(b)}render(false)}
 function usedAttack(who,i){if(game?.players?.[who]?.invulnerable){game.players[who].invulnerable=false;log('守護結界が終了')}if(game.over||game.turn!==who||game.acted||pending)return;let p=game.players[who];if(p.edoTurns||p.permaEdo||p.hand.length<(p.microphone?1:2)||i<0||i>=p.hand.length)return;if(who===0&&p.microphone){completeUsedAttack(who,i,i);return}if(who===0){pending={type:'usedAttack',who,first:i};showOptions('USEDへ送る2枚目を選択（合計2枚で1ダメージ）',p.hand.map((id,j)=>j===i?null:{label:effectiveCardName(id)+'（'+(j+1)+'枚目）',fn:()=>completeUsedAttack(who,i,j)}).filter(Boolean).concat([{label:'キャンセル',fn:()=>{pending=null;render()}}]));return}let j=i===0?1:0;completeUsedAttack(who,i,j)}
 function completeUsedAttack(who,i,j){let p=game.players[who];if(game.over||game.turn!==who||game.acted||p.hand.length<(p.microphone?1:2)||(!p.microphone&&i===j)||i<0||i>=p.hand.length||(!p.microphone&&(j<0||j>=p.hand.length)))return;for(let index of (p.microphone?[i]:[i,j]).sort((a,b)=>b-a))moveHandUsed(who,index);pending=null;game.acted=true;game.lastActionWasCard=false;game.chancePending=who;log((who===0?'あなた':'BOT')+'が手札'+(p.microphone?1:2)+'枚をUSEDにして攻撃');damage(1-who,1);render()}
 // 行動終了後、選択中の効果がすべて解決されてから次のターンへ進む。
@@ -1146,7 +1214,7 @@ function resolveChanceEffects(who){
  }
 }
 function queueAutoEnd(){
- if(!game||game.over||pending)return;
+ if(!game||game.over||pending||dragonContinuations.length||dragonResuming)return;
  // 発動した怪異自身では終了させず、次の自分のカード効果解決後に解除。
  // 通常の2枚USED攻撃はカード効果ではないため対象外。
  // 怪異の解除は実際にターンを進めるときに一度だけ判定する。
@@ -1161,7 +1229,7 @@ function queueAutoEnd(){
  autoEndScheduled=key;
  setTimeout(()=>{
   if(autoEndScheduled===key)autoEndScheduled=null;
-  if(game!==currentGame||game.over||game.round!==round||game.turn!==who||pending)return;
+  if(game!==currentGame||game.over||game.round!==round||game.turn!==who||pending||dragonContinuations.length||dragonResuming)return;
   const now=game.players[who];
   const stillNoActions=!game.acted&&now.hand.length<2&&!now.hand.some(id=>valid(who,id));
   if(!game.acted&&!stillNoActions)return;
@@ -1169,7 +1237,7 @@ function queueAutoEnd(){
   advanceTurn();
  },450);
 }
-function advanceTurn(){
+function advanceTurn(){if(pending||dragonContinuations.length||dragonResuming)return;
  if(!game||game.over||pending)return;
  const previous=game.turn;
  const ward=game.players[1-previous].ahahaWard;if(ward&&!ward.permanent&&ward.opponentTurns>0){ward.opponentTurns--;if(ward.opponentTurns===0)log('💜 ｱﾊﾊｯｽｩーｱﾊﾊﾊの防御効果が終了')}
@@ -1231,7 +1299,29 @@ const BOT_WALLPAPERS=[{"name": "模様付きの青い背景", "price": 50, "src"
 const WALLPAPER_KEY='ocbWallpapersV144';
 function wallpaperState(){let w;try{w=JSON.parse(localStorage.getItem(WALLPAPER_KEY)||'null')}catch{}if(!w||typeof w!=='object')w={};w.owned=Array.isArray(w.owned)?w.owned:[];w.selected=Number.isInteger(w.selected)?w.selected:-1;return w}
 function saveWallpaper(w){localStorage.setItem(WALLPAPER_KEY,JSON.stringify(w))}
-function applyBotWallpaper(){const board=$('game');if(!board)return;const w=wallpaperState(),entry=BOT_WALLPAPERS[w.selected];board.classList.toggle('wallpaper-active',!!entry);if(entry)board.style.setProperty('--bot-wallpaper','url("'+entry.src+'")');else board.style.removeProperty('--bot-wallpaper')}
+function applyBotWallpaper(){
+ const board=$('game');if(!board)return;
+ const w=wallpaperState(),entry=BOT_WALLPAPERS[w.selected];
+ const themes=[
+  ['#377bd0','#b2d9ff','#0c2c56'],['#c94b59','#ffd0ca','#551823'],['#d3a737','#fff1aa','#57420b'],
+  ['#6d68d9','#dfd9ff','#171a54'],['#e85aab','#ffe1f6','#5e174a'],['#70ac83','#e6f8c9','#294d36'],
+  ['#9d4ac5','#f4c8ff','#30143f'],['#f1a4c4','#fff1fc','#6a355d'],['#a87a49','#ffebc4','#4b311e'],
+  ['#32bdd4','#d4faff','#123f5d'],['#6abbd7','#ffe6da','#25536c'],['#8b72b6','#f0e1c7','#31264c']
+ ];
+ board.classList.toggle('wallpaper-active',!!entry);
+ const arena=$('arenaBoard');
+ if(entry){
+  const [accent,light,dark]=themes[w.selected]||themes[0];
+  board.style.setProperty('--bot-wallpaper','url("'+entry.src+'")');
+  board.style.setProperty('--field-accent',accent);
+  board.style.setProperty('--field-light',light);
+  board.style.setProperty('--field-dark',dark);
+  if(arena)arena.setAttribute('aria-label',entry.name+'の対戦フィールド');
+ }else{
+  for(const key of ['--bot-wallpaper','--field-accent','--field-light','--field-dark'])board.style.removeProperty(key);
+  if(arena)arena.removeAttribute('aria-label');
+ }
+}
 function closeCosmeticPanel(){$('cosmeticModal').classList.add('hidden')}
 function openWallpaperPanel(){renderCosmeticPanel('wall')}
 function openShopPanel(){renderCosmeticPanel('shop')}
